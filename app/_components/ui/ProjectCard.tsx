@@ -1,4 +1,3 @@
-// app/_components/ui/ProjectCard.tsx
 import React from 'react';
 import Image from 'next/image';
 
@@ -21,7 +20,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 }) => {
   return (
     <article className="group relative bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-purple-500/50 transition-all duration-300">
-      {/* Imagen del proyecto */}
       <div className="relative w-full aspect-video overflow-hidden bg-white/5">
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10" />
         {image ? (
@@ -38,7 +36,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         )}
       </div>
 
-      {/* Contenido */}
       <div className="p-6">
         <h3 className="text-2xl font-bold mb-3 group-hover:text-purple-400 transition-colors">
           {title}
@@ -48,7 +45,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           {description}
         </p>
 
-        {/* Tags de tecnologías */}
         <div className="flex flex-wrap gap-2 mb-4">
           {tags.map((tag, index) => (
             <span
@@ -60,7 +56,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           ))}
         </div>
 
-        {/* Links */}
         <div className="flex gap-3">
           {demoUrl && (
             <a

@@ -1,8 +1,6 @@
-// app/_components/sections/ArticlesSection.tsx
 import React from 'react';
 import ArticleCard from '../ui/ArticleCard';
 
-// Define el tipo para los artículos
 interface Article {
   id: number;
   title: string;
@@ -14,7 +12,6 @@ interface Article {
 }
 
 const ArticlesSection: React.FC = () => {
-  // Datos de ejemplo - personaliza con tus artículos reales
   const articles: Article[] = [
     {
       id: 1,
@@ -73,9 +70,8 @@ const ArticlesSection: React.FC = () => {
   ];
 
   return (
-    <section id="articles" className="min-h-screen bg-black text-white px-4 py-24">
+    <section id="articles" className="min-h-screen text-white px-4 py-24">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="mb-16">
           <h2 className="text-4xl md:text-6xl font-bold mb-4">
             Latest <span className="bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">Articles</span>
@@ -86,7 +82,6 @@ const ArticlesSection: React.FC = () => {
           </p>
         </div>
 
-        {/* Grid de artículos */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {articles.map((article) => (
             <ArticleCard
@@ -101,7 +96,6 @@ const ArticlesSection: React.FC = () => {
           ))}
         </div>
 
-        {/* Call to action opcional */}
         <div className="mt-16 text-center">
           <a
             href="https://medium.com/@yourusername"

@@ -1,8 +1,6 @@
-// app/_components/sections/WorkSection.tsx
 import React from 'react';
 import WorkItem from '../ui/WorkItem';
 
-// Define el tipo para la experiencia laboral
 interface WorkExperience {
   id: number;
   year: string;
@@ -14,7 +12,6 @@ interface WorkExperience {
 }
 
 const WorkSection: React.FC = () => {
-  // Datos de ejemplo - personaliza con tu experiencia real
   const workExperience: WorkExperience[] = [
     {
       id: 1,
@@ -57,7 +54,6 @@ const WorkSection: React.FC = () => {
   return (
     <section id="work" className="min-h-screen bg-green-800 text-white px-4 py-24">
       <div className="max-w-5xl mx-auto">
-        {/* Header */}
         <div className="mb-16">
           <h2 className="text-4xl md:text-6xl font-bold mb-4">
             Work <span className="bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">Experience</span>
@@ -67,7 +63,6 @@ const WorkSection: React.FC = () => {
           </p>
         </div>
 
-        {/* Timeline de experiencia laboral */}
         <div className="relative">
           {workExperience.map((work) => (
             <WorkItem
@@ -82,7 +77,6 @@ const WorkSection: React.FC = () => {
           ))}
         </div>
 
-        {/* Call to action opcional */}
         <div className="mt-16 pt-8 border-t border-white/10">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-gray-400">

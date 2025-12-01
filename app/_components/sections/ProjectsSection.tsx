@@ -1,8 +1,6 @@
-// app/_components/sections/ProjectsSection.tsx
 import React from 'react';
 import ProjectCard from '../ui/ProjectCard';
 
-// Define el tipo para los proyectos
 interface Project {
   id: number;
   title: string;
@@ -14,13 +12,12 @@ interface Project {
 }
 
 const ProjectsSection: React.FC = () => {
-  // Datos de ejemplo - después los puedes mover a un archivo separado o base de datos
   const projects: Project[] = [
     {
       id: 1,
       title: "E-Commerce Platform",
       description: "A full-featured e-commerce platform with cart functionality, payment integration, and admin dashboard built with Next.js and Stripe.",
-      image: "", // Deja vacío por ahora o agrega una ruta de imagen
+      image: "", 
       tags: ["Next.js", "TypeScript", "Stripe", "Tailwind"],
       demoUrl: "https://example.com",
       githubUrl: "https://github.com/yourusername/project",
@@ -48,7 +45,6 @@ const ProjectsSection: React.FC = () => {
   return (
     <section id="projects" className="min-h-screen bg-blue-800 text-white px-4 py-24">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="mb-16">
           <h2 className="text-4xl md:text-6xl font-bold mb-4">
             Featured <span className="bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">Projects</span>
@@ -59,7 +55,6 @@ const ProjectsSection: React.FC = () => {
           </p>
         </div>
 
-        {/* Grid de proyectos */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project) => (
             <ProjectCard
@@ -74,7 +69,6 @@ const ProjectsSection: React.FC = () => {
           ))}
         </div>
 
-        {/* Call to action opcional */}
         <div className="mt-16 text-center">
           <a
             href="https://github.com/yourusername"

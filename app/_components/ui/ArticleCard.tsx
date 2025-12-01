@@ -1,4 +1,3 @@
-// app/_components/ui/ArticleCard.tsx
 import React from 'react';
 
 interface ArticleCardProps {
@@ -20,14 +19,12 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
 }) => {
   return (
     <article className="group relative bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-purple-500/50 hover:bg-white/10 transition-all duration-300">
-      {/* Header con fecha y tiempo de lectura */}
       <div className="flex items-center gap-3 text-sm text-gray-400 mb-4">
         <time dateTime={date}>{date}</time>
         <span>•</span>
         <span>{readTime}</span>
       </div>
 
-      {/* Título */}
       <h3 className="text-2xl font-bold mb-3 group-hover:text-purple-400 transition-colors">
         <a 
           href={url} 
@@ -39,12 +36,10 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
         </a>
       </h3>
 
-      {/* Descripción */}
       <p className="text-gray-400 mb-4 line-clamp-3">
         {description}
       </p>
 
-      {/* Tags */}
       <div className="flex flex-wrap gap-2 mb-4">
         {tags.map((tag, index) => (
           <span
@@ -56,7 +51,6 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
         ))}
       </div>
 
-      {/* Link de lectura */}
       <a
         href={url}
         target="_blank"

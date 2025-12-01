@@ -1,4 +1,3 @@
-// app/_components/ui/SocialLink.tsx
 import React from 'react';
 
 interface SocialLinkProps {
