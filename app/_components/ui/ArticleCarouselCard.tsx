@@ -28,12 +28,17 @@ const ArticleCarouselCard: React.FC<ArticleCarouselCardProps> = ({
         />
       </div>
 
-      <div className="absolute right-0 top-0 bottom-0 w-1/2 bg-black/60 z-10" />
+      {/* Overlay mitad inferior - solo responsive */}
+      <div className="absolute bottom-0 left-0 right-0 h-[75%] bg-black/60 z-10 lg:hidden" />
+      
+      {/* Overlay mitad derecha - solo desktop */}
+      <div className="hidden lg:block absolute right-0 top-0 bottom-0 w-1/2 bg-black/60 z-10" />
 
-      <div className="relative z-20 h-full flex">
-        <div className="w-1/2" />
+      <div className="relative z-20 h-full flex flex-col lg:flex-row">
+        <div className="hidden lg:block w-1/2" />
         
-        <div className="w-1/2 p-4 md:p-6 lg:p-8 flex flex-col justify-between h-full">
+        {/* Contenedor del contenido - en responsive está dentro del overlay inferior */}
+        <div className="absolute bottom-0 left-0 right-0 h-[60%] lg:relative lg:bottom-auto lg:left-auto lg:right-auto lg:h-auto w-full lg:w-1/2 p-4 md:p-6 lg:p-8 flex flex-col justify-end lg:justify-between z-20">
           <div className="flex-1 flex flex-col justify-center">
             <h3 className="text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold text-white mb-2 md:mb-3 leading-tight">
               {title}
@@ -49,7 +54,7 @@ const ArticleCarouselCard: React.FC<ArticleCarouselCardProps> = ({
               href={url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-5 md:px-6 py-2.5 md:py-3 bg-white text-gray-800 rounded-full text-sm md:text-base font-medium hover:bg-gray-100 transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/50"
+              className="inline-flex items-center justify-center px-3 py-1.5 md:px-6 lg:px-6 text-xs md:text-base lg:py-3 bg-white text-gray-800 rounded-full font-medium hover:bg-gray-100 transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/50"
             >
               Read more
             </Link>
@@ -58,10 +63,10 @@ const ArticleCarouselCard: React.FC<ArticleCarouselCardProps> = ({
               href={url}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center bg-white text-gray-800 rounded-full hover:bg-gray-100 transition-all duration-200 hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/50"
+              className="w-8 h-8 md:w-12 lg:w-12 md:h-12 flex items-center justify-center bg-white text-gray-800 rounded-full hover:bg-gray-100 transition-all duration-200 hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/50"
               aria-label="Leer artículo"
             >
-              <span className="text-lg md:text-xl font-semibold">→</span>
+              <span className="text-base md:text-xl font-semibold">→</span>
             </Link>
           </div>
         </div>

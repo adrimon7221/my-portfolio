@@ -16,7 +16,7 @@ const DecorativeCircle: React.FC<Props> = ({ size = 'lg', className = '' }) => {
   return (
     <div 
       style={sizeStyles[size]}
-      className={`rounded-full border-2 border-white/20 ${className}`} 
+      className={`rounded-full border-2 border-white/20 ${className}`}
     />
   );
 };

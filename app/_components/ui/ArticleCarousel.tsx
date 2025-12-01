@@ -143,28 +143,28 @@ const ArticleCarousel: React.FC<ArticleCarouselProps> = ({
         <>
           <button
             onClick={goToPrevious}
-            className="absolute left-2 sm:left-4 md:-left-8 lg:-left-16 xl:-left-20 2xl:-left-24 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 bg-white hover:bg-gray-50 text-gray-900 rounded-full flex items-center justify-center shadow-xl transition-all duration-300 hover:scale-110 active:scale-95 focus:outline-none focus:ring-4 focus:ring-white/30 z-50"
+            className="absolute left-1/2 -translate-x-28 lg:left-2 lg:translate-x-0 sm:left-4 md:-left-8 lg:-left-16 xl:-left-20 2xl:-left-24 -bottom-1 lg:top-1/2 lg:-translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 bg-transparent border border-white hover:bg-white/10 text-white rounded-full flex items-center justify-center shadow-xl transition-all duration-300 hover:scale-110 active:scale-95 focus:outline-none focus:ring-4 focus:ring-white/30 z-50"
             aria-label="Artículo anterior"
           >
-            <span className="text-xl sm:text-2xl md:text-2xl lg:text-3xl font-bold">←</span>
+            <span className="text-xl sm:text-2xl md:text-2xl lg:text-3xl font-bold text-white">←</span>
           </button>
           
           <button
             onClick={goToNext}
-            className="absolute right-2 sm:right-4 md:-right-8 lg:-right-16 xl:-right-20 2xl:-right-24 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 bg-white hover:bg-gray-50 text-gray-900 rounded-full flex items-center justify-center shadow-xl transition-all duration-300 hover:scale-110 active:scale-95 focus:outline-none focus:ring-4 focus:ring-white/30 z-50"
+            className="absolute right-1/2 translate-x-28 lg:right-2 lg:translate-x-0 sm:right-4 md:-right-8 lg:-right-16 xl:-right-20 2xl:-right-24 -bottom-1 lg:top-1/2 lg:-translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 bg-transparent border border-white hover:bg-white/10 text-white rounded-full flex items-center justify-center shadow-xl transition-all duration-300 hover:scale-110 active:scale-95 focus:outline-none focus:ring-4 focus:ring-white/30 z-50"
             aria-label="Artículo siguiente"
           >
-            <span className="text-xl sm:text-2xl md:text-2xl lg:text-3xl font-bold">→</span>
+            <span className="text-xl sm:text-2xl md:text-2xl lg:text-3xl font-bold text-white">→</span>
           </button>
 
-          <div className="flex justify-center items-center gap-2 mt-8">
+          <div className="flex justify-center items-center gap-2 mt-12 lg:mt-5 w-full">
             {articles.map((_, index) => (
               <button
                 key={index}
                 onClick={() => goToSlide(index)}
-                className={`rounded-full transition-all duration-300 ${
+                className={`rounded-full transition-all duration-300  ${
                   index === currentIndex
-                    ? 'bg-white w-8 h-2'
+                    ? 'bg-white w-8 h-2 '
                     : 'bg-white/50 hover:bg-white/70 w-2 h-2'
                 }`}
                 aria-label={`Ir al artículo ${index + 1}`}

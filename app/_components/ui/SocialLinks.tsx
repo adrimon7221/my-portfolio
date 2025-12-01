@@ -65,7 +65,7 @@ export default function SocialLinks({ className = '' }: { className?: string }) 
 
   return (
     <nav aria-label="Redes sociales" className={className}>
-      <ul className="flex gap-3">
+      <ul className="grid grid-cols-2 lg:flex gap-3 max-w-md lg:max-w-none mx-auto lg:mx-0">
         {LINKS.map((item, i) => (
           <li
             key={item.href}
@@ -79,12 +79,12 @@ export default function SocialLinks({ className = '' }: { className?: string }) 
               target="_blank"
               rel="noopener noreferrer"
               aria-label={item.label}
-              className="group flex items-center gap-3 px-4 py-2 border border-white/10 rounded-full bg-black/40 backdrop-blur-md text-sm text-gray-200 hover:bg-white hover:text-black transition-all duration-300 transform hover:scale-110 hover:-translate-y-1 hover:shadow-xl hover:shadow-white/20 focus:outline-none focus:ring-2 focus:ring-white/20"
+              className="group flex items-center gap-3 px-4 py-2 border border-white/10 rounded-full bg-black/40 backdrop-blur-md text-sm text-gray-200 hover:bg-white hover:text-black transition-all duration-300 transform hover:scale-110 hover:-translate-y-1 hover:shadow-xl hover:shadow-white/20 focus:outline-none focus:ring-2 focus:ring-white/20 w-full lg:w-auto"
             >
-              <span className="flex items-center justify-center w-8 h-8 rounded-full bg-black/30 group-hover:bg-black/0 transition-all duration-300 group-hover:rotate-12">
+              <span className="flex items-center justify-center w-8 h-8 rounded-full bg-black/30 group-hover:bg-black/0 transition-all duration-300 group-hover:rotate-12 flex-shrink-0">
                 {item.svg}
               </span>
-              <span className="hidden sm:inline-block transition-all duration-300 group-hover:font-semibold">{item.label}</span>
+              <span className="inline-block transition-all duration-300 group-hover:font-semibold">{item.label}</span>
             </a>
           </li>
         ))}
