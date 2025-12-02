@@ -29,7 +29,7 @@ const AboutSection: React.FC = () => {
   return (
     <section 
       ref={ref}
-      className="relative min-h-screen text-white py-12 mt-10 sm:py-16 md:py-20 px-4 sm:px-6 overflow-hidden"
+      className="relative text-white py-12 mt-10 sm:py-16 md:py-20 pb-12 sm:pb-16 md:pb-20 px-4 sm:px-6 overflow-hidden"
     >
       <div className="max-w-7xl mx-auto relative z-10">
         <AboutHeader isInView={isInView} />

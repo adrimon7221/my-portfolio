@@ -18,13 +18,13 @@ const HeroSection = () => {
   const mounted = useMountAnimation();
 
   return (
-    <section className="relative min-h-screen text-white overflow-hidden">
+    <section className="relative text-white overflow-hidden">
       <Navbar />
 
       {/* Círculo decorativo - responsive */}
       <DecorativeCircleWrapper mounted={mounted} />
 
-      <div className="relative z-10 max-w-7xl mt-20 md:mt-32 lg:mt-40 mx-auto px-8 pt-8 md:pt-12 lg:pt-16 pb-4 flex items-start min-h-[calc(100vh-4rem)]">
+      <div className="relative z-10 max-w-7xl mt-20 md:mt-32 lg:mt-40 mx-auto px-8 pt-8 md:pt-12 lg:pt-16 pb-12 md:pb-16 lg:pb-20 flex items-start">
         <div className="w-full">
           <DesktopLayout mounted={mounted} />
           <MobileLayout mounted={mounted} />
