@@ -2,34 +2,48 @@
 import React from 'react';
 import { ANIMATION_CLASSES } from '@/app/_constants/styles';
 import { ANIMATION_DELAYS } from '@/app/_constants/animations';
+import { ABOUT_PHOTO_CONFIG, ABOUT_ANIMATION_DELAYS } from '@/app/_constants/about';
 
 interface AboutPhotoProps {
   isInView: boolean;
   isResponsive?: boolean;
 }
 
+const IMAGE_ALT = 'Nikita - Full-stack Developer';
+const IMAGE_SRC = '/images/profile.jpg';
+
+/**
+ * AboutPhoto Component
+ * 
+ * Displays the profile photo with decorative circle and animations.
+ * 
+ * @param isInView - Whether the component is in viewport
+ * @param isResponsive - Whether to show responsive layout (mobile) or desktop layout
+ */
 export const AboutPhoto: React.FC<AboutPhotoProps> = React.memo(({ 
   isInView, 
   isResponsive = false 
 }) => {
+  const { RESPONSIVE, DESKTOP } = ABOUT_PHOTO_CONFIG;
+
   const containerClasses = isResponsive
     ? `mb-8 lg:hidden flex justify-center ${ANIMATION_CLASSES.FADE_IN_FROM_BOTTOM(isInView)}`
     : `hidden lg:flex mt-8 lg:mt-20 justify-center lg:justify-end ${ANIMATION_CLASSES.FADE_IN_FROM_RIGHT(isInView)}`;
 
   const transitionDelay = isResponsive
-    ? ANIMATION_DELAYS.TITLE_DELAY + 240
-    : ANIMATION_DELAYS.TITLE_DELAY + 400;
+    ? ANIMATION_DELAYS.TITLE_DELAY + ABOUT_ANIMATION_DELAYS.PHOTO_RESPONSIVE
+    : ANIMATION_DELAYS.TITLE_DELAY + ABOUT_ANIMATION_DELAYS.PHOTO_DESKTOP;
 
   const maxWidthClasses = isResponsive
     ? 'max-w-[280px] sm:max-w-[320px]'
     : 'max-w-[350px] sm:max-w-[400px] md:max-w-[450px] lg:max-w-[500px]';
 
   const circlePosition = isResponsive
-    ? 'top-[35%] left-full -translate-x-1/3'
-    : 'top-[15%] left-1/2 -translate-x-1/2';
+    ? RESPONSIVE.CIRCLE.POSITION
+    : DESKTOP.CIRCLE.POSITION;
 
   const circleSize = isResponsive
-    ? { width: '470px', height: '470px' }
+    ? RESPONSIVE.CIRCLE.SIZE
     : undefined;
 
   return (
@@ -52,24 +66,24 @@ export const AboutPhoto: React.FC<AboutPhotoProps> = React.memo(({
             />
           ) : (
             <>
-              {/* Móvil: círculo pequeño */}
+              {/* Mobile: small circle */}
               <div className="md:hidden">
                 <div
-                  style={{ width: '350px', height: '350px' }}
+                  style={DESKTOP.CIRCLE.MOBILE}
                   className="rounded-full border-2 border-white/20"
                 />
               </div>
-              {/* Tablet: círculo mediano */}
+              {/* Tablet: medium circle */}
               <div className="hidden md:block lg:hidden">
                 <div
-                  style={{ width: '520px', height: '520px' }}
+                  style={DESKTOP.CIRCLE.TABLET}
                   className="rounded-full border-2 border-white/20"
                 />
               </div>
-              {/* Desktop: círculo grande */}
+              {/* Desktop: large circle */}
               <div className="hidden lg:block">
                 <div
-                  style={{ width: '650px', height: '650px' }}
+                  style={DESKTOP.CIRCLE.DESKTOP}
                   className="rounded-full border-2 border-white/20"
                 />
               </div>
@@ -79,12 +93,16 @@ export const AboutPhoto: React.FC<AboutPhotoProps> = React.memo(({
 
         <div className="rounded-2xl sm:rounded-3xl overflow-hidden border border-white/10 shadow-2xl relative z-10">
           <img
-            src="/images/profile.jpg"
-            alt="Nikita - Full-stack Developer"
+            src={IMAGE_SRC}
+            alt={IMAGE_ALT}
             className={`w-full h-auto object-cover transition-all duration-700 ease-out ${
               isInView ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
             }`}
-            style={{ transitionDelay: isInView ? `${transitionDelay + 200}ms` : '0ms' }}
+            style={{ 
+              transitionDelay: isInView 
+                ? `${transitionDelay + ABOUT_ANIMATION_DELAYS.IMAGE_DELAY_OFFSET}ms` 
+                : '0ms' 
+            }}
           />
         </div>
       </div>

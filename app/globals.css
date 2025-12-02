@@ -26,3 +26,11 @@ p, span, a, button, div {
 html {
   scroll-behavior: smooth;
 }
+
+/* Global: font-bold always includes italic */
+@layer utilities {
+  .font-bold {
+    font-weight: 700;
+    font-style: italic;
+  }
+}

@@ -9,19 +9,26 @@ interface MobileLayoutProps {
   mounted: boolean;
 }
 
+/**
+ * MobileLayout Component
+ * 
+ * Mobile layout for the hero section with title, subtitle, goal text, and buttons.
+ * 
+ * @param mounted - Whether the component is mounted and should animate
+ */
 export const MobileLayout: React.FC<MobileLayoutProps> = React.memo(({ mounted }) => {
   return (
     <div className="lg:hidden flex flex-col">
       <h1
         aria-label="Full-stack"
-        className={`text-4xl md:text-6xl font-bold leading-none mb-4 ${ANIMATION_CLASSES.FADE_IN_FROM_RIGHT(mounted)}`}
+        className={`text-4xl md:text-6xl font-semibold leading-none mb-4 ${ANIMATION_CLASSES.FADE_IN_FROM_RIGHT(mounted)}`}
         style={{ transitionDelay: mounted ? `${ANIMATION_DELAYS.TITLE_DELAY}ms` : '0ms' }}
       >
         Full-stack
       </h1>
 
       <h2
-        className={`text-4xl md:text-6xl font-bold leading-none mb-6 ${ANIMATION_CLASSES.FADE_IN_FROM_LEFT(mounted)}`}
+        className={`text-4xl md:text-6xl font-semibold leading-none mb-6 ${ANIMATION_CLASSES.FADE_IN_FROM_LEFT(mounted)}`}
         style={{ transitionDelay: mounted ? `${ANIMATION_DELAYS.TITLE_DELAY + ANIMATION_DELAYS.MOBILE_DEVELOPER_OFFSET}ms` : '0ms' }}
       >
         Developer

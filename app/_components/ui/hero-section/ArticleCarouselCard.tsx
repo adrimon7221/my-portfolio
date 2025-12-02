@@ -10,12 +10,38 @@ interface ArticleCarouselCardProps {
   image?: string;
 }
 
+const DEFAULT_IMAGE = '/images/img1.jpg';
+
+/**
+ * ArticleCarouselCard Component
+ * 
+ * Card component for displaying individual articles in the carousel.
+ * 
+ * @param title - Article title
+ * @param description - Article description
+ * @param url - Article URL
+ * @param image - Optional article image (default: '/images/img1.jpg')
+ */
 const ArticleCarouselCard: React.FC<ArticleCarouselCardProps> = React.memo(({
   title,
   description,
   url,
-  image = '/images/img1.jpg', // Default fallback image
+  image = DEFAULT_IMAGE,
 }) => {
+  // Validation
+  if (!title) {
+    console.error('ArticleCarouselCard: title is required');
+    return null;
+  }
+
+  if (!description) {
+    console.warn('ArticleCarouselCard: description is missing');
+  }
+
+  if (!url) {
+    console.error('ArticleCarouselCard: url is required');
+    return null;
+  }
   return (
     <article className="group relative overflow-hidden rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 h-[300px] md:h-[350px]">
       <div className="absolute inset-0 overflow-hidden">
@@ -44,7 +70,7 @@ const ArticleCarouselCard: React.FC<ArticleCarouselCardProps> = React.memo(({
         {/* Contenedor del contenido - en responsive está dentro del overlay inferior */}
         <div className="absolute bottom-0 left-0 right-0 h-[60%] lg:relative lg:bottom-auto lg:left-auto lg:right-auto lg:h-auto w-full lg:w-1/2 p-4 md:p-6 lg:p-8 flex flex-col justify-end lg:justify-between z-20">
           <div className="flex-1 flex flex-col justify-center">
-            <h3 className="text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold text-white mb-2 md:mb-3 leading-tight">
+            <h3 className="text-lg md:text-xl lg:text-2xl xl:text-3xl font-semibold text-white mb-2 md:mb-3 leading-tight">
               {title}
             </h3>
 

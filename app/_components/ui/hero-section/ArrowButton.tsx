@@ -13,12 +13,23 @@ const ARIA_LABELS = {
   GO_TO_PROJECTS: 'Ir a Projects',
 } as const;
 
-const sizeClasses: Record<NonNullable<ArrowButtonProps['size']>, string> = {
+const SIZE_CLASSES: Record<NonNullable<ArrowButtonProps['size']>, string> = {
   sm: 'w-10 h-10 text-lg',
   md: 'w-10 h-10 md:w-12 md:h-12 text-lg md:text-xl',
   lg: 'w-12 h-12 text-xl',
 } as const;
 
+/**
+ * ArrowButton Component
+ * 
+ * Button component with arrow icon for navigation.
+ * 
+ * @param href - URL to navigate to
+ * @param mounted - Whether the component is mounted and should animate
+ * @param transitionDelay - Delay for the entrance animation in milliseconds (default: 300)
+ * @param className - Additional CSS classes
+ * @param size - Size of the button ('sm', 'md', or 'lg', default: 'md')
+ */
 export const ArrowButton: React.FC<ArrowButtonProps> = React.memo(({
   href,
   mounted,
@@ -32,7 +43,11 @@ export const ArrowButton: React.FC<ArrowButtonProps> = React.memo(({
   }
 
   const validSize = size || 'md';
-  const sizeClass = sizeClasses[validSize];
+  const sizeClass = SIZE_CLASSES[validSize];
+
+  if (!sizeClass) {
+    console.warn(`ArrowButton: Invalid size "${size}", using default "md"`);
+  }
 
   return (
     <Link

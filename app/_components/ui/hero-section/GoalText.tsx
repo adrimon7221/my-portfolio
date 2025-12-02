@@ -8,6 +8,15 @@ interface GoalTextProps {
   className?: string;
 }
 
+/**
+ * GoalText Component
+ * 
+ * Displays the goal text with emphasis on key phrases.
+ * 
+ * @param mounted - Whether the component is mounted and should animate
+ * @param transitionDelay - Delay for the entrance animation in milliseconds
+ * @param className - Additional CSS classes
+ */
 export const GoalText: React.FC<GoalTextProps> = React.memo(({ 
   mounted, 
   transitionDelay,
@@ -23,9 +32,9 @@ export const GoalText: React.FC<GoalTextProps> = React.memo(({
       className={`text-base text-gray-400 leading-relaxed ${ANIMATION_CLASSES.FADE_IN_FROM_BOTTOM(mounted)} ${className}`}
       style={{ transitionDelay: mounted ? `${transitionDelay}ms` : '0ms' }}
     >
-      {HERO_CONTENT.GOAL_TEXT.PREFIX} <span className="italic">{HERO_CONTENT.GOAL_TEXT.EMPHASIS_1}</span>
+      {HERO_CONTENT.GOAL_TEXT.PREFIX} <span className="font-bold">{HERO_CONTENT.GOAL_TEXT.EMPHASIS_1}</span>
       <br />
-      {HERO_CONTENT.GOAL_TEXT.CONNECTOR} <span className="italic">{HERO_CONTENT.GOAL_TEXT.EMPHASIS_2}</span> {HERO_CONTENT.GOAL_TEXT.SUFFIX}
+      {HERO_CONTENT.GOAL_TEXT.CONNECTOR} <span className="font-bold">{HERO_CONTENT.GOAL_TEXT.EMPHASIS_2}</span> {HERO_CONTENT.GOAL_TEXT.SUFFIX}
     </p>
   );
 });

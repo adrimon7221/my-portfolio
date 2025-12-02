@@ -4,6 +4,15 @@ import ArticleCarouselCard from './ArticleCarouselCard';
 import { ArticleCarouselProps } from '@/app/_types/carousel';
 import { CAROUSEL_CONFIG } from '@/app/_constants/carousel';
 
+/**
+ * ArticleCarousel Component
+ * 
+ * Carousel component for displaying articles with autoplay and navigation controls.
+ * 
+ * @param articles - Array of articles to display
+ * @param autoPlay - Whether to enable autoplay (default: true)
+ * @param autoPlayInterval - Interval between slides in milliseconds (default: 5000)
+ */
 const ArticleCarousel: React.FC<ArticleCarouselProps> = ({
   articles,
   autoPlay = CAROUSEL_CONFIG.DEFAULT_AUTO_PLAY,
@@ -172,6 +181,8 @@ const ArticleCarousel: React.FC<ArticleCarouselProps> = ({
     </div>
   );
 };
+
+ArticleCarousel.displayName = 'ArticleCarousel';
 
 export { ArticleCarousel };
 export default ArticleCarousel;

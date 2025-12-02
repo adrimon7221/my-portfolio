@@ -8,6 +8,12 @@ import { ANIMATION_DELAYS } from "@/app/_constants/animations";
 import { HERO_ARTICLES } from "@/app/_data/heroArticles";
 import "@/app/_styles/hero-animations.css";
 
+/**
+ * HeroSection Component
+ * 
+ * Main hero section displaying title, goal text, buttons, and article carousel.
+ * Uses mount-triggered animations for all child components.
+ */
 const HeroSection = () => {
   const mounted = useMountAnimation();
 

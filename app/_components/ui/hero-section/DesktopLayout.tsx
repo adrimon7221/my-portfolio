@@ -9,13 +9,20 @@ interface DesktopLayoutProps {
   mounted: boolean;
 }
 
+/**
+ * DesktopLayout Component
+ * 
+ * Desktop layout for the hero section with title, buttons, goal text, and subtitle.
+ * 
+ * @param mounted - Whether the component is mounted and should animate
+ */
 export const DesktopLayout: React.FC<DesktopLayoutProps> = React.memo(({ mounted }) => {
   return (
     <div className="hidden lg:block">
       <div className="flex items-center justify-between mb-8">
         <h1
           aria-label="Full-stack"
-          className={`text-xl lg:text-[8rem] font-bold leading-none ${ANIMATION_CLASSES.FADE_IN_FROM_RIGHT(mounted)}`}
+          className={`text-xl lg:text-[8rem] font-semibold leading-none ${ANIMATION_CLASSES.FADE_IN_FROM_RIGHT(mounted)}`}
           style={{ transitionDelay: mounted ? `${ANIMATION_DELAYS.TITLE_DELAY}ms` : '0ms' }}
         >
           Full-stack
@@ -48,7 +55,7 @@ export const DesktopLayout: React.FC<DesktopLayoutProps> = React.memo(({ mounted
         </div>
 
         <h2
-          className={`text-8xl lg:text-[8rem] font-bold leading-none ${ANIMATION_CLASSES.FADE_IN_FROM_LEFT(mounted)}`}
+          className={`text-8xl lg:text-[8rem] font-semibold leading-none ${ANIMATION_CLASSES.FADE_IN_FROM_LEFT(mounted)}`}
           style={{ transitionDelay: mounted ? `${ANIMATION_DELAYS.DEVELOPER_DELAY}ms` : '0ms' }}
         >
           Developer

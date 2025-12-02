@@ -2,6 +2,7 @@
 import React from "react";
 import { useInView } from "@/app/_hooks/useInView";
 import { ANIMATION_DELAYS } from "@/app/_constants/animations";
+import { ABOUT_ANIMATION_DELAYS } from "@/app/_constants/about";
 import {
   TechBox,
   AboutHeader,
@@ -16,6 +17,12 @@ import {
   DEVOPS_TECHNOLOGIES,
 } from "@/app/_data/aboutTechnologies";
 
+/**
+ * AboutSection Component
+ * 
+ * Main section displaying about information, technology stacks, and profile photo.
+ * Uses scroll-triggered animations for all child components.
+ */
 const AboutSection: React.FC = () => {
   const { ref, isInView } = useInView({ threshold: 0.2, triggerOnce: true });
 
@@ -36,7 +43,7 @@ const AboutSection: React.FC = () => {
               title="Front-end"
               technologies={FRONTEND_TECHNOLOGIES}
               isInView={isInView}
-              transitionDelay={ANIMATION_DELAYS.TITLE_DELAY + 320}
+              transitionDelay={ANIMATION_DELAYS.TITLE_DELAY + ABOUT_ANIMATION_DELAYS.FRONTEND}
               className="mt-8 sm:mt-0"
             />
 
@@ -46,11 +53,11 @@ const AboutSection: React.FC = () => {
                 title="Styles"
                 technologies={STYLES_TECHNOLOGIES}
                 isInView={isInView}
-                transitionDelay={ANIMATION_DELAYS.TITLE_DELAY + 400}
+                transitionDelay={ANIMATION_DELAYS.TITLE_DELAY + ABOUT_ANIMATION_DELAYS.STYLES}
               />
               <SocialLinksContainer 
                 isInView={isInView}
-                transitionDelay={ANIMATION_DELAYS.TITLE_DELAY + 480}
+                transitionDelay={ANIMATION_DELAYS.TITLE_DELAY + ABOUT_ANIMATION_DELAYS.SOCIAL_LINKS}
               />
             </div>
 
@@ -58,7 +65,7 @@ const AboutSection: React.FC = () => {
               title="Back-end"
               technologies={BACKEND_TECHNOLOGIES}
               isInView={isInView}
-              transitionDelay={ANIMATION_DELAYS.TITLE_DELAY + 560}
+              transitionDelay={ANIMATION_DELAYS.TITLE_DELAY + ABOUT_ANIMATION_DELAYS.BACKEND}
             />
 
             {/* DevOps Box */}
@@ -68,7 +75,7 @@ const AboutSection: React.FC = () => {
                 title="DevOps"
                 technologies={DEVOPS_TECHNOLOGIES}
                 isInView={isInView}
-                transitionDelay={ANIMATION_DELAYS.TITLE_DELAY + 720}
+                transitionDelay={ANIMATION_DELAYS.TITLE_DELAY + ABOUT_ANIMATION_DELAYS.DEVOPS}
               />
             </div>
           </div>

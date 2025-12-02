@@ -14,6 +14,17 @@ const ARIA_LABELS = {
   VIEW_PROJECTS: 'Ver proyectos',
 } as const;
 
+/**
+ * ProjectButton Component
+ * 
+ * Button component for navigating to projects page.
+ * 
+ * @param href - URL to navigate to
+ * @param mounted - Whether the component is mounted and should animate
+ * @param transitionDelay - Delay for the entrance animation in milliseconds (default: 220)
+ * @param className - Additional CSS classes
+ * @param children - Button content
+ */
 export const ProjectButton: React.FC<ProjectButtonProps> = React.memo(({
   href,
   mounted,
