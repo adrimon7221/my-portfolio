@@ -1,25 +1,35 @@
 /* TODOS los @import DEBEN ir primero */
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Open+Sans:wght@300..800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Open+Sans:wght@300..800&display=swap");
 @import "tailwindcss";
 
-
-
-body, html {
+body,
+html {
   overflow-x: hidden;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   background-color: #101011;
   color: #ffffff;
 }
 
 /* Fira Code para títulos y elementos de código */
-h1, h2, h3, h4, h5, h6, code, pre {
-  font-family: 'Fira Code', monospace;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+code,
+pre {
+  font-family: "Fira Code", monospace;
   font-weight: 600;
 }
 
 /* Open Sans para texto normal */
-p, span, a, button, div {
-  font-family: 'Open Sans', sans-serif;
+p,
+span,
+a,
+button,
+div {
+  font-family: "Open Sans", sans-serif;
 }
 
 /* Smooth scrolling */
@@ -32,5 +42,12 @@ html {
   .font-bold {
     font-weight: 700;
     font-style: italic;
+  }
+
+  /* Work Item: narrower first column on mobile */
+  @media (max-width: 639px) {
+    .work-item-mobile-grid {
+      grid-template-columns: minmax(0, 0.55fr) minmax(0, 1.55fr) !important;
+    }
   }
 }
