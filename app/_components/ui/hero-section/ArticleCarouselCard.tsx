@@ -7,25 +7,29 @@ interface ArticleCarouselCardProps {
   title: string;
   description: string;
   url: string;
-  gradientColors?: string[];
+  image?: string;
 }
 
-const ArticleCarouselCard: React.FC<ArticleCarouselCardProps> = ({
+const ArticleCarouselCard: React.FC<ArticleCarouselCardProps> = React.memo(({
   title,
   description,
   url,
-  gradientColors = ['#3b82f6', '#8b5cf6', '#ec4899'],
+  image = '/images/img1.jpg', // Default fallback image
 }) => {
   return (
     <article className="group relative overflow-hidden rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 h-[300px] md:h-[350px]">
       <div className="absolute inset-0 overflow-hidden">
-        <Image
-          src="/images/img1.jpg"
-          alt="Article background"
-          fill
-          className="object-cover"
-          priority
-        />
+        {image ? (
+          <Image
+            src={image}
+            alt={`${title} - Article background`}
+            fill
+            className="object-cover"
+            priority
+          />
+        ) : (
+          <div className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900" />
+        )}
       </div>
 
       {/* Overlay mitad inferior - solo responsive */}
@@ -73,7 +77,10 @@ const ArticleCarouselCard: React.FC<ArticleCarouselCardProps> = ({
       </div>
     </article>
   );
-};
+});
 
+ArticleCarouselCard.displayName = 'ArticleCarouselCard';
+
+export { ArticleCarouselCard };
 export default ArticleCarouselCard;
 

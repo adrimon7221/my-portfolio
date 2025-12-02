@@ -1,82 +1,70 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import ArticleCarouselCard from './ArticleCarouselCard';
-
-interface Article {
-  id: number;
-  title: string;
-  description: string;
-  url: string;
-  gradientColors?: string[];
-}
-
-interface ArticleCarouselProps {
-  articles: Article[];
-  autoPlay?: boolean;
-  autoPlayInterval?: number;
-}
+import { ArticleCarouselProps } from '@/app/_types/carousel';
+import { CAROUSEL_CONFIG } from '@/app/_constants/carousel';
 
 const ArticleCarousel: React.FC<ArticleCarouselProps> = ({
   articles,
-  autoPlay = true,
-  autoPlayInterval = 5000,
+  autoPlay = CAROUSEL_CONFIG.DEFAULT_AUTO_PLAY,
+  autoPlayInterval = CAROUSEL_CONFIG.DEFAULT_AUTO_PLAY_INTERVAL,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(autoPlay);
   const [isTransitioning, setIsTransitioning] = useState(false);
+
+  const handleSlideChange = useCallback((newIndex: number, pauseAutoPlay = false) => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setCurrentIndex(newIndex);
+    if (pauseAutoPlay) {
+      setIsAutoPlaying(false);
+    }
+    setTimeout(() => {
+      setIsTransitioning(false);
+      if (pauseAutoPlay) {
+        setIsAutoPlaying(true);
+      }
+    }, CAROUSEL_CONFIG.TRANSITION_DURATION);
+  }, [isTransitioning]);
 
   useEffect(() => {
     if (!isAutoPlaying || articles.length <= 1) return;
 
     const interval = setInterval(() => {
       if (!isTransitioning) {
-        setIsTransitioning(true);
         setCurrentIndex((prev) => (prev + 1) % articles.length);
+        setIsTransitioning(true);
         setTimeout(() => {
           setIsTransitioning(false);
-        }, 600);
+        }, CAROUSEL_CONFIG.TRANSITION_DURATION);
       }
     }, autoPlayInterval);
 
     return () => clearInterval(interval);
   }, [isAutoPlaying, articles.length, autoPlayInterval, isTransitioning]);
 
-  const goToSlide = (index: number) => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-    setCurrentIndex(index);
-    setIsAutoPlaying(false);
-    setTimeout(() => {
-      setIsTransitioning(false);
-      setIsAutoPlaying(true);
-    }, 600);
-  };
+  const goToSlide = useCallback((index: number) => {
+    if (index < 0 || index >= articles.length) return;
+    handleSlideChange(index, true);
+  }, [articles.length, handleSlideChange]);
 
-  const goToPrevious = () => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-    setCurrentIndex((prev) => (prev - 1 + articles.length) % articles.length);
-    setIsAutoPlaying(false);
-    setTimeout(() => {
-      setIsTransitioning(false);
-      setIsAutoPlaying(true);
-    }, 600);
-  };
+  const goToPrevious = useCallback(() => {
+    handleSlideChange(
+      (currentIndex - 1 + articles.length) % articles.length,
+      true
+    );
+  }, [currentIndex, articles.length, handleSlideChange]);
 
-  const goToNext = () => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-    setCurrentIndex((prev) => (prev + 1) % articles.length);
-    setIsAutoPlaying(false);
-    setTimeout(() => {
-      setIsTransitioning(false);
-      setIsAutoPlaying(true);
-    }, 600);
-  };
+  const goToNext = useCallback(() => {
+    handleSlideChange(
+      (currentIndex + 1) % articles.length,
+      true
+    );
+  }, [currentIndex, articles.length, handleSlideChange]);
 
-  if (articles.length === 0) return null;
-
-  const getVisibleArticles = () => {
+  const visible = useMemo(() => {
+    if (articles.length === 0) return null;
     const prevIndex = (currentIndex - 1 + articles.length) % articles.length;
     const nextIndex = (currentIndex + 1) % articles.length;
     return {
@@ -84,9 +72,17 @@ const ArticleCarousel: React.FC<ArticleCarouselProps> = ({
       current: articles[currentIndex],
       next: articles[nextIndex],
     };
-  };
+  }, [articles, currentIndex]);
 
-  const visible = getVisibleArticles();
+  if (articles.length === 0) {
+    return (
+      <div className="relative w-full text-center py-8">
+        <p className="text-gray-400">No hay artículos disponibles</p>
+      </div>
+    );
+  }
+
+  if (!visible) return null;
 
   return (
     <div className="relative w-full">
@@ -102,7 +98,7 @@ const ArticleCarousel: React.FC<ArticleCarouselProps> = ({
                     title={visible.prev.title}
                     description={visible.prev.description}
                     url={visible.prev.url}
-                    gradientColors={visible.prev.gradientColors}
+                    image={visible.prev.image}
                   />
                   <div className="absolute left-0 top-0 bottom-0 w-1/2 bg-gradient-to-r from-black/95 via-black/80 to-transparent backdrop-blur-md z-20 pointer-events-none" />
                 </div>
@@ -116,7 +112,7 @@ const ArticleCarousel: React.FC<ArticleCarouselProps> = ({
                 title={visible.current.title}
                 description={visible.current.description}
                 url={visible.current.url}
-                gradientColors={visible.current.gradientColors}
+                image={visible.current.image}
               />
             </div>
 
@@ -129,7 +125,7 @@ const ArticleCarousel: React.FC<ArticleCarouselProps> = ({
                     title={visible.next.title}
                     description={visible.next.description}
                     url={visible.next.url}
-                    gradientColors={visible.next.gradientColors}
+                    image={visible.next.image}
                   />
                   <div className="absolute right-0 top-0 bottom-0 w-1/2 bg-gradient-to-l from-black/95 via-black/80 to-transparent backdrop-blur-md z-20 pointer-events-none" />
                 </div>
@@ -177,4 +173,6 @@ const ArticleCarousel: React.FC<ArticleCarouselProps> = ({
   );
 };
 
+export { ArticleCarousel };
 export default ArticleCarousel;
+
