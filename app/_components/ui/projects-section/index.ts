@@ -7,6 +7,7 @@
 export { ProjectsHeader } from './ProjectsHeader';
 export { ProjectInfo } from './ProjectInfo';
 export { ProjectImage } from './ProjectImage';
+export { ProjectImageCollage } from './ProjectImageCollage';
 export { ProjectIcons } from './ProjectIcons';
 export { DesktopProjectItem } from './DesktopProjectItem';
 export { MobileProjectItem } from './MobileProjectItem';

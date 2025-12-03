@@ -9,6 +9,7 @@ export interface Project {
   readonly title: string;
   readonly description: string;
   readonly image: string;
+  readonly images?: readonly string[]; // Optional array for image collage
   readonly tags: readonly string[];
   readonly demoUrl?: string;
   readonly githubUrl?: string;
@@ -20,13 +21,14 @@ export interface Project {
  * @constant
  */
 export const PROJECTS: readonly Project[] = [
-  {
-    id: 1,
-    title: "Gostat",
-    description: "GOStat: a cutting-edge microservice-based application designed to handle HTTP request authentication and statistics with finesse. This project comprises several key microservices, each contributing to its overall functionality and prowess. The architecture leverages modern design patterns and ensures high availability and scalability across distributed systems.",
-    image: "/images/img2.jpg",
-    tags: ["Golang", "TypeScript", "Gin", "NextJs", "PostgreSQL", "Redis"] as const,
-  },
+          {
+            id: 1,
+            title: "Gostat",
+            description: "GOStat: a cutting-edge microservice-based application designed to handle HTTP request authentication and statistics with finesse.\n\nThis project comprises several key microservices, each contributing to its overall functionality and prowess. The architecture leverages modern design patterns and ensures high availability and scalability across distributed systems.",
+            image: "/images/img2.jpg",
+            images: ["/images/rojo.jpg", "/images/verde.jpg", "/images/morado.jpg", "/images/azul.jpg"] as const,
+            tags: ["Golang", "TypeScript", "Gin", "NextJs", "PostgreSQL", "Redis"] as const,
+          },
   {
     id: 2,
     title: "CloudSync",

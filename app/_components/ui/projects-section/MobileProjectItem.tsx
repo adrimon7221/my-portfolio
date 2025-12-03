@@ -3,6 +3,7 @@ import React from 'react';
 import { Project } from '@/app/_data/projects';
 import { ProjectInfo } from './ProjectInfo';
 import { ProjectImage } from './ProjectImage';
+import { ProjectImageCollage } from './ProjectImageCollage';
 import { MOBILE_CONFIG, PROJECTS_ANIMATION_DELAYS } from '@/app/_constants/projects';
 
 /**
@@ -48,13 +49,23 @@ const MobileProjectItem: React.FC<MobileProjectItemProps> = React.memo(({
         }}
       >
         {/* Image first */}
-        <ProjectImage
-          image={project.image}
-          alt={project.title}
-          isInView={isInView}
-          isMobile={true}
-          circlePosition={circlePosition}
-        />
+        {index === 0 && project.images ? (
+          <ProjectImageCollage
+            images={project.images}
+            alt={project.title}
+            isInView={isInView}
+            isMobile={true}
+            circlePosition={circlePosition}
+          />
+        ) : (
+          <ProjectImage
+            image={project.image}
+            alt={project.title}
+            isInView={isInView}
+            isMobile={true}
+            circlePosition={circlePosition}
+          />
+        )}
         
         {/* Text after */}
         <ProjectInfo 

@@ -3,6 +3,7 @@ import React from 'react';
 import { Project } from '@/app/_data/projects';
 import { ProjectInfo } from './ProjectInfo';
 import { ProjectImage } from './ProjectImage';
+import { ProjectImageCollage } from './ProjectImageCollage';
 import { DESKTOP_CONFIG, REVERSED_PROJECT_INDEX, PROJECTS_ANIMATION_DELAYS } from '@/app/_constants/projects';
 
 /**
@@ -42,13 +43,23 @@ const DesktopProjectItem: React.FC<DesktopProjectItemProps> = React.memo(({
     >
       {/* Left Column - Text or Image based on layout */}
       {isReversed ? (
-        <ProjectImage
-          image={project.image}
-          alt={`${project.title} Dashboard`}
-          isInView={isInView}
-          transitionDelay={imageAnimationDelay}
-          isReversed={true}
-        />
+        index === 0 && project.images ? (
+          <ProjectImageCollage
+            images={project.images}
+            alt={`${project.title} Dashboard`}
+            isInView={isInView}
+            transitionDelay={imageAnimationDelay}
+            isReversed={true}
+          />
+        ) : (
+          <ProjectImage
+            image={project.image}
+            alt={`${project.title} Dashboard`}
+            isInView={isInView}
+            transitionDelay={imageAnimationDelay}
+            isReversed={true}
+          />
+        )
       ) : (
         <div
           className="py-8"
@@ -77,13 +88,23 @@ const DesktopProjectItem: React.FC<DesktopProjectItemProps> = React.memo(({
           <ProjectInfo project={project} isInView={isInView} />
         </div>
       ) : (
-        <ProjectImage
-          image={project.image}
-          alt={`${project.title} Dashboard`}
-          isInView={isInView}
-          transitionDelay={imageAnimationDelay}
-          isReversed={false}
-        />
+        index === 0 && project.images ? (
+          <ProjectImageCollage
+            images={project.images}
+            alt={`${project.title} Dashboard`}
+            isInView={isInView}
+            transitionDelay={imageAnimationDelay}
+            isReversed={false}
+          />
+        ) : (
+          <ProjectImage
+            image={project.image}
+            alt={`${project.title} Dashboard`}
+            isInView={isInView}
+            transitionDelay={imageAnimationDelay}
+            isReversed={false}
+          />
+        )
       )}
     </div>
   );

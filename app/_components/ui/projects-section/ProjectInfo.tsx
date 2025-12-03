@@ -74,12 +74,17 @@ const ProjectInfo: React.FC<ProjectInfoProps> = React.memo(({
           </div>
           
           {/* Description */}
-          <p 
-            className={descriptionClasses}
-            style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}
-          >
-            {project.description}
-          </p>
+          <div className={descriptionClasses}>
+            {project.description.split('\n\n').map((paragraph, index) => (
+              <p 
+                key={index}
+                className={index > 0 ? 'mt-4' : ''}
+                style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}
+              >
+                {paragraph}
+              </p>
+            ))}
+          </div>
         </div>
         
         {/* Icons */}
