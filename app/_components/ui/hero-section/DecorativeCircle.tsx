@@ -2,6 +2,7 @@ import React from 'react';
 
 interface DecorativeCircleProps {
   size?: 'sm' | 'md' | 'lg' | 'xl';
+  customSize?: { width: string; height: string };
   className?: string;
 }
 
@@ -22,10 +23,11 @@ const SIZE_STYLES: Record<NonNullable<DecorativeCircleProps['size']>, { width: s
  */
 const DecorativeCircle: React.FC<DecorativeCircleProps> = React.memo(({ 
   size = 'lg', 
+  customSize,
   className = '' 
 }) => {
-  const validSize = size || 'lg';
-  const styles = SIZE_STYLES[validSize];
+  // Use customSize if provided, otherwise use predefined size
+  const styles = customSize || (size ? SIZE_STYLES[size] : SIZE_STYLES.lg);
 
   if (!styles) {
     console.warn(`DecorativeCircle: Invalid size "${size}", using default "lg"`);

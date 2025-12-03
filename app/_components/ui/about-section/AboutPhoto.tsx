@@ -3,6 +3,7 @@ import React from 'react';
 import { ANIMATION_CLASSES } from '@/app/_constants/styles';
 import { ANIMATION_DELAYS } from '@/app/_constants/animations';
 import { ABOUT_PHOTO_CONFIG, ABOUT_ANIMATION_DELAYS } from '@/app/_constants/about';
+import { DecorativeCircle } from '@/app/_components/ui/hero-section/DecorativeCircle';
 
 interface AboutPhotoProps {
   isInView: boolean;
@@ -60,32 +61,20 @@ export const AboutPhoto: React.FC<AboutPhotoProps> = React.memo(({
           }`}
         >
           {isResponsive ? (
-            <div
-              style={circleSize}
-              className="rounded-full border-2 border-white/20"
-            />
+            <DecorativeCircle customSize={circleSize} />
           ) : (
             <>
               {/* Mobile: small circle */}
               <div className="md:hidden">
-                <div
-                  style={DESKTOP.CIRCLE.MOBILE}
-                  className="rounded-full border-2 border-white/20"
-                />
+                <DecorativeCircle customSize={DESKTOP.CIRCLE.MOBILE} />
               </div>
               {/* Tablet: medium circle */}
               <div className="hidden md:block lg:hidden">
-                <div
-                  style={DESKTOP.CIRCLE.TABLET}
-                  className="rounded-full border-2 border-white/20"
-                />
+                <DecorativeCircle customSize={DESKTOP.CIRCLE.TABLET} />
               </div>
               {/* Desktop: large circle */}
               <div className="hidden lg:block">
-                <div
-                  style={DESKTOP.CIRCLE.DESKTOP}
-                  className="rounded-full border-2 border-white/20"
-                />
+                <DecorativeCircle customSize={DESKTOP.CIRCLE.DESKTOP} />
               </div>
             </>
           )}
