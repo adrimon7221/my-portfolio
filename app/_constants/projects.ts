@@ -35,8 +35,8 @@ export const DESKTOP_CONFIG = {
     GAP: 'lg:gap-20',
   },
   SPACING: {
-    BETWEEN_PROJECTS: 'space-y-32',
-    PROJECT_PADDING: 'pb-32 lg:pb-40',
+    BETWEEN_PROJECTS: 'space-y-16',
+    PROJECT_PADDING: 'pb-16 lg:pb-20',
   },
 } as const;
 
@@ -52,7 +52,7 @@ export const MOBILE_CONFIG = {
     },
   },
   SPACING: {
-    BETWEEN_PROJECTS: 'space-y-28',
+    BETWEEN_PROJECTS: 'space-y-12',
     IMAGE_MARGIN: 'mb-6',
     TEXT_MARGIN: 'mb-4',
     ICONS_MARGIN: 'mt-6',

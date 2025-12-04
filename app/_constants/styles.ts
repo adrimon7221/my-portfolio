@@ -24,3 +24,28 @@ export const ANIMATION_CLASSES = {
     }`,
 } as const;
 
+/**
+ * Border radius constants used throughout the project
+ */
+export const BORDER_RADIUS = {
+  SMALL: 'rounded-[16px]',        // 16px - Used in project collages
+  MEDIUM: 'rounded-xl',            // 12px - Default medium radius
+  LARGE: 'rounded-[21px]',         // 21px - Used in project images
+  EXTRA_LARGE: 'rounded-2xl',      // 16px - Used in cards
+  HUGE: 'rounded-3xl',             // 24px - Used in containers
+  PROPORTIONAL: '10.5%',           // Proportional for responsive images
+  // Tailwind defaults
+  DEFAULT: 'rounded-lg',           // 8px
+  FULL: 'rounded-full',            // 9999px
+} as const;
+
+/**
+ * Spacing constants for consistent gaps and margins
+ */
+export const SPACING = {
+  COLLAGE_GAP: 'gap-4',            // 16px gap in collages
+  SECTION_PADDING: 'px-6',         // Horizontal padding
+  MOBILE_MARGIN: 'mb-6',           // Mobile margin bottom
+  CONTAINER_ROUNDED: 'rounded-3xl', // Container border radius
+} as const;
+

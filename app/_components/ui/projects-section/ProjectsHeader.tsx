@@ -15,7 +15,7 @@ interface ProjectsHeaderProps {
 
 const ProjectsHeader: React.FC<ProjectsHeaderProps> = React.memo(({ isInView }) => {
   return (
-    <div className="relative mb-12 lg:mb-20">
+    <div className="relative mb-1 lg:mb-20 pb-4 lg:pb-0">
       <h2
         className="absolute text-sm text-white -top-8 left-0 lg:-top-[63px] lg:left-40 lg:left-80 xl:left-96 lg:text-base"
         style={{
