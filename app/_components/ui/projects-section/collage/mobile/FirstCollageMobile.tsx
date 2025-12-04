@@ -3,12 +3,13 @@ import React from "react";
 import { DecorativeCircleWrapper } from "../DecorativeCircleWrapper";
 import { CLIP_PATHS } from "@/app/_constants/clipPaths";
 import { TRANSITION_DURATIONS, TRANSITION_TIMINGS } from "@/app/_constants/animations";
+import { CirclePosition } from "@/app/_types";
 
 interface FirstCollageMobileProps {
   images: readonly string[];
   alt: string;
   isInView?: boolean;
-  circlePosition?: "left" | "right";
+  circlePosition?: CirclePosition;
 }
 
 export const FirstCollageMobile: React.FC<FirstCollageMobileProps> = ({

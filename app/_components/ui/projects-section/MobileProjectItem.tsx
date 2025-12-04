@@ -1,11 +1,11 @@
 'use client';
 import React from 'react';
-import { Project } from '@/app/_data/projects';
+import { Project } from '@/app/_types';
 import { ProjectInfo } from './ProjectInfo';
-import { ProjectImage } from './ProjectImage';
-import { ProjectImageCollage } from './ProjectImageCollage';
-import { MOBILE_CONFIG, PROJECTS_ANIMATION_DELAYS } from '@/app/_constants/projects';
-import { useInView } from '@/app/_hooks/useInView';
+import { ProjectImageRenderer } from './ProjectImageRenderer';
+import { AnimatedContainer } from './AnimatedContainer';
+import { useProjectAnimation } from '@/app/_hooks/useProjectAnimation';
+import { useProjectLayout } from '@/app/_hooks/useProjectLayout';
 
 /**
  * MobileProjectItem Component
@@ -15,66 +15,45 @@ import { useInView } from '@/app/_hooks/useInView';
  * 
  * @param project - Project data object
  * @param index - Project index in the array
- * @param isInView - Whether the component is in view (for animations)
- * @param totalProjects - Total number of projects (to determine if this is the last one)
+ * @param totalProjects - Total number of projects
  */
 interface MobileProjectItemProps {
   project: Project;
   index: number;
-  isInView: boolean;
   totalProjects: number;
 }
 
 const MobileProjectItem: React.FC<MobileProjectItemProps> = React.memo(({
   project,
   index,
-  isInView: externalIsInView,
   totalProjects,
 }) => {
-  const { ref, isInView: scrollInView } = useInView({ 
-    threshold: 0.1, 
+  const { ref, isInView, textAnimationDelay } = useProjectAnimation({
+    index,
     rootMargin: '100px',
-    triggerOnce: true 
   });
-  // Only use scroll-based animation, ignore external isInView for scroll behavior
-  const isInView = scrollInView;
 
-  // Determine circle position: first and last projects have circle on right, middle on left
-  const isFirstOrLast = index === 0 || index === totalProjects - 1;
-  const circlePosition: 'left' | 'right' = isFirstOrLast ? 'right' : 'left';
-  
-  const animationDelay = PROJECTS_ANIMATION_DELAYS.PROJECT_BASE + 
-    (index * PROJECTS_ANIMATION_DELAYS.PROJECT_INCREMENT);
+  const { circlePosition } = useProjectLayout({
+    index,
+    totalProjects,
+  });
 
   return (
     <div ref={ref} className="relative">
-      <div
+      <AnimatedContainer
+        isInView={isInView}
+        transitionDelay={textAnimationDelay}
+        direction="down"
         className="relative z-10"
-        style={{
-          opacity: isInView ? 1 : 0,
-          transform: isInView ? 'translateY(0)' : 'translateY(32px)',
-          transition: `opacity 700ms ease-out, transform 700ms ease-out`,
-          transitionDelay: isInView ? `${animationDelay}ms` : '0ms',
-        }}
       >
         {/* Image first */}
-        {project.images ? (
-          <ProjectImageCollage
-            images={project.images}
-            alt={project.title}
-            isInView={isInView}
-            isMobile={true}
-            circlePosition={circlePosition}
-          />
-        ) : (
-          <ProjectImage
-            image={project.image}
-            alt={project.title}
-            isInView={isInView}
-            isMobile={true}
-            circlePosition={circlePosition}
-          />
-        )}
+        <ProjectImageRenderer
+          project={project}
+          isInView={isInView}
+          transitionDelay={0}
+          isMobile={true}
+          circlePosition={circlePosition}
+        />
         
         {/* Text after */}
         <ProjectInfo 
@@ -82,7 +61,7 @@ const MobileProjectItem: React.FC<MobileProjectItemProps> = React.memo(({
           isInView={isInView} 
           isMobile={true}
         />
-      </div>
+      </AnimatedContainer>
     </div>
   );
 });

@@ -2,6 +2,7 @@
 import React from 'react';
 import { DecorativeCircle } from '../hero-section';
 import { DESKTOP_CONFIG, MOBILE_CONFIG } from '@/app/_constants/projects';
+import { CirclePosition } from '@/app/_types';
 
 /**
  * ProjectImage Component
@@ -23,7 +24,7 @@ interface ProjectImageProps {
   transitionDelay?: number;
   isReversed?: boolean;
   isMobile?: boolean;
-  circlePosition?: 'left' | 'right';
+  circlePosition?: CirclePosition;
 }
 
 const ProjectImage: React.FC<ProjectImageProps> = React.memo(({

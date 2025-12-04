@@ -3,11 +3,12 @@ import React from "react";
 import { DecorativeCircle } from "../../hero-section";
 import { DESKTOP_CONFIG, MOBILE_CONFIG } from "@/app/_constants/projects";
 import { TRANSITION_DURATIONS, TRANSITION_TIMINGS } from "@/app/_constants/animations";
+import { CirclePosition } from "@/app/_types";
 
 interface DecorativeCircleWrapperProps {
   isMobile?: boolean;
   isInView?: boolean;
-  circlePosition?: 'left' | 'right';
+  circlePosition?: CirclePosition;
   isReversed?: boolean;
 }
 

@@ -1,12 +1,13 @@
 "use client";
 import React from "react";
 import { DecorativeCircleWrapper } from "../DecorativeCircleWrapper";
+import { CirclePosition } from "@/app/_types";
 
 interface GenericCollageMobileProps {
   images: readonly string[];
   alt: string;
   isInView?: boolean;
-  circlePosition?: "left" | "right";
+  circlePosition?: CirclePosition;
 }
 
 export const GenericCollageMobile: React.FC<GenericCollageMobileProps> = ({

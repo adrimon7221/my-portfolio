@@ -1,6 +1,5 @@
 'use client';
 import React from 'react';
-import { useMountAnimation } from '@/app/_hooks/useMountAnimation';
 import { PROJECTS } from '@/app/_data/projects';
 import { ProjectsHeader, DesktopProjectItem, MobileProjectItem } from '../ui/projects-section';
 import { DESKTOP_CONFIG, MOBILE_CONFIG } from '@/app/_constants/projects';
@@ -18,8 +17,6 @@ import { DESKTOP_CONFIG, MOBILE_CONFIG } from '@/app/_constants/projects';
  * - Smooth scroll-triggered entrance animations
  */
 const ProjectsSection: React.FC = () => {
-  const mounted = useMountAnimation();
-
   return (
     <section className="relative min-h-screen text-white py-20 px-6 overflow-hidden">
       <div className="max-w-7xl mx-auto relative z-20">
@@ -34,7 +31,6 @@ const ProjectsSection: React.FC = () => {
                 key={project.id}
                 project={project}
                 index={index}
-                isInView={mounted}
                 totalProjects={PROJECTS.length}
               />
             ))}
@@ -47,7 +43,6 @@ const ProjectsSection: React.FC = () => {
                 key={project.id}
                 project={project}
                 index={index}
-                isInView={mounted}
                 totalProjects={PROJECTS.length}
               />
             ))}

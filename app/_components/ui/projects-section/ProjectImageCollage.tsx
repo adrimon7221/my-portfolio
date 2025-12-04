@@ -12,6 +12,8 @@ import {
   getCollageType,
 } from "./collage";
 import { TRANSITION_DURATIONS, TRANSITION_TIMINGS } from "@/app/_constants/animations";
+import { COLLAGE_CONFIG } from "@/app/_constants/projects";
+import { CirclePosition } from "@/app/_types";
 
 /**
  * ProjectImageCollage Component
@@ -25,7 +27,7 @@ import { TRANSITION_DURATIONS, TRANSITION_TIMINGS } from "@/app/_constants/anima
  * @param transitionDelay - Animation delay in milliseconds
  * @param isReversed - Whether this is a reversed layout (for desktop)
  * @param isMobile - Whether this is the mobile layout
- * @param circlePosition - Position of the circle (for mobile: 'left' | 'right')
+ * @param circlePosition - Position of the circle (for mobile: CirclePosition)
  */
 interface ProjectImageCollageProps {
   images: readonly string[];
@@ -34,7 +36,7 @@ interface ProjectImageCollageProps {
   transitionDelay?: number;
   isReversed?: boolean;
   isMobile?: boolean;
-  circlePosition?: "left" | "right";
+  circlePosition?: CirclePosition;
 }
 
 const ProjectImageCollage: React.FC<ProjectImageCollageProps> = React.memo(
@@ -87,7 +89,7 @@ const ProjectImageCollage: React.FC<ProjectImageCollageProps> = React.memo(
           isReversed={isReversed}
         />
 
-        <div className={`relative z-10 flex gap-4 ${isSecondCollage ? '-translate-x-15' : ''}`}>
+        <div className={`relative z-10 flex gap-4 ${isSecondCollage ? COLLAGE_CONFIG.LAYOUT.SECOND_COLLAGE_TRANSLATE : ''}`}>
           {collageType === "first" && images.length === 4 ? (
             <FirstCollageDesktop {...desktopProps} isInView={isInView} baseDelay={transitionDelay} />
           ) : collageType === "second" && images.length === 3 ? (

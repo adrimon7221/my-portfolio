@@ -1,11 +1,12 @@
 'use client';
 import React from 'react';
-import { Project } from '@/app/_data/projects';
+import { Project } from '@/app/_types';
 import { ProjectInfo } from './ProjectInfo';
-import { ProjectImage } from './ProjectImage';
-import { ProjectImageCollage } from './ProjectImageCollage';
-import { DESKTOP_CONFIG, REVERSED_PROJECT_INDEX, PROJECTS_ANIMATION_DELAYS } from '@/app/_constants/projects';
-import { useInView } from '@/app/_hooks/useInView';
+import { ProjectImageRenderer } from './ProjectImageRenderer';
+import { AnimatedContainer } from './AnimatedContainer';
+import { DESKTOP_CONFIG } from '@/app/_constants/projects';
+import { useProjectAnimation } from '@/app/_hooks/useProjectAnimation';
+import { useProjectLayout } from '@/app/_hooks/useProjectLayout';
 
 /**
  * DesktopProjectItem Component
@@ -15,40 +16,29 @@ import { useInView } from '@/app/_hooks/useInView';
  * 
  * @param project - Project data object
  * @param index - Project index in the array
- * @param isInView - Whether the component is in view (for animations)
+ * @param totalProjects - Total number of projects
  */
 interface DesktopProjectItemProps {
   project: Project;
   index: number;
-  isInView: boolean;
   totalProjects: number;
 }
 
 const DesktopProjectItem: React.FC<DesktopProjectItemProps> = React.memo(({
   project,
   index,
-  isInView: externalIsInView,
   totalProjects,
 }) => {
-  const { ref, isInView: scrollInView } = useInView({ 
-    threshold: 0.1, 
+  const { ref, isInView, textAnimationDelay, imageAnimationDelay } = useProjectAnimation({
+    index,
     rootMargin: '150px',
-    triggerOnce: true 
   });
-  // Only use scroll-based animation, ignore external isInView for scroll behavior
-  const isInView = scrollInView;
 
-  const isReversed = index === REVERSED_PROJECT_INDEX;
-  const gridCols = isReversed 
-    ? DESKTOP_CONFIG.GRID.REVERSED 
-    : DESKTOP_CONFIG.GRID.NORMAL;
+  const { isReversed, gridCols, isLastProject } = useProjectLayout({
+    index,
+    totalProjects,
+  });
 
-  const textAnimationDelay = PROJECTS_ANIMATION_DELAYS.PROJECT_BASE + 
-    (index * PROJECTS_ANIMATION_DELAYS.PROJECT_INCREMENT);
-  const imageAnimationDelay = textAnimationDelay + PROJECTS_ANIMATION_DELAYS.IMAGE;
-
-  // Remove bottom padding from last project to maintain consistent spacing
-  const isLastProject = index === totalProjects - 1;
   const paddingClass = isLastProject ? '' : DESKTOP_CONFIG.SPACING.PROJECT_PADDING;
 
   return (
@@ -59,68 +49,40 @@ const DesktopProjectItem: React.FC<DesktopProjectItemProps> = React.memo(({
     >
       {/* Left Column - Text or Image based on layout */}
       {isReversed ? (
-        project.images ? (
-          <ProjectImageCollage
-            images={project.images}
-            alt={`${project.title} Dashboard`}
-            isInView={isInView}
-            transitionDelay={imageAnimationDelay}
-            isReversed={true}
-          />
-        ) : (
-          <ProjectImage
-            image={project.image}
-            alt={`${project.title} Dashboard`}
-            isInView={isInView}
-            transitionDelay={imageAnimationDelay}
-            isReversed={true}
-          />
-        )
+        <ProjectImageRenderer
+          project={project}
+          isInView={isInView}
+          transitionDelay={imageAnimationDelay}
+          isReversed={true}
+        />
       ) : (
-        <div
+        <AnimatedContainer
+          isInView={isInView}
+          transitionDelay={textAnimationDelay}
+          direction="left"
           className="py-8"
-          style={{
-            opacity: isInView ? 1 : 0,
-            transform: isInView ? 'translateX(0)' : 'translateX(-32px)',
-            transition: `opacity 700ms ease-out, transform 700ms ease-out`,
-            transitionDelay: isInView ? `${textAnimationDelay}ms` : '0ms',
-          }}
         >
           <ProjectInfo project={project} isInView={isInView} />
-        </div>
+        </AnimatedContainer>
       )}
 
       {/* Right Column - Image or Text based on layout */}
       {isReversed ? (
-        <div
+        <AnimatedContainer
+          isInView={isInView}
+          transitionDelay={textAnimationDelay}
+          direction="right"
           className="py-8"
-          style={{
-            opacity: isInView ? 1 : 0,
-            transform: isInView ? 'translateX(0)' : 'translateX(32px)',
-            transition: `opacity 700ms ease-out, transform 700ms ease-out`,
-            transitionDelay: isInView ? `${textAnimationDelay}ms` : '0ms',
-          }}
         >
           <ProjectInfo project={project} isInView={isInView} />
-        </div>
+        </AnimatedContainer>
       ) : (
-        project.images ? (
-          <ProjectImageCollage
-            images={project.images}
-            alt={`${project.title} Dashboard`}
-            isInView={isInView}
-            transitionDelay={imageAnimationDelay}
-            isReversed={false}
-          />
-        ) : (
-          <ProjectImage
-            image={project.image}
-            alt={`${project.title} Dashboard`}
-            isInView={isInView}
-            transitionDelay={imageAnimationDelay}
-            isReversed={false}
-          />
-        )
+        <ProjectImageRenderer
+          project={project}
+          isInView={isInView}
+          transitionDelay={imageAnimationDelay}
+          isReversed={false}
+        />
       )}
     </div>
   );

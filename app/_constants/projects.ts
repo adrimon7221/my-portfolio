@@ -65,3 +65,22 @@ export const MOBILE_CONFIG = {
  */
 export const REVERSED_PROJECT_INDEX = 1;
 
+/**
+ * Collage-specific layout and animation constants
+ */
+export const COLLAGE_CONFIG = {
+  LAYOUT: {
+    SECOND_COLLAGE_TRANSLATE: '-translate-x-15',
+    THIRD_COLLAGE_HEIGHT: 'calc(30vw * 2)',
+    THIRD_COLLAGE_COLUMN_WIDTH: 'w-[30%]',
+  },
+  ANIMATION: {
+    TRANSLATE_Y_OFFSET: '20px',
+    DELAYS: {
+      FIRST: 0,
+      SECOND: 200,
+      THIRD: 400,
+    },
+  },
+} as const;
+

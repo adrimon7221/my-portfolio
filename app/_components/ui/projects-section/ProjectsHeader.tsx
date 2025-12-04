@@ -1,5 +1,5 @@
 'use client';
-import React, { useRef } from 'react';
+import React from 'react';
 import { useInView } from '@/app/_hooks/useInView';
 import { PROJECTS_ANIMATION_DELAYS } from '@/app/_constants/projects';
 

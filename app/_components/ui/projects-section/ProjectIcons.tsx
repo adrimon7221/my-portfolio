@@ -35,40 +35,33 @@ const ProjectIcons: React.FC<ProjectIconsProps> = React.memo(({
   demoUrl,
   githubUrl,
 }) => {
+  const iconBaseClasses = "w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-transform";
+
+  const renderIcon = (Icon: React.FC, url: string | undefined, ariaLabel: string) => {
+    if (url) {
+      return (
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={iconBaseClasses}
+          aria-label={ariaLabel}
+        >
+          <Icon />
+        </a>
+      );
+    }
+    return (
+      <div className={iconBaseClasses} aria-label={ariaLabel}>
+        <Icon />
+      </div>
+    );
+  };
+
   return (
     <div className={`flex gap-2 ${className}`}>
-      {demoUrl && (
-        <a
-          href={demoUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-transform"
-          aria-label="View project demo"
-        >
-          <LinkIcon />
-        </a>
-      )}
-      {githubUrl && (
-        <a
-          href={githubUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-transform"
-          aria-label="View project on GitHub"
-        >
-          <GitHubIcon />
-        </a>
-      )}
-      {!demoUrl && !githubUrl && (
-        <>
-          <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-transform">
-            <LinkIcon />
-          </div>
-          <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer hover:scale-110 transition-transform">
-            <GitHubIcon />
-          </div>
-        </>
-      )}
+      {renderIcon(LinkIcon, demoUrl, "View project demo")}
+      {renderIcon(GitHubIcon, githubUrl, "View project on GitHub")}
     </div>
   );
 });

@@ -11,4 +11,6 @@ export { ProjectImageCollage } from './ProjectImageCollage';
 export { ProjectIcons } from './ProjectIcons';
 export { DesktopProjectItem } from './DesktopProjectItem';
 export { MobileProjectItem } from './MobileProjectItem';
+export { AnimatedContainer } from './AnimatedContainer';
+export { ProjectImageRenderer } from './ProjectImageRenderer';
 

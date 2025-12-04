@@ -49,3 +49,30 @@ export const SPACING = {
   CONTAINER_ROUNDED: 'rounded-3xl', // Container border radius
 } as const;
 
+/**
+ * Project-specific style constants
+ */
+export const PROJECT_STYLES = {
+  TAG: {
+    BASE: 'bg-white/10 rounded-full border border-white/20 hover:bg-white/20 hover:border-white/40 transition-all duration-300 cursor-default',
+    MOBILE: 'px-2.5 py-0.5 lg:px-3 lg:py-1 text-[10px] lg:text-xs',
+    DESKTOP: 'px-3 py-1 text-xs',
+  },
+  TITLE: {
+    MOBILE: 'text-lg lg:text-xl font-semibold mb-2 not-italic',
+    DESKTOP: 'text-xl font-semibold mb-8',
+  },
+  DESCRIPTION: {
+    MOBILE: 'text-xs lg:text-sm text-gray-100 leading-relaxed break-all w-full',
+    DESKTOP: 'text-sm text-gray-100 leading-relaxed break-all w-full',
+  },
+  ICONS_MARGIN: {
+    MOBILE: 'mt-6',
+    DESKTOP: 'mt-8',
+  },
+  CONTENT_MARGIN: {
+    MOBILE: 'mb-4',
+    DESKTOP: 'mb-8',
+  },
+} as const;
+
