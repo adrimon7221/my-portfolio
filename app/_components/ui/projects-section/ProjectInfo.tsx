@@ -43,10 +43,26 @@ const ProjectInfo: React.FC<ProjectInfoProps> = React.memo(({
     : 'px-3 py-1 text-xs bg-white/10 rounded-full border border-white/20 hover:bg-white/20 hover:border-white/40 transition-all duration-300 cursor-default';
   
   const descriptionClasses = isMobile
-    ? 'text-xs lg:text-sm text-gray-400 leading-relaxed break-all w-full'
-    : 'text-sm text-gray-400 leading-relaxed break-all w-full';
+    ? 'text-xs lg:text-sm text-gray-100 leading-relaxed break-all w-full'
+    : 'text-sm text-gray-100 leading-relaxed break-all w-full';
   
   const iconsMargin = isMobile ? 'mt-6' : 'mt-8';
+
+  // Helper function to process text with **bold** markers
+  const processDescriptionText = (text: string) => {
+    const parts = text.split(/(\*\*.*?\*\*)/g);
+    return parts.map((part, index) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        const boldText = part.slice(2, -2);
+        return (
+          <span key={index} className="font-bold">
+            {boldText}
+          </span>
+        );
+      }
+      return <React.Fragment key={index}>{part}</React.Fragment>;
+    });
+  };
 
   return (
     <div className={`w-full overflow-hidden ${className}`}>
@@ -81,7 +97,7 @@ const ProjectInfo: React.FC<ProjectInfoProps> = React.memo(({
                 className={index > 0 ? 'mt-4' : ''}
                 style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}
               >
-                {paragraph}
+                {processDescriptionText(paragraph)}
               </p>
             ))}
           </div>

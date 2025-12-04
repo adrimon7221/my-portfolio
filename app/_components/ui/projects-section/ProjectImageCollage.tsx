@@ -77,6 +77,7 @@ const ProjectImageCollage: React.FC<ProjectImageCollageProps> = React.memo(
     };
 
     const collageType = getCollageType(images);
+    const isSecondCollage = collageType === "second" && images.length === 3;
 
     return (
       <div className="relative flex items-start justify-end min-h-[600px]">
@@ -86,22 +87,13 @@ const ProjectImageCollage: React.FC<ProjectImageCollageProps> = React.memo(
           isReversed={isReversed}
         />
 
-        <div
-          className="relative z-10 transition-all flex gap-4"
-          style={{
-            opacity: isInView ? 1 : 0,
-            transform: `scale(${isInView ? 1 : 0.95})`,
-            transitionDelay: isInView ? `${transitionDelay}ms` : "0ms",
-            transitionDuration: `${TRANSITION_DURATIONS.SLOW}ms`,
-            transitionTimingFunction: TRANSITION_TIMINGS.EASE_OUT,
-          }}
-        >
+        <div className={`relative z-10 flex gap-4 ${isSecondCollage ? '-translate-x-15' : ''}`}>
           {collageType === "first" && images.length === 4 ? (
-            <FirstCollageDesktop {...desktopProps} />
+            <FirstCollageDesktop {...desktopProps} isInView={isInView} baseDelay={transitionDelay} />
           ) : collageType === "second" && images.length === 3 ? (
-            <SecondCollageDesktop {...desktopProps} />
+            <SecondCollageDesktop {...desktopProps} isInView={isInView} baseDelay={transitionDelay} />
           ) : collageType === "third" && images.length === 4 ? (
-            <ThirdCollageDesktop {...desktopProps} />
+            <ThirdCollageDesktop {...desktopProps} isInView={isInView} baseDelay={transitionDelay} />
           ) : null}
         </div>
       </div>

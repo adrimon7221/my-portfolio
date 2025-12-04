@@ -9,13 +9,13 @@ import { DESKTOP_CONFIG, MOBILE_CONFIG } from '@/app/_constants/projects';
  * ProjectsSection Component
  * 
  * Main section displaying portfolio projects with desktop and mobile layouts.
- * Uses mount-triggered animations for all child components.
+ * Uses scroll-triggered animations for each project item as they enter the viewport.
  * 
  * Features:
  * - Responsive design with separate desktop and mobile layouts
  * - Alternating layouts for visual interest (reversed layout for middle project)
  * - Decorative circles behind project images
- * - Smooth entrance animations
+ * - Smooth scroll-triggered entrance animations
  */
 const ProjectsSection: React.FC = () => {
   const mounted = useMountAnimation();
@@ -23,7 +23,7 @@ const ProjectsSection: React.FC = () => {
   return (
     <section className="relative min-h-screen text-white py-20 px-6 overflow-hidden">
       <div className="max-w-7xl mx-auto relative z-20">
-        <ProjectsHeader isInView={mounted} />
+        <ProjectsHeader />
 
         {/* Projects Layout */}
         <div className="relative min-h-[800px] lg:min-h-[900px]">
@@ -35,6 +35,7 @@ const ProjectsSection: React.FC = () => {
                 project={project}
                 index={index}
                 isInView={mounted}
+                totalProjects={PROJECTS.length}
               />
             ))}
           </div>

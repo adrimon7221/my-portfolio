@@ -5,6 +5,7 @@ import { ProjectInfo } from './ProjectInfo';
 import { ProjectImage } from './ProjectImage';
 import { ProjectImageCollage } from './ProjectImageCollage';
 import { MOBILE_CONFIG, PROJECTS_ANIMATION_DELAYS } from '@/app/_constants/projects';
+import { useInView } from '@/app/_hooks/useInView';
 
 /**
  * MobileProjectItem Component
@@ -27,9 +28,17 @@ interface MobileProjectItemProps {
 const MobileProjectItem: React.FC<MobileProjectItemProps> = React.memo(({
   project,
   index,
-  isInView,
+  isInView: externalIsInView,
   totalProjects,
 }) => {
+  const { ref, isInView: scrollInView } = useInView({ 
+    threshold: 0.1, 
+    rootMargin: '100px',
+    triggerOnce: true 
+  });
+  // Only use scroll-based animation, ignore external isInView for scroll behavior
+  const isInView = scrollInView;
+
   // Determine circle position: first and last projects have circle on right, middle on left
   const isFirstOrLast = index === 0 || index === totalProjects - 1;
   const circlePosition: 'left' | 'right' = isFirstOrLast ? 'right' : 'left';
@@ -38,7 +47,7 @@ const MobileProjectItem: React.FC<MobileProjectItemProps> = React.memo(({
     (index * PROJECTS_ANIMATION_DELAYS.PROJECT_INCREMENT);
 
   return (
-    <div className="relative">
+    <div ref={ref} className="relative">
       <div
         className="relative z-10"
         style={{
