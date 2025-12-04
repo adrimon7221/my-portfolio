@@ -42,6 +42,7 @@ export const PROJECTS: readonly Project[] = [
     title: "DataFlow",
     description: "DataFlow provides advanced data processing and analytics solutions. It streamlines complex data pipelines, enabling organizations to transform raw data into actionable insights efficiently.",
     image: "/images/img2.jpg",
+    images: ["/images/blanco.jpg", "/images/lima.jpg", "/images/naranja.jpg", "/images/rosado.jpg"] as const,
     tags: ["Golang", "TypeScript", "Gin", "NextJs", "PostgreSQL", "Redis"] as const,
   },
 ] as const;

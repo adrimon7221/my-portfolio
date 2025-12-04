@@ -127,7 +127,7 @@ const ProjectImageCollage: React.FC<ProjectImageCollageProps> = React.memo(({
           transitionDelay: isInView ? `${transitionDelay}ms` : '0ms',
         }}
       >
-        {images.length === 4 ? (
+        {images.length === 4 && images[0].includes('rojo') ? (
           <>
             {/* PRIMER COLLAGE - NO TOCAR - Del documento original */}
             <div className="relative w-[600px] h-[608px] flex-shrink-0">
@@ -207,6 +207,49 @@ const ProjectImageCollage: React.FC<ProjectImageCollageProps> = React.memo(({
                 <img 
                   src={images[1]} 
                   alt={`${alt} 2`} 
+                  className="w-full h-full object-cover rounded-[21px]" 
+                />
+              </div>
+            </div>
+          </>
+        ) : images.length === 4 && images[0].includes('blanco') ? (
+          <>
+            {/* TERCER COLLAGE - 4 imágenes: blanco, lima, naranja, rosado */}
+            <div className="flex gap-4 items-start h-[815px]">
+              {/* Columna izquierda: Lima y Rosado */}
+              <div className="flex flex-col gap-4 self-end">
+                {/* Lima image - top */}
+                <div className="w-[200px] h-[200px] overflow-hidden rounded-[16px] transition-all">
+                  <img 
+                    src={images[1]} 
+                    alt={`${alt} 2`} 
+                    className="w-full h-full object-cover rounded-[21px]" 
+                  />
+                </div>
+                {/* Rosado image - bottom */}
+                <div className="w-[200px] h-[400px] overflow-hidden rounded-[16px] transition-all">
+                  <img 
+                    src={images[3]} 
+                    alt={`${alt} 4`} 
+                    className="w-full h-full object-cover rounded-[21px]" 
+                  />
+                </div>
+              </div>
+
+              {/* Centro: Blanco image - sin clipPath */}
+              <div className="w-[400px] h-[400px] overflow-hidden rounded-[16px] transition-all  mt-[200px]">
+                <img 
+                  src={images[0]} 
+                  alt={`${alt} 1`} 
+                  className="w-full h-full object-cover rounded-[21px]" 
+                />
+              </div>
+
+              {/* Derecha: Naranja image */}
+              <div className="w-[200px] h-[400px] overflow-hidden rounded-[16px] transition-all self-start">
+                <img 
+                  src={images[2]} 
+                  alt={`${alt} 3`} 
                   className="w-full h-full object-cover rounded-[21px]" 
                 />
               </div>
