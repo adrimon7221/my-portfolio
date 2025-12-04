@@ -40,6 +40,84 @@ const ProjectImageCollage: React.FC<ProjectImageCollageProps> = React.memo(({
       ? 'right-0 translate-x-1/2'
       : 'left-0 -translate-x-1/2';
 
+    // Primer collage en mobile: solo mostrar rojo y verde (ocultar azul y morado)
+    if (images.length === 4 && images[0].includes('rojo')) {
+      return (
+        <div className="relative mb-6 rounded-3xl overflow-visible">
+          {/* Decorative Circle */}
+          <div
+            className={`absolute top-1/2 -translate-y-1/2 pointer-events-none transition-all duration-1000 ease-out z-0 ${positionClasses} ${
+              isInView ? "opacity-100 scale-100" : "opacity-0 scale-95"
+            }`}
+          >
+            <DecorativeCircle 
+              customSize={MOBILE_CONFIG.CIRCLE.SIZE} 
+              className="!border !border-white/10" 
+            />
+          </div>
+          
+          {/* Image Collage - Mobile Layout - Rojo, verde y azul (morado oculto) */}
+          <div className="relative z-10 flex flex-col gap-4">
+            {/* Main large image in L shape - Rojo */}
+            <div className="relative w-full aspect-[5/3] rounded-xl overflow-hidden">
+              <svg className="absolute inset-0 w-0 h-0">
+                <defs>
+                  <clipPath id="rojo-mobile-clip" clipPathUnits="objectBoundingBox">
+                    <path d="M 0.0 0 
+                             L 0.94 0 
+                             C 0.97 0 1 0.03 1 0.06 
+                             L 1 0.42 
+                             C 1 0.452 0.983 0.478 0.962 0.478 
+                             L 0.705 0.478 
+                             C 0.675 0.478 0.655 0.505 0.655 0.535 
+                             L 0.655 0.92 
+                             C 0.655 0.97 0.63 1 0.59 1 
+                             L 0.03 1 
+                             C 0.01 1 0 0.97 0 0.92 
+                             L 0 0.08 
+                             C 0 0.03 0.01 0 0.03 0 Z" />
+                  </clipPath>
+                </defs>
+              </svg>
+              <div 
+                className="absolute top-0 left-0 w-full h-full overflow-hidden rounded-xl"
+                style={{ clipPath: 'url(#rojo-mobile-clip)' }}
+              >
+                <img 
+                  src={images[0]} 
+                  alt={`${alt} 1`} 
+                  className="w-full h-full object-cover" 
+                />
+              </div>
+
+              
+              {/* Small image in bottom-right corner - Verde */}
+              <div className="absolute bottom-0 right-0 w-[30%] aspect-square overflow-hidden rounded-xl z-10 -translate-x-2">
+                <img 
+                  src={images[1]} 
+                  alt={`${alt} 2`} 
+                  className="w-full h-full object-cover rounded-xl" 
+                />
+              </div>
+            </div>
+            
+            {/* Azul image - debajo del rojo y verde, centrada, un poco más arriba */}
+            <div className="flex justify-center -mt-[11px]">
+              <div className="w-[30%] aspect-square overflow-hidden rounded-xl">
+                <img 
+                  src={images[3]} 
+                  alt={`${alt} 4`} 
+                  className="w-full h-full object-cover rounded-xl" 
+                />
+              </div>
+            </div>
+            {/* Morado NO se muestra en mobile */}
+          </div>
+        </div>
+      );
+    }
+
+    // Layout móvil genérico para otros collages
     return (
       <div className="relative mb-6 rounded-3xl overflow-visible">
         {/* Decorative Circle */}
@@ -155,7 +233,7 @@ const ProjectImageCollage: React.FC<ProjectImageCollageProps> = React.memo(({
   />
 </div>
 
-<div className="absolute bottom-0 right-[210px] w-[200px] h-[200px] overflow-hidden rounded-[16px] transition-all bg-blue-500">
+<div className="absolute bottom-0 right-[210px] w-[220px] h-[200px] overflow-hidden rounded-[16px] transition-all bg-blue-500">
   <img 
     src={images[3]} 
     alt={`${alt} 4`} 
@@ -246,7 +324,7 @@ const ProjectImageCollage: React.FC<ProjectImageCollageProps> = React.memo(({
               </div>
 
               {/* Derecha: Naranja image */}
-              <div className="w-[200px] h-[400px] overflow-hidden rounded-[16px] transition-all self-start">
+              <div className="w-[200px] h-[600px] overflow-hidden rounded-[16px] transition-all self-start">
                 <img 
                   src={images[2]} 
                   alt={`${alt} 3`} 
