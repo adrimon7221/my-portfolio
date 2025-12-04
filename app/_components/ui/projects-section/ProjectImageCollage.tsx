@@ -120,59 +120,99 @@ const ProjectImageCollage: React.FC<ProjectImageCollageProps> = React.memo(({
 
       {/* Image Collage - Desktop Layout */}
       <div
-        className="relative z-10 transition-all duration-700 flex gap-4"
+        className="relative z-10 transition-all duration-700 flex gap-4 bg-green-500"
         style={{
           opacity: isInView ? 1 : 0,
           transform: `scale(${isInView ? 1 : 0.95})`,
           transitionDelay: isInView ? `${transitionDelay}ms` : '0ms',
         }}
       >
-        {/* Left section: L-shape red + yellow square */}
-        <div className="relative w-[600px] h-[608px] flex-shrink-0">
-          {/* Main large image in L shape (red area) */}
-          <div className="absolute top-0 left-0 w-full h-[400px] overflow-visible rounded-[16px]"
-               style={{ 
-                 clipPath: `path('M 32 0 L 568 0 C 585.673 0 600 14.327 600 32 L 600 168 C 600 180.703 589.703 191 577 191 L 409 191 C 396.297 191 386 201.297 386 214 L 386 368 C 386 385.673 371.673 400 354 400 L 32 400 C 14.327 400 0 385.673 0 368 L 0 32 C 0 14.327 14.327 0 32 0 Z')`
-               }}>
-            <div className="absolute inset-0 overflow-hidden rounded-[16px]"
-                 style={{ 
-                   clipPath: `path('M 34 2 L 566 2 C 583.673 2 598 16.327 598 34 L 598 166 C 598 178.703 587.703 189 575 189 L 411 189 C 398.297 189 388 199.297 388 212 L 388 366 C 388 383.673 373.673 398 356 398 L 34 398 C 16.327 398 2 383.673 2 366 L 2 34 C 2 16.327 16.327 2 34 2 Z')`
-                 }}>
-              <img 
-                src={images[0]} 
-                alt={`${alt} 1`} 
-                className="w-full h-full object-cover" 
-              />
-            </div>
-          </div>
-          
-          {/* Green square - above blue */}
-          <div className="absolute bottom-[calc(200px+8px)] right-0 w-[200px] h-[200px] overflow-hidden rounded-[16px] transition-all">
-            <img 
-              src={images[1]} 
-              alt={`${alt} 2`} 
-              className="w-full h-full object-cover rounded-[21px]" 
-            />
-          </div>
-          
-          {/* Blue square - bottom */}
-          <div className="absolute bottom-0 right-[210px] w-[200px] h-[200px] overflow-hidden rounded-[16px] transition-all">
-            <img 
-              src={images[3]} 
-              alt={`${alt} 4`} 
-              className="w-full h-full object-cover rounded-[21px]" 
-            />
-          </div>
-        </div>
+        {images.length === 4 ? (
+          <>
+            {/* PRIMER COLLAGE - NO TOCAR - Del documento original */}
+            <div className="relative w-[600px] h-[608px] flex-shrink-0">
+<div className="absolute top-0 left-0 w-full h-[400px] overflow-visible rounded-[16px] bg-red-500"
+     style={{ 
+       clipPath: `path('M 32 0 L 568 0 C 585.673 0 600 14.327 600 32 L 600 168 C 600 180.703 589.703 191 577 191 L 414 191 C 401.297 191 391 201.297 391 214 L 391 368 C 391 385.673 376.673 400 359 400 L 32 400 C 14.327 400 0 385.673 0 368 L 0 32 C 0 14.327 14.327 0 32 0 Z')`
+     }}>
+  <div className="absolute inset-0 overflow-hidden rounded-[16px] bg-red-600"
+       style={{ 
+         clipPath: `path('M 34 2 L 566 2 C 583.673 2 598 16.327 598 34 L 598 166 C 598 178.703 587.703 189 575 189 L 412 189 C 399.297 189 389 199.297 389 212 L 389 366 C 389 383.673 374.673 398 357 398 L 34 398 C 16.327 398 2 383.673 2 366 L 2 34 C 2 16.327 16.327 2 34 2 Z')`
+       }}>
+    <img 
+      src={images[0]} 
+      alt={`${alt} 1`} 
+      className="w-full h-full object-cover" 
+    />
+  </div>
+</div>
 
-        {/* Right section: Purple image (same height as red) */}
-        <div className="w-[200px] h-[400px] overflow-hidden rounded-[16px] transition-all flex-shrink-0">
-          <img 
-            src={images[2]} 
-            alt={`${alt} 3`} 
-            className="w-full h-full object-cover rounded-[21px]" 
-          />
-        </div>
+<div className="absolute bottom-[calc(200px+8px)] right-0 w-[200px] h-[200px] overflow-hidden rounded-[16px] transition-all bg-green-500">
+  <img 
+    src={images[1]} 
+    alt={`${alt} 2`} 
+    className="w-full h-full object-cover rounded-[21px]" 
+  />
+</div>
+
+<div className="absolute bottom-0 right-[210px] w-[200px] h-[200px] overflow-hidden rounded-[16px] transition-all bg-blue-500">
+  <img 
+    src={images[3]} 
+    alt={`${alt} 4`} 
+    className="w-full h-full object-cover rounded-[21px]" 
+  />
+</div>
+</div>
+
+<div className="w-[200px] h-[400px] overflow-hidden rounded-[16px] transition-all flex-shrink-0 bg-purple-500">
+<img 
+  src={images[2]} 
+  alt={`${alt} 3`} 
+  className="w-full h-full object-cover rounded-[21px]" 
+/>
+</div>
+</>
+) : images.length === 3 ? (
+          <>
+            {/* SEGUNDO COLLAGE - 3 imágenes: amarillo con recortes, celeste, gris */}
+            <div className="relative w-[816px] h-[605px] flex-shrink-0 ">
+              {/* Yellow image - with cutouts in top-left and bottom-right corners */}
+              <div className="absolute bottom-0 left-0 w-full h-[400px] overflow-visible rounded-[16px]"
+                   style={{ 
+                     clipPath: `path('M 232 0 C 219.297 0 209 10.297 209 23 L 209 186 C 209 198.703 198.703 209 186 209 L 16 209 C 7.163 209 0 216.163 0 225 L 0 368 C 0 385.673 14.327 400 32 400 L 575 400 C 592.673 400 607 385.673 607 368 L 607 214 C 607 201.297 617.297 191 630 191 L 793 191 C 805.703 191 816 180.703 816 168 L 816 32 C 816 14.327 801.673 0 784 0 L 232 0 C 224.837 0 219 5.837 219 13 L 219 196 C 219 203.837 224.837 209 232 209 L 232 209 C 239.163 209 246 201.837 246 193 L 246 16 C 246 7.163 238.837 0 230 0 L 232 0 Z')`
+                   }}>
+                <div className="absolute inset-0 overflow-hidden rounded-[16px]"
+                     style={{ 
+                       clipPath: `path('M 230 2 C 217.297 2 207 12.297 207 25 L 207 184 C 207 196.703 196.703 207 184 207 L 18 207 C 9.163 207 2 214.163 2 223 L 2 366 C 2 383.673 16.327 398 34 398 L 573 398 C 590.673 398 605 383.673 605 366 L 605 212 C 605 199.297 615.297 189 628 189 L 791 189 C 803.703 189 814 178.703 814 166 L 814 34 C 814 16.327 799.673 2 782 2 L 230 2 Z')`
+                     }}>
+                  <img 
+                    src={images[0]} 
+                    alt={`${alt} 1`} 
+                    className="w-full h-full object-cover" 
+                  />
+                </div>
+              </div>
+              
+              {/* Gris image - top-left corner */}
+              <div className="absolute top-[205px] left-0 w-[200px] h-[200px] overflow-hidden rounded-[16px] transition-all">
+                <img 
+                  src={images[2]} 
+                  alt={`${alt} 3`} 
+                  className="w-full h-full object-cover rounded-[21px]" 
+                />
+              </div>
+              
+              {/* Celeste image - bottom-right corner */}
+              <div className="absolute top-0 left-[210px] w-[200px] h-[200px] overflow-hidden rounded-[16px] transition-all">
+                <img 
+                  src={images[1]} 
+                  alt={`${alt} 2`} 
+                  className="w-full h-full object-cover rounded-[21px]" 
+                />
+              </div>
+            </div>
+          </>
+        ) : null}
       </div>
     </div>
   );

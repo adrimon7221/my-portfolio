@@ -43,7 +43,7 @@ const DesktopProjectItem: React.FC<DesktopProjectItemProps> = React.memo(({
     >
       {/* Left Column - Text or Image based on layout */}
       {isReversed ? (
-        index === 0 && project.images ? (
+        project.images ? (
           <ProjectImageCollage
             images={project.images}
             alt={`${project.title} Dashboard`}
@@ -88,7 +88,7 @@ const DesktopProjectItem: React.FC<DesktopProjectItemProps> = React.memo(({
           <ProjectInfo project={project} isInView={isInView} />
         </div>
       ) : (
-        index === 0 && project.images ? (
+        project.images ? (
           <ProjectImageCollage
             images={project.images}
             alt={`${project.title} Dashboard`}

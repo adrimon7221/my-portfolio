@@ -49,7 +49,7 @@ const MobileProjectItem: React.FC<MobileProjectItemProps> = React.memo(({
         }}
       >
         {/* Image first */}
-        {index === 0 && project.images ? (
+        {project.images ? (
           <ProjectImageCollage
             images={project.images}
             alt={project.title}
