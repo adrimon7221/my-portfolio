@@ -190,6 +190,59 @@ const ProjectImageCollage: React.FC<ProjectImageCollageProps> = React.memo(({
       );
     }
 
+    // Tercer collage en mobile: blanco, lima y rosado (sin naranja)
+    if (images.length === 4 && images[0].includes('blanco')) {
+      return (
+        <div className="relative mb-6 rounded-3xl overflow-visible">
+          {/* Decorative Circle */}
+          <div
+            className={`absolute top-1/2 -translate-y-1/2 pointer-events-none transition-all duration-1000 ease-out z-0 ${positionClasses} ${
+              isInView ? "opacity-100 scale-100" : "opacity-0 scale-95"
+            }`}
+          >
+            <DecorativeCircle 
+              customSize={MOBILE_CONFIG.CIRCLE.SIZE} 
+              className="!border !border-white/10" 
+            />
+          </div>
+          
+          {/* Image Collage - Mobile Layout - Lima, rosado y blanco (naranja oculto) */}
+          <div className="relative z-10 flex gap-4">
+            {/* Lima y Rosado en columna a la izquierda */}
+            <div className="flex flex-col gap-4 w-[30%]">
+              {/* Lima image */}
+              <div className="w-full aspect-square overflow-hidden rounded-xl">
+                <img 
+                  src={images[1]} 
+                  alt={`${alt} 2`} 
+                  className="w-full h-full object-cover rounded-xl" 
+                />
+              </div>
+              
+              {/* Rosado image */}
+              <div className="w-full aspect-[1/2] overflow-hidden rounded-xl">
+                <img 
+                  src={images[3]} 
+                  alt={`${alt} 4`} 
+                  className="w-full h-full object-cover rounded-xl" 
+                />
+              </div>
+            </div>
+            
+            {/* Main large image - Blanco a la derecha - 2 veces la altura de lima */}
+            <div className="flex-1 rounded-xl overflow-hidden self-start" style={{ height: 'calc(30vw * 2)' }}>
+              <img 
+                src={images[0]} 
+                alt={`${alt} 1`} 
+                className="w-full h-full object-cover rounded-xl" 
+              />
+            </div>
+            {/* Naranja NO se muestra en mobile */}
+          </div>
+        </div>
+      );
+    }
+
     // Layout móvil genérico para otros collages
     return (
       <div className="relative mb-6 rounded-3xl overflow-visible">
