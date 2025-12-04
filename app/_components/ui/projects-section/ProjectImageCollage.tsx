@@ -117,6 +117,79 @@ const ProjectImageCollage: React.FC<ProjectImageCollageProps> = React.memo(({
       );
     }
 
+    // Segundo collage en mobile: amarillo, celeste y gris
+    if (images.length === 3 && images[0].includes('amarillo')) {
+      return (
+        <div className="relative mb-6 rounded-3xl overflow-visible">
+          {/* Decorative Circle */}
+          <div
+            className={`absolute top-1/2 -translate-y-1/2 pointer-events-none transition-all duration-1000 ease-out z-0 ${positionClasses} ${
+              isInView ? "opacity-100 scale-100" : "opacity-0 scale-95"
+            }`}
+          >
+            <DecorativeCircle 
+              customSize={MOBILE_CONFIG.CIRCLE.SIZE} 
+              className="!border !border-white/10" 
+            />
+          </div>
+          
+          {/* Image Collage - Mobile Layout - Celeste, amarillo y gris */}
+          <div className="relative z-10 flex flex-col gap-4">
+            {/* Celeste arriba, centrada */}
+            <div className="flex justify-center">
+              <div className="w-[30%] aspect-square overflow-hidden rounded-xl -translate-x-2">
+                <img 
+                  src={images[1]} 
+                  alt={`${alt} 2`} 
+                  className="w-full h-full object-cover rounded-xl" 
+                />
+              </div>
+            </div>
+            
+            {/* Main large image - Amarillo con clipPath */}
+            <div className="relative w-full aspect-[5/3] rounded-xl overflow-visible -mt-3">
+              <svg className="absolute inset-0 w-0 h-0">
+                <defs>
+                  <clipPath id="amarillo-mobile-clip" clipPathUnits="objectBoundingBox">
+                    <path d="M 0.340 0 
+                             C 0.325 0 0.312 0.013 0.312 0.028 
+                             L 0.312 0.465 
+                             C 0.312 0.497 0.284 0.523 0.284 0.523 
+                             L 0.020 0.523 
+                             C 0.010 0.523 0 0.540 0 0.562 
+                             L 0 0.920 
+                             C 0 0.963 0.019 1 0.039 1 
+                             L 1 1 
+                             L 1 0 
+                             L 0.340 0 Z" />
+                  </clipPath>
+                </defs>
+              </svg>
+              <div 
+                className="absolute top-0 left-0 w-full h-full overflow-hidden rounded-xl"
+                style={{ clipPath: 'url(#amarillo-mobile-clip)' }}
+              >
+                <img 
+                  src={images[0]} 
+                  alt={`${alt} 1`} 
+                  className="w-full h-full object-cover rounded-xl" 
+                />
+              </div>
+              
+              {/* Gris image - dentro del recorte superior izquierdo */}
+              <div className="absolute top-0 left-0 w-[30%] aspect-square overflow-hidden rounded-xl z-10">
+                <img 
+                  src={images[2]} 
+                  alt={`${alt} 3`} 
+                  className="w-full h-full object-cover rounded-xl" 
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     // Layout móvil genérico para otros collages
     return (
       <div className="relative mb-6 rounded-3xl overflow-visible">
