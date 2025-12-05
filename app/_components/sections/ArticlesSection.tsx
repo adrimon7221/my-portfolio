@@ -1,110 +1,138 @@
-import React from 'react';
+'use client';
+import React, { useState } from 'react';
+import { useInView } from '@/app/_hooks/useInView';
+import { ANIMATION_CLASSES } from '@/app/_constants/styles';
+import { ANIMATION_DELAYS } from '@/app/_constants/animations';
 import ArticleCard from '../ui/ArticleCard';
 
 interface Article {
   id: number;
   title: string;
   description: string;
-  date: string;
-  readTime: string;
   url: string;
-  tags: string[];
 }
 
 const ArticlesSection: React.FC = () => {
+  const { ref, isInView } = useInView({ threshold: 0.2, triggerOnce: true });
+  const [currentPage, setCurrentPage] = useState(1);
+
   const articles: Article[] = [
     {
       id: 1,
-      title: "Building Scalable Applications with Next.js 14",
-      description: "Learn how to leverage the latest features in Next.js 14 to build high-performance, scalable web applications. We'll cover server components, streaming, and optimization techniques.",
-      date: "March 15, 2024",
-      readTime: "8 min read",
+      title: "The simplest is Kafka + golang",
+      description: "this article presents a simple way to implement a micro-service architecture using Kafka, golang and docker.",
       url: "https://medium.com/@yourusername/article-1",
-      tags: ["Next.js", "React", "Performance"],
     },
     {
       id: 2,
-      title: "TypeScript Best Practices for React Developers",
-      description: "A comprehensive guide to writing type-safe React applications. Discover patterns, utilities, and tips that will make your TypeScript code more maintainable and robust.",
-      date: "February 28, 2024",
-      readTime: "10 min read",
+      title: "the simplest is Kafka + golang",
+      description: "this article presents a simple way to implement a micro-service architecture using Kafka, golang and docker.",
       url: "https://dev.to/yourusername/article-2",
-      tags: ["TypeScript", "React", "Best Practices"],
     },
     {
       id: 3,
-      title: "State Management in Modern React Applications",
-      description: "Exploring different state management solutions for React apps. From Context API to Zustand and Jotai, find the right tool for your project's needs.",
-      date: "January 20, 2024",
-      readTime: "12 min read",
+      title: "the simplest is Kafka + golang",
+      description: "this article presents a simple way to implement a micro-service architecture using Kafka, golang and docker.",
       url: "https://hashnode.dev/@yourusername/article-3",
-      tags: ["React", "State Management", "Architecture"],
     },
     {
       id: 4,
-      title: "CSS-in-JS vs Tailwind: Making the Right Choice",
-      description: "An in-depth comparison of different styling approaches in modern web development. Learn the pros and cons of each solution to make informed decisions.",
-      date: "December 10, 2023",
-      readTime: "7 min read",
+      title: "the simplest is Kafka + golang",
+      description: "this article presents a simple way to implement a micro-service architecture using Kafka, golang and docker.",
       url: "https://medium.com/@yourusername/article-4",
-      tags: ["CSS", "Tailwind", "Styling"],
     },
     {
       id: 5,
-      title: "Building Real-time Features with WebSockets",
-      description: "Step-by-step guide to implementing real-time functionality in your web applications using WebSockets and Socket.io. Perfect for chat apps and live updates.",
-      date: "November 5, 2023",
-      readTime: "15 min read",
+      title: "the simplest is Kafka + golang",
+      description: "this article presents a simple way to implement a micro-service architecture using Kafka, golang and docker.",
       url: "https://dev.to/yourusername/article-5",
-      tags: ["WebSockets", "Real-time", "Node.js"],
     },
     {
       id: 6,
-      title: "Database Design Patterns for Scalable Applications",
-      description: "Essential database design patterns every developer should know. Learn how to structure your data for optimal performance and scalability.",
-      date: "October 18, 2023",
-      readTime: "11 min read",
+      title: "the simplest is Kafka + golang",
+      description: "this article presents a simple way to implement a micro-service architecture using Kafka, golang and docker.",
       url: "https://hashnode.dev/@yourusername/article-6",
-      tags: ["Database", "PostgreSQL", "Architecture"],
+    },
+    {
+      id: 7,
+      title: "the simplest is Kafka + golang",
+      description: "this article presents a simple way to implement a micro-service architecture using Kafka, golang and docker.",
+      url: "https://medium.com/@yourusername/article-7",
+    },
+    {
+      id: 8,
+      title: "the simplest is Kafka + golang",
+      description: "this article presents a simple way to implement a micro-service architecture using Kafka, golang and docker.",
+      url: "https://dev.to/yourusername/article-8",
     },
   ];
 
+  const titleDelay = isInView ? ANIMATION_DELAYS.TITLE_DELAY : 0;
+  const baseArticleDelay = titleDelay + 200;
+
+  // Filtrar artículos según la página actual
+  const articlesPerPage = 4;
+  const startIndex = (currentPage - 1) * articlesPerPage;
+  const endIndex = startIndex + articlesPerPage;
+  const displayedArticles = articles.slice(startIndex, endIndex);
+
   return (
-    <section id="articles" className="min-h-screen text-white px-4 py-24">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-16">
-          <h2 className="text-4xl md:text-6xl font-bold mb-4">
-            Latest <span className="bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">Articles</span>
-          </h2>
-          <p className="text-gray-400 text-lg max-w-2xl">
-            I write about web development, software architecture, and everything in between. 
-            Here are some of my recent articles.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {articles.map((article) => (
-            <ArticleCard
-              key={article.id}
-              title={article.title}
-              description={article.description}
-              date={article.date}
-              readTime={article.readTime}
-              url={article.url}
-              tags={article.tags}
-            />
-          ))}
-        </div>
-
-        <div className="mt-16 text-center">
-          <a
-            href="https://medium.com/@yourusername"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block px-8 py-3 border-2 border-white/20 rounded-lg font-semibold hover:border-purple-500 hover:bg-purple-500/10 transition-all"
+    <section 
+      id="articles" 
+      ref={ref}
+      className="relative text-white py-12 mt-10 sm:py-16 md:py-20 pb-12 sm:pb-16 md:pb-20 px-4 sm:px-6 overflow-hidden"
+    >
+      <div className="max-w-7xl mx-auto relative z-10 bg-red-800 rounded-3xl p-6 sm:p-8">
+        <div className="bg-blue-800 rounded-2xl p-4 sm:p-6">
+          <h2
+            className={`text-5xl sm:text-7xl md:text-8xl font-semibold text-right ${ANIMATION_CLASSES.FADE_IN_FROM_RIGHT(isInView, false)}`}
+            style={{ transitionDelay: `${titleDelay}ms` }}
           >
-            View All Articles
-          </a>
+            Articles
+          </h2>
+          <div className="mt-4 border-t-2 border-white/20 w-full" />
+        </div>
+
+        <div className="flex flex-col md:flex-row gap-6 sm:gap-8">
+          <div className="bg-yellow-500 rounded-2xl p-4 sm:p-6 flex flex-col items-start justify-start gap-4 md:w-[15%] pt-6 sm:pt-8">
+            <button
+              onClick={() => setCurrentPage(1)}
+              className={`w-8 h-8 md:w-12 lg:w-12 md:h-12 flex items-center justify-center bg-white text-gray-800 rounded-full hover:bg-gray-100 transition-all duration-200 hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/50 ${currentPage === 1 ? 'ring-2 ring-gray-400' : ''}`}
+              aria-label="Página 1"
+            >
+              <span className="text-base md:text-xl font-semibold">1</span>
+            </button>
+            <button
+              onClick={() => setCurrentPage(2)}
+              className={`w-8 h-8 md:w-12 lg:w-12 md:h-12 flex items-center justify-center bg-white text-gray-800 rounded-full hover:bg-gray-100 transition-all duration-200 hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/50 ${currentPage === 2 ? 'ring-2 ring-gray-400' : ''}`}
+              aria-label="Página 2"
+            >
+              <span className="text-base md:text-xl font-semibold">2</span>
+            </button>
+            <a
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-8 h-8 md:w-12 lg:w-12 md:h-12 flex items-center justify-center bg-white text-gray-800 rounded-full hover:bg-gray-100 transition-all duration-200 hover:scale-110 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/50"
+              aria-label="Siguiente"
+            >
+              <span className="text-base md:text-xl font-semibold">→</span>
+            </a>
+          </div>
+
+          <div className="md:w-[85%] grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 bg-green-500 rounded-2xl p-4 sm:p-6">
+            {displayedArticles.map((article, index) => (
+              <ArticleCard
+                key={article.id}
+                title={article.title}
+                description={article.description}
+                url={article.url}
+                isInView={isInView}
+                transitionDelay={baseArticleDelay + (index * 80)}
+                animationDirection={index % 2 === 0 ? 'left' : 'right'}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>

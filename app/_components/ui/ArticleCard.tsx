@@ -1,77 +1,70 @@
+'use client';
 import React from 'react';
+import { TECH_BOX_CONFIG } from '@/app/_constants/about';
 
 interface ArticleCardProps {
   title: string;
   description: string;
-  date: string;
-  readTime: string;
   url: string;
-  tags: string[];
+  isInView?: boolean;
+  transitionDelay?: number;
+  animationDirection?: 'left' | 'right';
 }
 
 const ArticleCard: React.FC<ArticleCardProps> = ({
   title,
   description,
-  date,
-  readTime,
   url,
-  tags,
+  isInView = true,
+  transitionDelay = 0,
+  animationDirection = 'left',
 }) => {
+  const { ANIMATION, STYLES } = TECH_BOX_CONFIG;
+  const translateX = animationDirection === 'right' 
+    ? ANIMATION.TRANSLATE_DISTANCE 
+    : -ANIMATION.TRANSLATE_DISTANCE;
+  
+  const getAnimationStyles = (): React.CSSProperties => {
+    const baseTransition = `background-color ${ANIMATION.HOVER_DURATION} ease, border-color ${ANIMATION.HOVER_DURATION} ease, color ${ANIMATION.HOVER_DURATION} ease`;
+    
+    if (isInView) {
+      return {
+        opacity: 1,
+        transform: 'translateX(0)',
+        transition: `opacity ${ANIMATION.DURATION} ${ANIMATION.EASING} ${transitionDelay}ms, transform ${ANIMATION.DURATION} ${ANIMATION.EASING} ${transitionDelay}ms, ${baseTransition}`,
+      };
+    }
+    
+    return {
+      opacity: 0,
+      transform: `translateX(${translateX}px)`,
+      transition: `opacity 0ms, transform 0ms, ${baseTransition}`,
+    };
+  };
+
   return (
-    <article className="group relative bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-purple-500/50 hover:bg-white/10 transition-all duration-300">
-      <div className="flex items-center gap-3 text-sm text-gray-400 mb-4">
-        <time dateTime={date}>{date}</time>
-        <span>•</span>
-        <span>{readTime}</span>
-      </div>
-
-      <h3 className="text-2xl font-bold mb-3 group-hover:text-purple-400 transition-colors">
-        <a 
-          href={url} 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="hover:underline"
-        >
+    <article
+      className="rounded-3xl sm:rounded-[2rem] bg-red-700 border border-white/20 transition-all duration-300 hover:bg-white hover:border-white hover:text-black cursor-pointer group"
+      style={getAnimationStyles()}
+    >
+      <div className="px-12 sm:px-14 pt-5 sm:pt-6 pb-5 sm:pb-6">
+        <h2 className="text-xl sm:text-2xl font-normal mb-2 sm:mb-3 group-hover:opacity-90 transition-opacity min-h-[3rem] sm:min-h-[3.5rem] line-clamp-2">
           {title}
-        </a>
-      </h3>
+        </h2>
 
-      <p className="text-gray-400 mb-4 line-clamp-3">
-        {description}
-      </p>
+        <p className="text-xs sm:text-sm leading-relaxed opacity-80 mb-2 sm:mb-3 h-16 sm:h-20 overflow-hidden">
+          {description}
+        </p>
 
-      <div className="flex flex-wrap gap-2 mb-4">
-        {tags.map((tag, index) => (
-          <span
-            key={index}
-            className="px-3 py-1 text-xs bg-purple-500/10 border border-purple-500/20 rounded-full text-purple-300"
-          >
-            {tag}
-          </span>
-        ))}
-      </div>
-
-      <a
-        href={url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 text-purple-400 font-semibold group-hover:gap-3 transition-all"
-      >
-        Read article
-        <svg 
-          className="w-4 h-4" 
-          fill="none" 
-          stroke="currentColor" 
-          viewBox="0 0 24 24"
+        <a
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center px-6 py-1.5 md:px-10 lg:px-12 text-xs md:text-base lg:py-3 bg-white text-gray-800 rounded-full font-medium italic hover:bg-gray-100 transition-all duration-200 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-white/50"
         >
-          <path 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
-            strokeWidth={2} 
-            d="M14 5l7 7m0 0l-7 7m7-7H3" 
-          />
-        </svg>
-      </a>
+          Read more
+        </a>
+      </div>
     </article>
   );
 };
