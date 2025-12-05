@@ -25,30 +25,28 @@ const ArticleCard: React.FC<ArticleCardProps> = ({
     : -ANIMATION.TRANSLATE_DISTANCE;
   
   const getAnimationStyles = (): React.CSSProperties => {
-    const baseTransition = `background-color ${ANIMATION.HOVER_DURATION} ease, border-color ${ANIMATION.HOVER_DURATION} ease, color ${ANIMATION.HOVER_DURATION} ease`;
-    
     if (isInView) {
       return {
         opacity: 1,
         transform: 'translateX(0)',
-        transition: `opacity ${ANIMATION.DURATION} ${ANIMATION.EASING} ${transitionDelay}ms, transform ${ANIMATION.DURATION} ${ANIMATION.EASING} ${transitionDelay}ms, ${baseTransition}`,
+        transition: `opacity ${ANIMATION.DURATION} ${ANIMATION.EASING} ${transitionDelay}ms, transform ${ANIMATION.DURATION} ${ANIMATION.EASING} ${transitionDelay}ms`,
       };
     }
     
     return {
       opacity: 0,
       transform: `translateX(${translateX}px)`,
-      transition: `opacity 0ms, transform 0ms, ${baseTransition}`,
+      transition: `opacity 0ms, transform 0ms`,
     };
   };
 
   return (
     <article
-      className="rounded-3xl sm:rounded-[2rem] bg-red-700 border border-white/20 transition-all duration-300 hover:bg-white hover:border-white hover:text-black cursor-pointer group"
+      className="rounded-3xl sm:rounded-[2rem] border border-white/20 transition-transform duration-500 ease-out hover:scale-[1.02] cursor-pointer group"
       style={getAnimationStyles()}
     >
-      <div className="px-12 sm:px-14 pt-5 sm:pt-6 pb-5 sm:pb-6">
-        <h2 className="text-xl sm:text-2xl font-normal mb-2 sm:mb-3 group-hover:opacity-90 transition-opacity min-h-[3rem] sm:min-h-[3.5rem] line-clamp-2">
+      <div className="px-6 sm:px-10 md:px-14 pt-5 sm:pt-6 pb-5 sm:pb-6">
+        <h2 className="text-lg sm:text-xl md:text-2xl font-normal mb-2 sm:mb-3 min-h-[3rem] sm:min-h-[3.5rem] line-clamp-2">
           {title}
         </h2>
 
