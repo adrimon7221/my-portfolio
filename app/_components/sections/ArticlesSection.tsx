@@ -48,12 +48,13 @@ const ArticlesSection: React.FC = () => {
   const baseArticleDelay = titleDelay + ARTICLES_CONFIG.ANIMATION.TITLE_DELAY_OFFSET;
 
   return (
-    <section
-      id="articles"
+    <section 
+      id="articles" 
       ref={ref}
-      className="relative text-white py-12 sm:py-16 md:py-20 pb-12 sm:pb-16 md:pb-20 px-2 sm:px-4 md:px-6 overflow-hidden"
+      className="relative text-white py-12 sm:py-16 md:py-20 pb-12 sm:pb-16 md:pb-20 px-2 sm:px-4 md:px-6 overflow-hidden bg-purple-900"
+      style={{ zIndex: 1, position: 'relative', transform: 'translateZ(0)' }}
     >
-      <div className="max-w-7xl mx-auto relative z-10 rounded-3xl p-4 sm:p-6 md:p-8 w-full">
+      <div className="max-w-7xl mx-auto relative rounded-3xl p-4 sm:p-6 md:p-8 w-full" style={{ zIndex: 0 }}>
         <ArticlesHeader isInView={isInView} />
 
         <div className="flex flex-col md:flex-row gap-0 md:gap-6 lg:gap-8">
@@ -70,17 +71,17 @@ const ArticlesSection: React.FC = () => {
             className={`w-full md:w-[85%] grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 rounded-2xl p-2 sm:p-4 md:p-6 order-1 md:order-2 transition-opacity duration-200 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}
           >
             {(displayedItems as Article[]).map((article, index) => (
-              <ArticleCard
-                key={article.id}
-                title={article.title}
-                description={article.description}
-                url={article.url}
+            <ArticleCard
+              key={article.id}
+              title={article.title}
+              description={article.description}
+              url={article.url}
                 isInView={isInView && !isTransitioning}
                 transitionDelay={baseArticleDelay + (index * ARTICLES_CONFIG.ANIMATION.ARTICLE_DELAY_INCREMENT)}
                 animationDirection={index % 2 === 0 ? 'left' : 'right'}
-              />
-            ))}
-          </div>
+            />
+          ))}
+        </div>
         </div>
       </div>
     </section>

@@ -28,11 +28,6 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto px-8">
         <div className="flex items-center justify-between h-16">
-          <div className="flex-1 flex justify-start">
-            <p className="text-white text-m md:text-sm text-gray-400">
-              Adribell Montes
-            </p>
-          </div>
           {/* Items de navegación - solo visible en desktop */}
           <div className="hidden lg:flex items-center gap-12">
             {navItems.map((item) => (
