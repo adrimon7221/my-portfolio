@@ -9,11 +9,11 @@ import AboutSection from './_components/sections/AboutSection';
 export default function Home() {
   return (
     <main>
-      <HeroSection />
-      <AboutSection />
-      <WorkSection />
-      <ProjectsSection />
-      <ArticlesSection />
+      {/* <HeroSection /> */}
+      {/* <AboutSection /> */}
+      {/* <WorkSection /> */}
+      {/* <ProjectsSection /> */}
+      {/* <ArticlesSection /> */}
       <ContactSection />
     </main>
   );

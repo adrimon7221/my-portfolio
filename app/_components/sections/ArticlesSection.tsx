@@ -51,10 +51,10 @@ const ArticlesSection: React.FC = () => {
     <section 
       id="articles" 
       ref={ref}
-      className="relative text-white py-12 sm:py-16 md:py-20 pb-12 sm:pb-16 md:pb-20 px-2 sm:px-4 md:px-6 overflow-hidden bg-purple-900"
-      style={{ zIndex: 1, position: 'relative', transform: 'translateZ(0)' }}
+      className="relative text-white py-12 sm:py-16 md:py-20 pb-12 sm:pb-16 md:pb-20 px-2 sm:px-4 md:px-6 overflow-hidden "
+      style={{ zIndex: 10, position: 'relative', transform: 'translateZ(0)', isolation: 'isolate' }}
     >
-      <div className="max-w-7xl mx-auto relative rounded-3xl p-4 sm:p-6 md:p-8 w-full" style={{ zIndex: 0 }}>
+      <div className="max-w-7xl mx-auto relative rounded-3xl p-4 sm:p-6 md:p-8 w-full" style={{ zIndex: 10, position: 'relative' }}>
         <ArticlesHeader isInView={isInView} />
 
         <div className="flex flex-col md:flex-row gap-0 md:gap-6 lg:gap-8">
@@ -69,6 +69,7 @@ const ArticlesSection: React.FC = () => {
           <div
             key={`page-${currentPage}`}
             className={`w-full md:w-[85%] grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 rounded-2xl p-2 sm:p-4 md:p-6 order-1 md:order-2 transition-opacity duration-200 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}
+            style={{ zIndex: 1000, position: 'relative' }}
           >
             {(displayedItems as Article[]).map((article, index) => (
             <ArticleCard
