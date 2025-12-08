@@ -1,0 +1,42 @@
+// ============================================
+// Prisma Schema - Portfolio Admin Panel
+// ============================================
+// 
+// Documentación: https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference
+// 
+// Este schema define la estructura de la base de datos MySQL.
+// Usa Prisma 6 (estable y probado con Next.js).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// MODELO: User (Autenticación)
+// ============================================
+// 
+// Almacena información de usuarios administradores.
+// 
+// NOTA sobre el ID (CUID):
+// - CUID (Collision-resistant Unique Identifier) es un identificador único
+// - No es un hash, es un ID seguro y único generado automáticamente
+// - Formato: "clx..." (ejemplo: "clx123abc456")
+// - Ventajas: seguro, único, ordenable, no predecible
+// - Más información: https://github.com/paralleldrive/cuid
+//
+model User {
+  id        String   @id @default(cuid()) // CUID: identificador único y seguro
+  name      String?  // Nombre completo del usuario (opcional)
+  email     String   @unique // Email único para autenticación
+  password  String   // Contraseña encriptada con bcrypt (10 rounds)
+  createdAt DateTime @default(now()) // Timestamp de creación
+  updatedAt DateTime @updatedAt // Timestamp de última actualización
+
+  @@index([email]) // Índice para búsquedas rápidas por email
+  @@map("users") // Nombre de la tabla en MySQL: "users"
+}
