@@ -189,27 +189,31 @@ export async function POST(request: Request) {
       )
     }
 
-    // Verificar si ya existe una tecnología con el mismo orden en la misma categoría
-    const existingByOrder = await (prisma as any).technology.findFirst({
-      where: {
-        order: validatedData.order,
-        category: validatedData.category,
-      },
-    })
-
-    if (existingByOrder) {
-      logger.warn('Intento de crear tecnología con orden duplicado', { 
-        order: validatedData.order,
-        category: validatedData.category,
-        userId: session.user.id 
-      })
-      return NextResponse.json(
-        { 
-          error: "Orden duplicado", 
-          message: `Ya existe una tecnología con el orden ${validatedData.order} en la categoría "${validatedData.category}". El orden no puede repetirse dentro de la misma categoría.`
+    // Verificar si ya existe una tecnología activa con el mismo orden en la misma categoría (solo si se está creando como activa)
+    if (validatedData.active !== false) {
+      const existingActiveByOrder = await (prisma as any).technology.findFirst({
+        where: {
+          order: validatedData.order,
+          category: validatedData.category,
+          active: true,
         },
-        { status: 400 }
-      )
+      })
+
+      if (existingActiveByOrder) {
+        logger.warn('Intento de crear tecnología activa con orden duplicado', { 
+          order: validatedData.order,
+          category: validatedData.category,
+          existingId: existingActiveByOrder.id,
+          userId: session.user.id 
+        })
+        return NextResponse.json(
+          { 
+            error: "Orden duplicado", 
+            message: `Ya existe una tecnología activa con el orden ${validatedData.order} en la categoría "${validatedData.category}". Solo puede haber una tecnología activa por orden dentro de la misma categoría.`
+          },
+          { status: 400 }
+        )
+      }
     }
 
     // Crear la tecnología

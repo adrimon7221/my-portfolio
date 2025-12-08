@@ -385,3 +385,145 @@ export function validateCreateWorkExperience(data: unknown) {
 export function validateUpdateWorkExperience(data: unknown) {
   return updateWorkExperienceSchema.parse(data)
 }
+
+/**
+ * Schema de validación para Project
+ */
+export const projectSchema = z.object({
+  id: z.string().cuid().optional(),
+  title: z
+    .string()
+    .min(1, 'El título es requerido')
+    .max(200, 'El título no puede exceder 200 caracteres')
+    .trim(),
+  description: z
+    .string()
+    .min(1, 'La descripción es requerida')
+    .max(5000, 'La descripción no puede exceder 5000 caracteres')
+    .trim(),
+  image: z
+    .string()
+    .max(500, 'La URL de la imagen no puede exceder 500 caracteres')
+    .trim()
+    .optional()
+    .nullable()
+    .default(''),
+  images: z
+    .array(z.string().max(500).trim())
+    .optional()
+    .nullable()
+    .default([]),
+  tags: z
+    .array(z.string().min(1).max(50).trim())
+    .min(1, 'Debe tener al menos un tag')
+    .max(20, 'No se pueden tener más de 20 tags'),
+  demoUrl: z
+    .string()
+    .url('La URL del demo no es válida')
+    .max(500, 'La URL del demo no puede exceder 500 caracteres')
+    .trim()
+    .optional()
+    .nullable()
+    .or(z.literal('')),
+  githubUrl: z
+    .string()
+    .url('La URL de GitHub no es válida')
+    .max(500, 'La URL de GitHub no puede exceder 500 caracteres')
+    .trim()
+    .optional()
+    .nullable()
+    .or(z.literal('')),
+  order: z
+    .number()
+    .int('El orden debe ser un número entero')
+    .min(0, 'El orden no puede ser negativo')
+    .max(1000, 'El orden no puede exceder 1000'),
+  active: z.boolean().default(true),
+  createdAt: z.date().optional(),
+  updatedAt: z.date().optional(),
+})
+
+/**
+ * Schema de validación para crear Project
+ */
+export const createProjectSchema = projectSchema.omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+}).extend({
+  image: z
+    .string()
+    .max(500, 'La URL de la imagen no puede exceder 500 caracteres')
+    .trim()
+    .optional()
+    .nullable()
+    .or(z.literal(''))
+    .default(''),
+  images: z
+    .array(z.string().max(500).trim())
+    .optional()
+    .default([]),
+  demoUrl: z
+    .string()
+    .url('La URL del demo no es válida')
+    .max(500, 'La URL del demo no puede exceder 500 caracteres')
+    .trim()
+    .optional()
+    .nullable()
+    .or(z.literal(''))
+    .default(''),
+  githubUrl: z
+    .string()
+    .url('La URL de GitHub no es válida')
+    .max(500, 'La URL de GitHub no puede exceder 500 caracteres')
+    .trim()
+    .optional()
+    .nullable()
+    .or(z.literal(''))
+    .default(''),
+  active: z.boolean().optional().default(true),
+})
+
+/**
+ * Schema de validación para actualizar Project (todos los campos opcionales excepto id)
+ */
+export const updateProjectSchema = projectSchema.partial().omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+}).extend({
+  images: z
+    .array(z.string().max(500).trim())
+    .optional()
+    .nullable(),
+  demoUrl: z
+    .string()
+    .url('La URL del demo no es válida')
+    .max(500, 'La URL del demo no puede exceder 500 caracteres')
+    .trim()
+    .optional()
+    .nullable()
+    .or(z.literal('')),
+  githubUrl: z
+    .string()
+    .url('La URL de GitHub no es válida')
+    .max(500, 'La URL de GitHub no puede exceder 500 caracteres')
+    .trim()
+    .optional()
+    .nullable()
+    .or(z.literal('')),
+})
+
+/**
+ * Valida y parsea datos de Project para crear
+ */
+export function validateCreateProject(data: unknown) {
+  return createProjectSchema.parse(data)
+}
+
+/**
+ * Valida y parsea datos de Project para actualizar
+ */
+export function validateUpdateProject(data: unknown) {
+  return updateProjectSchema.parse(data)
+}

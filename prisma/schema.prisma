@@ -136,6 +136,33 @@ model WorkExperience {
 }
 
 // ============================================
+// MODELO: Project (Proyectos del Portfolio)
+// ============================================
+// 
+// Almacena los proyectos del portfolio.
+// Permite gestionar proyectos con imágenes, tags, descripciones y enlaces.
+//
+model Project {
+  id          String   @id @default(cuid()) // CUID: identificador único y seguro
+  title       String   // Título del proyecto
+  description String   @db.Text // Descripción del proyecto (puede contener markdown)
+  image       String   // URL de la imagen principal (ej: "/images/img2.jpg")
+  images      Json?    // Array opcional de imágenes para collage (JSON: ["/images/rojo.jpg", ...])
+  tags        Json     // Array de tags/tecnologías (JSON: ["Golang", "TypeScript", ...])
+  demoUrl     String?  // URL del demo del proyecto (opcional)
+  githubUrl  String?  // URL del repositorio GitHub (opcional)
+  order       Int      @default(0) // Orden de visualización (menor = primero)
+  collageType String   @default("first") // Tipo de collage: "first", "second", "third"
+  active      Boolean  @default(true) // Si el proyecto está activo/visible
+  createdAt   DateTime @default(now()) // Timestamp de creación
+  updatedAt   DateTime @updatedAt // Timestamp de última actualización
+
+  @@index([order]) // Índice para ordenar rápidamente
+  @@index([active]) // Índice para filtrar proyectos activos
+  @@map("projects") // Nombre de la tabla en MySQL: "projects"
+}
+
+// ============================================
 // MODELO: AboutMe (Información del About Me)
 // ============================================
 // 

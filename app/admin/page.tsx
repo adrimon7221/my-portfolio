@@ -1,12 +1,11 @@
 /**
- * Panel Administrativo - Dashboard
+ * Panel Administrativo
  * 
- * Página principal del panel administrativo con resumen y estadísticas.
+ * Redirige a la primera sección disponible (Proyectos)
  */
 
 import { redirect } from "next/navigation"
 import { auth } from "@/lib/auth"
-import { AdminLayout } from "./components/AdminLayout"
 
 export default async function AdminPage() {
   // Verificar si el usuario está autenticado
@@ -17,22 +16,7 @@ export default async function AdminPage() {
     redirect("/admin/login")
   }
 
-  return (
-    <AdminLayout>
-      <div className="max-w-7xl mx-auto space-y-6">
-        <div className="bg-[#3D3D3D] rounded-2xl p-8 border border-white/10">
-          <h1 className="text-3xl font-semibold text-white">
-            Dashboard
-          </h1>
-        </div>
-        <div className="bg-[#3D3D3D] rounded-2xl p-6 border border-white/10">
-          <h2 className="text-xl font-semibold text-white">Resumen</h2>
-        </div>
-        <div className="bg-[#3D3D3D] rounded-2xl p-6 border border-white/10">
-          <h2 className="text-xl font-semibold text-white">Estadísticas</h2>
-        </div>
-      </div>
-    </AdminLayout>
-  )
+  // Redirigir a Proyectos como página principal
+  redirect("/admin/proyectos")
 }
 

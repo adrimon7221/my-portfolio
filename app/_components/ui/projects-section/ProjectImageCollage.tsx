@@ -37,6 +37,8 @@ interface ProjectImageCollageProps {
   isReversed?: boolean;
   isMobile?: boolean;
   circlePosition?: CirclePosition;
+  projectIndex?: number;
+  collageType?: 'first' | 'second' | 'third';
 }
 
 const ProjectImageCollage: React.FC<ProjectImageCollageProps> = React.memo(
@@ -48,10 +50,12 @@ const ProjectImageCollage: React.FC<ProjectImageCollageProps> = React.memo(
     isReversed = false,
     isMobile = false,
     circlePosition,
+    projectIndex,
+    collageType: propCollageType,
   }) => {
     // Mobile Layout
     if (isMobile) {
-      const collageType = getCollageType(images);
+      const collageType = propCollageType || getCollageType(images, projectIndex);
 
       const mobileProps = {
         images,
@@ -78,7 +82,7 @@ const ProjectImageCollage: React.FC<ProjectImageCollageProps> = React.memo(
       alt,
     };
 
-    const collageType = getCollageType(images);
+    const collageType = propCollageType || getCollageType(images, projectIndex);
     const isSecondCollage = collageType === "second" && images.length === 3;
 
     return (
@@ -90,11 +94,11 @@ const ProjectImageCollage: React.FC<ProjectImageCollageProps> = React.memo(
         />
 
         <div className={`relative z-10 flex gap-4 ${isSecondCollage ? COLLAGE_CONFIG.LAYOUT.SECOND_COLLAGE_TRANSLATE : ''}`}>
-          {collageType === "first" && images.length === 4 ? (
+          {collageType === "first" ? (
             <FirstCollageDesktop {...desktopProps} isInView={isInView} baseDelay={transitionDelay} />
-          ) : collageType === "second" && images.length === 3 ? (
+          ) : collageType === "second" ? (
             <SecondCollageDesktop {...desktopProps} isInView={isInView} baseDelay={transitionDelay} />
-          ) : collageType === "third" && images.length === 4 ? (
+          ) : collageType === "third" ? (
             <ThirdCollageDesktop {...desktopProps} isInView={isInView} baseDelay={transitionDelay} />
           ) : null}
         </div>

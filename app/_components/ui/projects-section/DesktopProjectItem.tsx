@@ -54,6 +54,7 @@ const DesktopProjectItem: React.FC<DesktopProjectItemProps> = React.memo(({
           isInView={isInView}
           transitionDelay={imageAnimationDelay}
           isReversed={true}
+          projectIndex={index}
         />
       ) : (
         <AnimatedContainer
@@ -82,6 +83,7 @@ const DesktopProjectItem: React.FC<DesktopProjectItemProps> = React.memo(({
           isInView={isInView}
           transitionDelay={imageAnimationDelay}
           isReversed={false}
+          projectIndex={index}
         />
       )}
     </div>

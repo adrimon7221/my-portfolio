@@ -195,27 +195,60 @@ export async function PUT(
       )
     }
 
-    // Si se está actualizando el orden, verificar duplicados
-    if (validatedData.order !== undefined) {
+    // Si se está actualizando el orden, verificar duplicados (solo para experiencias activas)
+    if (validatedData.order !== undefined && validatedData.order !== existing.order) {
       const orderToCheck = validatedData.order
+      // Solo validar si la experiencia se está creando como activa o se está activando
+      const willBeActive = validatedData.active !== undefined ? validatedData.active : existing.active
       
-      const duplicateByOrder = await (prisma as any).workExperience.findFirst({
+      if (willBeActive) {
+        const existingActiveWithOrder = await (prisma as any).workExperience.findFirst({
+          where: {
+            order: orderToCheck,
+            active: true,
+            id: { not: id }, // Excluir la experiencia actual
+          },
+        })
+
+        if (existingActiveWithOrder) {
+          logger.warn('Intento de actualizar experiencia laboral activa con orden duplicado', { 
+            id,
+            order: orderToCheck,
+            existingId: existingActiveWithOrder.id,
+            userId: session.user.id 
+          })
+          return NextResponse.json(
+            { 
+              error: "Orden duplicado", 
+              message: `Ya existe una experiencia laboral activa con el orden ${orderToCheck}. Solo puede haber una experiencia activa por posición.`
+            },
+            { status: 400 }
+          )
+        }
+      }
+    }
+
+    // También verificar si se está intentando activar una experiencia inactiva que tiene un orden ya ocupado por otra experiencia activa
+    if (validatedData.active === true && existing.active === false) {
+      const existingActiveWithOrder = await (prisma as any).workExperience.findFirst({
         where: {
-          order: orderToCheck,
+          order: existing.order,
+          active: true,
           id: { not: id }, // Excluir la experiencia actual
         },
       })
 
-      if (duplicateByOrder) {
-        logger.warn('Intento de actualizar experiencia laboral con orden duplicado', { 
+      if (existingActiveWithOrder) {
+        logger.warn('Intento de activar experiencia laboral con orden ya ocupado por otra experiencia activa', { 
           id,
-          order: orderToCheck,
+          order: existing.order,
+          existingId: existingActiveWithOrder.id,
           userId: session.user.id 
         })
         return NextResponse.json(
           { 
             error: "Orden duplicado", 
-            message: `Ya existe una experiencia laboral con el orden ${orderToCheck}. El orden no puede repetirse.`
+            message: `Ya existe una experiencia laboral activa con el orden ${existing.order}. Solo puede haber una experiencia activa por posición. Desactiva la otra experiencia primero.`
           },
           { status: 400 }
         )

@@ -223,30 +223,65 @@ export async function PUT(
       }
     }
 
-    // Si se está actualizando el orden o la categoría, verificar duplicados de orden
+    // Si se está actualizando el orden o la categoría, verificar duplicados de orden (solo para tecnologías activas)
     if (validatedData.order !== undefined || validatedData.category) {
       const orderToCheck = validatedData.order ?? existing.order
       const categoryToCheck = validatedData.category ?? existing.category
+      // Solo validar si la tecnología se está creando como activa o se está activando
+      const willBeActive = validatedData.active !== undefined ? validatedData.active : existing.active
       
-      const duplicateByOrder = await (prisma as any).technology.findFirst({
+      if (willBeActive) {
+        const existingActiveByOrder = await (prisma as any).technology.findFirst({
+          where: {
+            order: orderToCheck,
+            category: categoryToCheck,
+            active: true,
+            id: { not: id }, // Excluir la tecnología actual
+          },
+        })
+
+        if (existingActiveByOrder) {
+          logger.warn('Intento de actualizar tecnología activa con orden duplicado', { 
+            id,
+            order: orderToCheck,
+            category: categoryToCheck,
+            existingId: existingActiveByOrder.id,
+            userId: session.user.id 
+          })
+          return NextResponse.json(
+            { 
+              error: "Orden duplicado", 
+              message: `Ya existe una tecnología activa con el orden ${orderToCheck} en la categoría "${categoryToCheck}". Solo puede haber una tecnología activa por orden dentro de la misma categoría.`
+            },
+            { status: 400 }
+          )
+        }
+      }
+    }
+
+    // También verificar si se está intentando activar una tecnología inactiva que tiene un orden ya ocupado por otra tecnología activa en la misma categoría
+    if (validatedData.active === true && existing.active === false) {
+      const existingActiveWithOrder = await (prisma as any).technology.findFirst({
         where: {
-          order: orderToCheck,
-          category: categoryToCheck,
+          order: existing.order,
+          category: existing.category,
+          active: true,
           id: { not: id }, // Excluir la tecnología actual
         },
       })
 
-      if (duplicateByOrder) {
-        logger.warn('Intento de actualizar tecnología con orden duplicado', { 
+      if (existingActiveWithOrder) {
+        logger.warn('Intento de activar tecnología con orden ya ocupado por otra tecnología activa', { 
           id,
-          order: orderToCheck,
-          category: categoryToCheck,
+          order: existing.order,
+          category: existing.category,
+          existingId: existingActiveWithOrder.id,
           userId: session.user.id 
         })
         return NextResponse.json(
           { 
             error: "Orden duplicado", 
-            message: `Ya existe una tecnología con el orden ${orderToCheck} en la categoría "${categoryToCheck}". El orden no puede repetirse dentro de la misma categoría.`
+            message: `Ya existe una tecnología activa con el orden ${existing.order} en la categoría "${existing.category}". Solo puede haber una tecnología activa por orden dentro de la misma categoría. Desactiva la otra tecnología primero.`
           },
           { status: 400 }
         )

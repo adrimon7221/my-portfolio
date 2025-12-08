@@ -13,6 +13,7 @@ export interface Project {
   readonly tags: readonly string[];
   readonly demoUrl?: string;
   readonly githubUrl?: string;
+  readonly collageType?: 'first' | 'second' | 'third';
 }
 
 export interface WorkExperience {

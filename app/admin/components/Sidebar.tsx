@@ -9,7 +9,6 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { 
-  LayoutDashboard, 
   FolderKanban, 
   FileText, 
   User, 
@@ -29,7 +28,6 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { name: "Dashboard", href: "/admin", icon: LayoutDashboard, color: "bg-blue-800" },
   { name: "Proyectos", href: "/admin/proyectos", icon: FolderKanban, color: "bg-red-800" },
   { name: "Artículos", href: "/admin/articulos", icon: FileText, color: "bg-green-900" },
   { name: "Sobre Mí", href: "/admin/about", icon: User, color: "bg-purple-800" },
@@ -85,7 +83,7 @@ export function Sidebar() {
       <div className="p-4 border-t border-white/10">
         <button
           onClick={handleLogout}
-          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-white/70 hover:bg-white/5 hover:text-white transition-all duration-200"
+          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-white/70 hover:bg-white/5 hover:text-white transition-all duration-200 cursor-pointer"
         >
           <LogOut className="h-5 w-5" />
           <span className="font-semibold">Cerrar Sesión</span>

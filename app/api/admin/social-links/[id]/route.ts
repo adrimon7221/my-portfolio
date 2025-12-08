@@ -128,6 +128,66 @@ export async function PUT(
       }
     }
 
+    // Verificar si se está intentando activar un enlace inactivo que tiene un orden ya ocupado por otro enlace activo
+    if (validatedData.active === true && existing.active === false) {
+      const existingActiveWithOrder = await prisma.socialLink.findFirst({
+        where: {
+          order: existing.order,
+          active: true,
+          id: { not: id }, // Excluir el enlace actual
+        },
+      })
+
+      if (existingActiveWithOrder) {
+        logger.warn('Intento de activar enlace con orden ya ocupado por otro enlace activo', { 
+          id,
+          order: existing.order,
+          existingId: existingActiveWithOrder.id,
+          userId: session.user.id 
+        })
+        return NextResponse.json(
+          { 
+            error: "Orden duplicado", 
+            message: `Ya existe un enlace activo con el orden ${existing.order}. Solo puede haber un enlace activo por posición. Desactiva el otro enlace primero.`
+          },
+          { status: 400 }
+        )
+      }
+    }
+
+    // Si se está actualizando el orden, verificar duplicados (solo para enlaces activos)
+    if (validatedData.order !== undefined && validatedData.order !== existing.order) {
+      const orderToCheck = validatedData.order
+      // Solo validar si el enlace se está creando como activo o se está activando
+      const willBeActive = validatedData.active !== undefined ? validatedData.active : existing.active
+      
+      if (willBeActive) {
+        const existingActiveWithOrder = await prisma.socialLink.findFirst({
+          where: {
+            order: orderToCheck,
+            active: true,
+            id: { not: id }, // Excluir el enlace actual
+          },
+        })
+
+        if (existingActiveWithOrder) {
+          logger.warn('Intento de actualizar enlace activo con orden duplicado', { 
+            id,
+            order: orderToCheck,
+            existingId: existingActiveWithOrder.id,
+            userId: session.user.id 
+          })
+          return NextResponse.json(
+            { 
+              error: "Orden duplicado", 
+              message: `Ya existe un enlace activo con el orden ${orderToCheck}. Solo puede haber un enlace activo por posición.`
+            },
+            { status: 400 }
+          )
+        }
+      }
+    }
+
     // Actualizar el enlace social
     const socialLink = await prisma.socialLink.update({
       where: { id },

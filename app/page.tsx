@@ -10,6 +10,7 @@ import { getArticlesFromDB, getFeaturedArticlesFromDB } from './_lib/articles';
 import { getProfileImageUrl } from './_lib/about-me';
 import { getTechnologiesByCategoryFromDB } from './_lib/technologies';
 import { getWorkExperiencesFromDB, getWorkExperienceSummary } from './_lib/work-experience';
+import { getProjectsFromDB } from './_lib/projects';
 
 /**
  * Home Page (Server Component)
@@ -31,25 +32,26 @@ export default async function Home() {
   const technologies = await getTechnologiesByCategoryFromDB();
   const workExperiences = await getWorkExperiencesFromDB();
   const workExperienceSummary = await getWorkExperienceSummary();
+  const projects = await getProjectsFromDB();
 
   return (
     <main>
-      {/* <HeroSection socialLinks={socialLinks} featuredArticles={featuredArticles} /> */}
-      {/* <AboutSection 
+      <HeroSection socialLinks={socialLinks} featuredArticles={featuredArticles} />
+      <AboutSection 
         profileImageUrl={profileImageUrl}
         frontendTechnologies={technologies.frontend}
         stylesTechnologies={technologies.styles}
         backendTechnologies={technologies.backend}
         devopsTechnologies={technologies.devops}
-      /> */}
+      />
       <WorkSection 
         workExperiences={workExperiences}
         totalYears={workExperienceSummary.totalYears}
         totalMonths={workExperienceSummary.totalMonths}
       />
-      <ProjectsSection />
-      {/* <ArticlesSection articles={articles} /> */}
-      {/* <ContactSection socialLinks={socialLinks} /> */}
+      <ProjectsSection projects={projects} />
+      <ArticlesSection articles={articles} />
+      <ContactSection socialLinks={socialLinks} />
     </main>
   );
 }

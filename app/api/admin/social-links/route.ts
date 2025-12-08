@@ -108,6 +108,31 @@ export async function POST(request: Request) {
       }
     }
 
+    // Verificar si ya existe un enlace activo con el mismo orden (solo si se está creando como activo)
+    if (validatedData.active !== false) {
+      const existingActiveWithOrder = await prisma.socialLink.findFirst({
+        where: {
+          order: validatedData.order,
+          active: true,
+        },
+      })
+
+      if (existingActiveWithOrder) {
+        logger.warn('Intento de crear enlace activo con orden duplicado', { 
+          order: validatedData.order,
+          existingId: existingActiveWithOrder.id,
+          userId: session.user.id 
+        })
+        return NextResponse.json(
+          { 
+            error: "Orden duplicado", 
+            message: `Ya existe un enlace activo con el orden ${validatedData.order}. Solo puede haber un enlace activo por posición.`
+          },
+          { status: 400 }
+        )
+      }
+    }
+
     // Crear el enlace social
     const socialLink = await prisma.socialLink.create({
       data: validatedData,

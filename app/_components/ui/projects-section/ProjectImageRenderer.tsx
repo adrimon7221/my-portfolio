@@ -10,12 +10,13 @@ import { ProjectImageCollage } from './ProjectImageCollage';
  * Renders either a single ProjectImage or ProjectImageCollage based on project data
  */
 interface ProjectImageRendererProps {
-  project: Pick<Project, 'image' | 'images' | 'title'>;
+  project: Pick<Project, 'image' | 'images' | 'title' | 'collageType'>;
   isInView: boolean;
   transitionDelay: number;
   isReversed?: boolean;
   isMobile?: boolean;
   circlePosition?: CirclePosition;
+  projectIndex?: number;
 }
 
 export const ProjectImageRenderer: React.FC<ProjectImageRendererProps> = React.memo(({
@@ -25,6 +26,7 @@ export const ProjectImageRenderer: React.FC<ProjectImageRendererProps> = React.m
   isReversed = false,
   isMobile = false,
   circlePosition,
+  projectIndex,
 }) => {
   if (project.images && project.images.length > 0) {
     return (
@@ -36,6 +38,8 @@ export const ProjectImageRenderer: React.FC<ProjectImageRendererProps> = React.m
         isReversed={isReversed}
         isMobile={isMobile}
         circlePosition={circlePosition}
+        projectIndex={projectIndex}
+        collageType={project.collageType}
       />
     );
   }

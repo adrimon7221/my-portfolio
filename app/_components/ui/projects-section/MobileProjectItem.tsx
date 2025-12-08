@@ -53,6 +53,7 @@ const MobileProjectItem: React.FC<MobileProjectItemProps> = React.memo(({
           transitionDelay={0}
           isMobile={true}
           circlePosition={circlePosition}
+          projectIndex={index}
         />
         
         {/* Text after */}

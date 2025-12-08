@@ -165,25 +165,29 @@ export async function POST(request: Request) {
       )
     }
 
-    // Verificar si ya existe una experiencia con el mismo orden
-    const existingByOrder = await (prisma as any).workExperience.findFirst({
-      where: {
-        order: validatedData.order,
-      },
-    })
-
-    if (existingByOrder) {
-      logger.warn('Intento de crear experiencia laboral con orden duplicado', { 
-        order: validatedData.order,
-        userId: session.user.id 
-      })
-      return NextResponse.json(
-        { 
-          error: "Orden duplicado", 
-          message: `Ya existe una experiencia laboral con el orden ${validatedData.order}. El orden no puede repetirse.`
+    // Verificar si ya existe una experiencia activa con el mismo orden (solo si se está creando como activa)
+    if (validatedData.active !== false) {
+      const existingActiveByOrder = await (prisma as any).workExperience.findFirst({
+        where: {
+          order: validatedData.order,
+          active: true,
         },
-        { status: 400 }
-      )
+      })
+
+      if (existingActiveByOrder) {
+        logger.warn('Intento de crear experiencia laboral activa con orden duplicado', { 
+          order: validatedData.order,
+          existingId: existingActiveByOrder.id,
+          userId: session.user.id 
+        })
+        return NextResponse.json(
+          { 
+            error: "Orden duplicado", 
+            message: `Ya existe una experiencia laboral activa con el orden ${validatedData.order}. Solo puede haber una experiencia activa por posición.`
+          },
+          { status: 400 }
+        )
+      }
     }
 
     // Crear la experiencia laboral

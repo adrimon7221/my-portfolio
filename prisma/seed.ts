@@ -26,6 +26,7 @@ import { seedSocialLinks } from './seeders/socialLinks.seed'
 import { seedArticles } from './seeders/articles.seed'
 import { seedTechnologies } from './seeders/technologies.seed'
 import { seedWorkExperience } from './seeders/workExperience.seed'
+import { seedProjects } from './seeders/projects.seed'
 import { logger } from '@/lib/logger'
 
 /**
@@ -58,9 +59,9 @@ async function main(): Promise<void> {
     await seedArticles(prisma)
     await seedTechnologies(prisma)
     await seedWorkExperience(prisma)
+    await seedProjects(prisma)
     
     // Aquí puedes agregar más seeders en el futuro:
-    // await seedProjects(prisma)
     // etc.
 
     const duration = ((Date.now() - startTime) / 1000).toFixed(2)
