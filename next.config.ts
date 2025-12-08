@@ -49,9 +49,6 @@ const nextConfig: NextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
   
-  // Optimizaciones de compilación
-  swcMinify: true,
-  
   // Configuración de logging
   logging: {
     fetches: {

@@ -1,10 +1,17 @@
 'use client';
 import React from 'react';
 import { ArrowButton } from '../hero-section';
-import { SOCIAL_LINKS } from '@/app/_data/socialLinks';
 import { TECH_BOX_CONFIG, SOCIAL_LINKS_CONFIG } from '@/app/_constants/about';
+import type { SocialLinkItem } from '@/app/_types/social';
 
 interface SocialLinksContainerProps {
+  socialLinks: SocialLinkItem[]
+  isInView: boolean;
+  transitionDelay: number;
+}
+
+interface SocialLinksContainerClientProps {
+  socialLinks: SocialLinkItem[]
   isInView: boolean;
   transitionDelay: number;
 }
@@ -14,14 +21,18 @@ const ARIA_LABELS = {
 } as const;
 
 /**
- * SocialLinksContainer Component
+ * SocialLinksContainerClient Component (Client Component)
  * 
  * Displays GitHub social link and arrow button with animation.
  * 
+ * Recibe los enlaces sociales como props desde el Server Component padre.
+ * 
+ * @param socialLinks - Array de enlaces sociales desde la base de datos
  * @param isInView - Whether the component is in viewport
  * @param transitionDelay - Delay for the entrance animation in milliseconds
  */
-export const SocialLinksContainer: React.FC<SocialLinksContainerProps> = React.memo(({ 
+export const SocialLinksContainerClient: React.FC<SocialLinksContainerClientProps> = React.memo(({ 
+  socialLinks,
   isInView,
   transitionDelay 
 }) => {
@@ -29,10 +40,11 @@ export const SocialLinksContainer: React.FC<SocialLinksContainerProps> = React.m
     console.warn('SocialLinksContainer: transitionDelay should be a positive number');
   }
 
-  const githubLink = SOCIAL_LINKS.find((link) => link.label === ARIA_LABELS.GITHUB);
+  const githubLink = socialLinks.find((link) => link.label === ARIA_LABELS.GITHUB);
 
   if (!githubLink) {
-    console.error('SocialLinksContainer: GitHub link not found in SOCIAL_LINKS');
+    // No es un error crítico, simplemente no se mostrará el enlace de GitHub
+    console.warn('SocialLinksContainer: GitHub link not found in socialLinks array. El enlace de GitHub no se mostrará.');
   }
 
   const { ANIMATION } = TECH_BOX_CONFIG;
@@ -83,5 +95,5 @@ export const SocialLinksContainer: React.FC<SocialLinksContainerProps> = React.m
   );
 });
 
-SocialLinksContainer.displayName = 'SocialLinksContainer';
+SocialLinksContainerClient.displayName = 'SocialLinksContainerClient';
 

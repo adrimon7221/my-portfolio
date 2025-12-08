@@ -1,20 +1,27 @@
 "use client";
 import React from "react";
 import Navbar from "../ui/Navbar";
-import SocialLinks from "../ui/SocialLinks";
+import { SocialLinksClient } from "../ui/SocialLinks";
 import { DesktopLayout, MobileLayout, ArticleCarousel, DecorativeCircleWrapper } from "../ui/hero-section";
 import { useMountAnimation } from "@/app/_hooks/useMountAnimation";
 import { ANIMATION_DELAYS } from "@/app/_constants/animations";
 import { HERO_ARTICLES } from "@/app/_data/heroArticles";
+import type { SocialLinkItem } from "@/app/_types/social";
 import "@/app/_styles/hero-animations.css";
 
 /**
- * HeroSection Component
+ * HeroSection Component (Client Component)
  * 
  * Main hero section displaying title, goal text, buttons, and article carousel.
  * Uses mount-triggered animations for all child components.
+ * 
+ * Recibe los enlaces sociales como props desde el Server Component padre.
  */
-const HeroSection = () => {
+interface HeroSectionProps {
+  socialLinks: SocialLinkItem[];
+}
+
+const HeroSection = ({ socialLinks }: HeroSectionProps) => {
   const mounted = useMountAnimation();
 
   return (
@@ -34,7 +41,7 @@ const HeroSection = () => {
               mounted ? "opacity-100" : "opacity-0"
             }`}
           >
-            <SocialLinks />
+            <SocialLinksClient socialLinks={socialLinks} />
           </div>
           <div
             className={`relative z-10 transition-opacity duration-700 ease-out mt-20 ${

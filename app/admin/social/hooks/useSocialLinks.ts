@@ -11,6 +11,7 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react'
 import { SocialLinkService, SocialLinkServiceError } from '../services/social-link.service'
 import { validateCreateSocialLink, validateUpdateSocialLink } from '@/lib/validations'
+import { MAX_ACTIVE_SOCIAL_LINKS } from '../constants/social-links.constants'
 import type { 
   SocialLink, 
   SocialLinkFormData, 
@@ -134,6 +135,16 @@ export function useSocialLinks() {
     try {
       setError(null)
       setFieldErrors({} as SocialLinkFieldErrors)
+      
+      // Validar límite de enlaces activos antes de crear
+      if (formData.active === true) {
+        const activeCount = socialLinks.filter(link => link.active).length
+        if (activeCount >= MAX_ACTIVE_SOCIAL_LINKS) {
+          setError(`No se pueden tener más de ${MAX_ACTIVE_SOCIAL_LINKS} enlaces sociales activos. Desactiva otro enlace primero.`)
+          return false
+        }
+      }
+      
       setSaving(true)
       
       // Guardar estado anterior para rollback
@@ -187,6 +198,23 @@ export function useSocialLinks() {
     try {
       setError(null)
       setFieldErrors({} as SocialLinkFieldErrors)
+      
+      // Encontrar el enlace existente
+      const existingLink = socialLinks.find(link => link.id === editingId)
+      if (!existingLink) {
+        setError('Enlace no encontrado')
+        return false
+      }
+      
+      // Validar límite de enlaces activos (solo si se está intentando activar)
+      if (formData.active === true && existingLink.active === false) {
+        const activeCount = socialLinks.filter(link => link.active).length
+        if (activeCount >= MAX_ACTIVE_SOCIAL_LINKS) {
+          setError(`No se pueden tener más de ${MAX_ACTIVE_SOCIAL_LINKS} enlaces sociales activos. Desactiva otro enlace primero.`)
+          return false
+        }
+      }
+      
       setSaving(true)
       
       // Guardar estado anterior para rollback

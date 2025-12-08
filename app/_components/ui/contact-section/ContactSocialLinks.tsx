@@ -1,22 +1,25 @@
 'use client';
 import React from 'react';
-import SocialLinks from '../SocialLinks';
+import { SocialLinksClient } from '../SocialLinks';
 import { CONTACT_ANIMATION_DELAYS } from '@/app/_constants/contact';
 import { ANIMATION_DELAYS } from '@/app/_constants/animations';
 import { CONTACT_SECTION_CONFIG } from '@/app/_constants/contact';
+import type { SocialLinkItem } from '@/app/_types/social';
 
 interface ContactSocialLinksProps {
+  socialLinks: SocialLinkItem[];
   isInView: boolean;
 }
 
 /**
- * ContactSocialLinks Component
+ * ContactSocialLinks Component (Client Component)
  * 
  * Wrapper for SocialLinks component with scroll-triggered animations.
  * 
+ * @param socialLinks - Array de enlaces sociales desde la base de datos
  * @param isInView - Whether the component is in viewport
  */
-export const ContactSocialLinks: React.FC<ContactSocialLinksProps> = React.memo(({ isInView }) => {
+export const ContactSocialLinks: React.FC<ContactSocialLinksProps> = React.memo(({ socialLinks, isInView }) => {
   const delay = isInView ? ANIMATION_DELAYS.TITLE_DELAY + CONTACT_ANIMATION_DELAYS.SOCIAL_LINKS : 0;
 
   return (
@@ -30,7 +33,7 @@ export const ContactSocialLinks: React.FC<ContactSocialLinksProps> = React.memo(
         transitionDelay: `${delay}ms`,
       }}
     >
-      <SocialLinks />
+      <SocialLinksClient socialLinks={socialLinks} />
     </div>
   );
 });

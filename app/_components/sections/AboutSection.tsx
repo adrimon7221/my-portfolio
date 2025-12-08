@@ -7,7 +7,7 @@ import {
   TechBox,
   AboutHeader,
   AboutPhoto,
-  SocialLinksContainer,
+  SocialLinksContainerClient,
   DevOpsDescription,
 } from "../ui/about-section";
 import {
@@ -16,14 +16,21 @@ import {
   BACKEND_TECHNOLOGIES,
   DEVOPS_TECHNOLOGIES,
 } from "@/app/_data/aboutTechnologies";
+import type { SocialLinkItem } from "@/app/_types/social";
 
 /**
- * AboutSection Component
+ * AboutSection Component (Client Component)
  * 
  * Main section displaying about information, technology stacks, and profile photo.
  * Uses scroll-triggered animations for all child components.
+ * 
+ * Recibe los enlaces sociales como props desde el Server Component padre.
  */
-const AboutSection: React.FC = () => {
+interface AboutSectionProps {
+  socialLinks: SocialLinkItem[];
+}
+
+const AboutSection: React.FC<AboutSectionProps> = ({ socialLinks }) => {
   const { ref, isInView } = useInView({ threshold: 0.2, triggerOnce: true });
 
   return (
@@ -55,7 +62,8 @@ const AboutSection: React.FC = () => {
                 isInView={isInView}
                 transitionDelay={ANIMATION_DELAYS.TITLE_DELAY + ABOUT_ANIMATION_DELAYS.STYLES}
               />
-              <SocialLinksContainer 
+              <SocialLinksContainerClient 
+                socialLinks={socialLinks}
                 isInView={isInView}
                 transitionDelay={ANIMATION_DELAYS.TITLE_DELAY + ABOUT_ANIMATION_DELAYS.SOCIAL_LINKS}
               />

@@ -6,6 +6,6 @@
 export { TechBox } from './TechBox';
 export { AboutHeader } from './AboutHeader';
 export { AboutPhoto } from './AboutPhoto';
-export { SocialLinksContainer } from './SocialLinksContainer';
+export { SocialLinksContainerClient } from './SocialLinksContainer';
 export { DevOpsDescription } from './DevOpsDescription';
 

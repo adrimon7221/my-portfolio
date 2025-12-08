@@ -38,9 +38,7 @@ const globalForPrisma = globalThis as unknown as {
  * - Connection pooling: Optimizado para producción
  */
 export const prisma = globalForPrisma.prisma ?? new PrismaClient({
-  log: env.NODE_ENV === 'development' 
-    ? ['query', 'error', 'warn'] 
-    : ['error'],
+  log: ['error', 'warn'], // Solo errores y advertencias, sin queries
   errorFormat: 'pretty',
   // Prisma lee DATABASE_URL automáticamente de las variables de entorno
   // No es necesario pasarlo manualmente en Prisma 6+
@@ -52,7 +50,9 @@ if (env.NODE_ENV !== 'production') {
 }
 
 // Manejar desconexión graceful en producción
-if (env.NODE_ENV === 'production') {
+// Solo registrar handlers si estamos en Node.js (no en Edge Runtime)
+// Edge Runtime no soporta process.on, por lo que estos handlers solo se registran en Node.js
+if (env.NODE_ENV === 'production' && typeof process !== 'undefined' && typeof process.on === 'function') {
   process.on('beforeExit', async () => {
     logger.info('Desconectando Prisma Client...')
     await prisma.$disconnect()

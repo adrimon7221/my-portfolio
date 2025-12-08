@@ -1,13 +1,17 @@
 /**
- * Middleware de Next.js
+ * Proxy de Next.js 16
  * 
+ * Reemplaza al middleware en Next.js 16.
  * Se ejecuta antes de cada request. Aquí podemos:
  * - Proteger rutas con autenticación
  * - Aplicar rate limiting
  * - Agregar headers de seguridad
  * - Redirigir requests
  * 
- * Documentación: https://nextjs.org/docs/app/building-your-application/routing/middleware
+ * NOTA: El runtime de proxy es `nodejs` y no puede ser configurado.
+ * Si necesitas Edge Runtime, debes usar middleware.ts (deprecated).
+ * 
+ * Documentación: https://nextjs.org/docs/app/getting-started/proxy
  */
 
 import { NextResponse } from 'next/server'
@@ -40,7 +44,7 @@ function isProtectedApiRoute(pathname: string): boolean {
   return protectedApiRoutes.some((route) => pathname.startsWith(route))
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
   const ip = getClientIP(request.headers)
 
@@ -78,7 +82,7 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(loginUrl)
       }
     } catch (error) {
-      logger.error('Error verificando autenticación en middleware', error, { pathname })
+      logger.error('Error verificando autenticación en proxy', error, { pathname })
       return NextResponse.redirect(new URL('/admin/login', request.url))
     }
   }
@@ -119,7 +123,7 @@ export async function middleware(request: NextRequest) {
 }
 
 /**
- * Configuración de matcher para optimizar qué rutas ejecutan el middleware
+ * Configuración de matcher para optimizar qué rutas ejecutan el proxy
  */
 export const config = {
   matcher: [

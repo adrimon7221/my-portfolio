@@ -1,8 +1,13 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import { SOCIAL_LINKS } from '@/app/_data/socialLinks';
+import type { SocialLinkItem } from '@/app/_types/social';
 
-export default function SocialLinks({ className = '' }: { className?: string }) {
+interface SocialLinksClientProps {
+  socialLinks: SocialLinkItem[]
+  className?: string
+}
+
+export function SocialLinksClient({ socialLinks, className = '' }: SocialLinksClientProps) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -10,10 +15,14 @@ export default function SocialLinks({ className = '' }: { className?: string }) 
     return () => clearTimeout(t);
   }, []);
 
+  if (!socialLinks || socialLinks.length === 0) {
+    return null
+  }
+
   return (
     <nav aria-label="Redes sociales" className={className}>
       <ul className="flex sm:grid sm:grid-cols-2 lg:flex gap-3 sm:gap-6 max-w-md lg:max-w-none mx-auto lg:mx-0 justify-center sm:justify-start">
-        {SOCIAL_LINKS.map((item, i) => (
+        {socialLinks.map((item, i) => (
           <li
             key={item.href}
             style={{ transitionDelay: `${i * 60}ms` }}

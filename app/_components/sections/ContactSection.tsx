@@ -24,8 +24,18 @@ import {
   DecorativeCirclePortal,
   ContactSocialLinks,
 } from '../ui/contact-section';
+import type { SocialLinkItem } from '@/app/_types/social';
 
-const ContactSection: React.FC = () => {
+/**
+ * ContactSection Component (Client Component)
+ * 
+ * Recibe los enlaces sociales como props desde el Server Component padre.
+ */
+interface ContactSectionProps {
+  socialLinks: SocialLinkItem[];
+}
+
+const ContactSection: React.FC<ContactSectionProps> = ({ socialLinks }) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const { ref: inViewRef, isInView } = useInView({
     threshold: CONTACT_SECTION_CONFIG.ANIMATION.THRESHOLD,
@@ -84,7 +94,7 @@ const ContactSection: React.FC = () => {
           </div>
 
           {/* Social Links */}
-          <ContactSocialLinks isInView={isInView} />
+          <ContactSocialLinks socialLinks={socialLinks} isInView={isInView} />
         </div>
       </section>
     </>

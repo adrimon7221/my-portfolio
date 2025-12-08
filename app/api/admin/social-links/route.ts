@@ -12,6 +12,7 @@ import { prisma } from "@/lib/prisma"
 import { validateCreateSocialLink } from "@/lib/validations"
 import { logger } from "@/lib/logger"
 import { z } from "zod"
+import { MAX_ACTIVE_SOCIAL_LINKS } from "@/app/admin/social/constants/social-links.constants"
 
 export async function GET() {
   try {
@@ -77,7 +78,6 @@ export async function POST(request: Request) {
       throw validationError
     }
 
-    // Crear el enlace social
     // Verificar que el modelo existe (si no, el Prisma Client no se regeneró)
     if (!('socialLink' in prisma)) {
       logger.error('Modelo socialLink no disponible. Ejecuta: npx prisma generate')
@@ -90,6 +90,25 @@ export async function POST(request: Request) {
       )
     }
 
+    // Validar límite de enlaces activos (solo si el nuevo enlace está activo)
+    if (validatedData.active === true) {
+      const activeCount = await prisma.socialLink.count({
+        where: { active: true },
+      })
+
+      if (activeCount >= MAX_ACTIVE_SOCIAL_LINKS) {
+        logger.warn('Intento de crear enlace activo cuando ya hay 5 activos', { activeCount })
+        return NextResponse.json(
+          { 
+            error: "Límite alcanzado", 
+            message: `No se pueden tener más de ${MAX_ACTIVE_SOCIAL_LINKS} enlaces sociales activos. Desactiva otro enlace primero.`
+          },
+          { status: 400 }
+        )
+      }
+    }
+
+    // Crear el enlace social
     const socialLink = await prisma.socialLink.create({
       data: validatedData,
     })

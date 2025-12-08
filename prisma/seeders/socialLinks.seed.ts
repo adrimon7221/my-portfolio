@@ -55,7 +55,8 @@ export async function seedSocialLinks(prisma: PrismaClient): Promise<void> {
 
     for (const linkData of SOCIAL_LINKS_DATA) {
       // Verificar si el enlace ya existe por label
-      const existing = await prisma.socialLink.findFirst({
+      // Usamos type assertion porque Prisma Client se genera dinámicamente
+      const existing = await (prisma as any).socialLink.findFirst({
         where: { label: linkData.label },
         select: { id: true, label: true },
       })
@@ -67,7 +68,7 @@ export async function seedSocialLinks(prisma: PrismaClient): Promise<void> {
       }
 
       // Crear el enlace social
-      await prisma.socialLink.create({
+      await (prisma as any).socialLink.create({
         data: linkData,
       })
 

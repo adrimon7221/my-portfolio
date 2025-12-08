@@ -11,6 +11,8 @@ import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { validateUpdateSocialLink } from "@/lib/validations"
 import { logger } from "@/lib/logger"
+import { z } from "zod"
+import { MAX_ACTIVE_SOCIAL_LINKS } from "@/app/admin/social/constants/social-links.constants"
 
 interface RouteParams {
   params: Promise<{ id: string }>
@@ -84,7 +86,47 @@ export async function PUT(
 
     // Parsear y validar el body
     const body = await request.json()
-    const validatedData = validateUpdateSocialLink(body)
+    
+    // Validar con Zod
+    let validatedData
+    try {
+      validatedData = validateUpdateSocialLink(body)
+    } catch (validationError) {
+      if (validationError instanceof z.ZodError) {
+        logger.debug('Validación falló al actualizar enlace social', { 
+          issues: validationError.issues.map(i => ({ path: i.path, message: i.message }))
+        })
+        return NextResponse.json(
+          { 
+            error: "Datos inválidos", 
+            details: validationError.issues.map(issue => ({
+              field: issue.path.join('.'),
+              message: issue.message
+            }))
+          },
+          { status: 400 }
+        )
+      }
+      throw validationError
+    }
+
+    // Validar límite de enlaces activos (solo si se está intentando activar)
+    if (validatedData.active === true && existing.active === false) {
+      const activeCount = await prisma.socialLink.count({
+        where: { active: true },
+      })
+
+      if (activeCount >= MAX_ACTIVE_SOCIAL_LINKS) {
+        logger.warn('Intento de activar enlace cuando ya hay 5 activos', { activeCount, linkId: id })
+        return NextResponse.json(
+          { 
+            error: "Límite alcanzado", 
+            message: `No se pueden tener más de ${MAX_ACTIVE_SOCIAL_LINKS} enlaces sociales activos. Desactiva otro enlace primero.`
+          },
+          { status: 400 }
+        )
+      }
+    }
 
     // Actualizar el enlace social
     const socialLink = await prisma.socialLink.update({
@@ -95,16 +137,18 @@ export async function PUT(
     logger.info('Enlace social actualizado', { id: socialLink.id, label: socialLink.label })
     return NextResponse.json(socialLink)
   } catch (error) {
+    logger.error('Error actualizando enlace social', error)
+    
+    // Si es un error de Zod, ya lo manejamos arriba
     if (error instanceof Error && error.name === 'ZodError') {
-      logger.debug('Validación falló al actualizar enlace social', { error: error.message })
       return NextResponse.json(
         { error: "Datos inválidos", details: error },
         { status: 400 }
       )
     }
-    logger.error('Error actualizando enlace social', error)
+    
     return NextResponse.json(
-      { error: "Error al actualizar enlace social" },
+      { error: "Error al actualizar enlace social", message: error instanceof Error ? error.message : "Error desconocido" },
       { status: 500 }
     )
   }
