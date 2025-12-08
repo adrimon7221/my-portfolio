@@ -47,6 +47,13 @@ export const prisma = globalForPrisma.prisma ?? new PrismaClient({
 // En desarrollo, guardar en globalThis para reutilizar en hot-reload
 if (env.NODE_ENV !== 'production') {
   globalForPrisma.prisma = prisma
+  
+  // Verificar que los modelos principales estén disponibles
+  // Si no están, es porque Prisma Client no se ha regenerado
+  if (!('article' in prisma)) {
+    logger.warn('⚠️ Modelo "article" no disponible. El Prisma Client necesita regenerarse.')
+    logger.warn('💡 Detén el servidor, ejecuta: npx prisma generate, y reinicia el servidor.')
+  }
 }
 
 // Manejar desconexión graceful en producción

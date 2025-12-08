@@ -18,12 +18,15 @@ import { useMobile } from '@/app/_hooks/useMobile';
 import { usePagination } from '@/app/_hooks/usePagination';
 import { ANIMATION_DELAYS } from '@/app/_constants/animations';
 import { ARTICLES_CONFIG } from '@/app/_constants/articles';
-import { ARTICLES } from '@/app/_data/articles';
 import { ArticlesHeader, PaginationButtons } from '../ui/articles-section';
 import ArticleCard from '../ui/ArticleCard';
 import { Article } from '@/app/_types';
 
-const ArticlesSection: React.FC = () => {
+interface ArticlesSectionProps {
+  articles: Article[];
+}
+
+const ArticlesSection: React.FC<ArticlesSectionProps> = ({ articles }) => {
   const { ref, isInView } = useInView({ threshold: 0.2, triggerOnce: true });
   const isMobile = useMobile({ breakpoint: ARTICLES_CONFIG.PAGINATION.MOBILE_BREAKPOINT });
 
@@ -38,7 +41,7 @@ const ArticlesSection: React.FC = () => {
     totalPages,
     handlePageChange,
     goToNextPage,
-  } = usePagination<Article>(ARTICLES, {
+  } = usePagination<Article>(articles, {
     itemsPerPage,
     transitionDuration: ARTICLES_CONFIG.ANIMATION.TRANSITION_DURATION,
     transitionResetDelay: ARTICLES_CONFIG.ANIMATION.TRANSITION_RESET_DELAY,

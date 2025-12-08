@@ -64,6 +64,7 @@ export async function getSocialLinksFromDB(): Promise<SocialLinkItem[]> {
       }
 
       transformedLinks.push({
+        id: link.id, // Incluir el ID único para usar como key
         href: link.url,
         label: link.label,
         svg: React.createElement(IconComponent, { className: "w-4 h-4", "aria-hidden": true } as any),

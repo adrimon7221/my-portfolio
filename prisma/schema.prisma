@@ -62,3 +62,29 @@ model SocialLink {
   @@index([active]) // Índice para filtrar enlaces activos
   @@map("social_links") // Nombre de la tabla en MySQL: "social_links"
 }
+
+// ============================================
+// MODELO: Article (Artículos)
+// ============================================
+// 
+// Almacena los artículos del portfolio.
+// Permite gestionar artículos publicados en diferentes plataformas (Medium, Dev.to, Hashnode, etc.).
+//
+model Article {
+  id          String   @id @default(cuid()) // CUID: identificador único y seguro
+  title       String   // Título del artículo
+  description String   // Descripción/resumen del artículo
+  url         String   @unique // URL completa del artículo (debe ser válida)
+  image       String?  // URL de la imagen para el carrusel (opcional, ej: "/images/article-1.jpg")
+  order       Int      @default(0) // Orden de visualización (menor = primero)
+  active      Boolean  @default(true) // Si el artículo está activo/visible
+  featured    Boolean  @default(false) // Si el artículo aparece en el carrusel del hero
+  createdAt   DateTime @default(now()) // Timestamp de creación
+  updatedAt   DateTime @updatedAt // Timestamp de última actualización
+
+  @@index([order]) // Índice para ordenar rápidamente
+  @@index([active]) // Índice para filtrar artículos activos
+  @@index([featured]) // Índice para filtrar artículos destacados (carrusel)
+  @@index([url]) // Índice para búsquedas por URL (evitar duplicados)
+  @@map("articles") // Nombre de la tabla en MySQL: "articles"
+}

@@ -2,7 +2,7 @@
  * Types for carousel components
  */
 export interface CarouselArticle {
-  id: number;
+  id: number | string; // Puede ser number (legacy) o string (desde BD)
   title: string;
   description: string;
   url: string;

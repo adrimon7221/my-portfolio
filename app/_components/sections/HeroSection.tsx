@@ -5,8 +5,8 @@ import { SocialLinksClient } from "../ui/SocialLinks";
 import { DesktopLayout, MobileLayout, ArticleCarousel, DecorativeCircleWrapper } from "../ui/hero-section";
 import { useMountAnimation } from "@/app/_hooks/useMountAnimation";
 import { ANIMATION_DELAYS } from "@/app/_constants/animations";
-import { HERO_ARTICLES } from "@/app/_data/heroArticles";
 import type { SocialLinkItem } from "@/app/_types/social";
+import type { CarouselArticle } from "@/app/_types/carousel";
 import "@/app/_styles/hero-animations.css";
 
 /**
@@ -15,13 +15,14 @@ import "@/app/_styles/hero-animations.css";
  * Main hero section displaying title, goal text, buttons, and article carousel.
  * Uses mount-triggered animations for all child components.
  * 
- * Recibe los enlaces sociales como props desde el Server Component padre.
+ * Recibe los enlaces sociales y artículos destacados como props desde el Server Component padre.
  */
 interface HeroSectionProps {
   socialLinks: SocialLinkItem[];
+  featuredArticles: CarouselArticle[];
 }
 
-const HeroSection = ({ socialLinks }: HeroSectionProps) => {
+const HeroSection = ({ socialLinks, featuredArticles }: HeroSectionProps) => {
   const mounted = useMountAnimation();
 
   return (
@@ -49,7 +50,7 @@ const HeroSection = ({ socialLinks }: HeroSectionProps) => {
             }`}
             style={{ transitionDelay: mounted ? `${ANIMATION_DELAYS.CAROUSEL_DELAY}ms` : "0ms" }}
           >
-            <ArticleCarousel articles={HERO_ARTICLES} />
+            <ArticleCarousel articles={featuredArticles} />
           </div>
         </div>
       </div>

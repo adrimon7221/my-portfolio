@@ -24,7 +24,7 @@ export function SocialLinksClient({ socialLinks, className = '' }: SocialLinksCl
       <ul className="flex sm:grid sm:grid-cols-2 lg:flex gap-3 sm:gap-6 max-w-md lg:max-w-none mx-auto lg:mx-0 justify-center sm:justify-start">
         {socialLinks.map((item, i) => (
           <li
-            key={item.href}
+            key={item.id || item.href || i}
             style={{ transitionDelay: `${i * 60}ms` }}
             className={`transform transition-all duration-300 ${
               mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'

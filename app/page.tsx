@@ -6,11 +6,12 @@ import ContactSection from './_components/sections/ContactSection';
 import Navbar from './_components/ui/Navbar';
 import AboutSection from './_components/sections/AboutSection';
 import { getSocialLinksFromDB } from './_lib/social-links';
+import { getArticlesFromDB, getFeaturedArticlesFromDB } from './_lib/articles';
 
 /**
  * Home Page (Server Component)
  * 
- * Obtiene los datos de enlaces sociales desde la base de datos
+ * Obtiene los datos de enlaces sociales y artículos desde la base de datos
  * y los pasa como props a los Client Components hijos.
  * 
  * Esto sigue las mejores prácticas de Next.js 13+ App Router:
@@ -19,17 +20,19 @@ import { getSocialLinksFromDB } from './_lib/social-links';
  * - Esto evita problemas de hidratación y mejora el rendimiento
  */
 export default async function Home() {
-  // Obtener enlaces sociales desde la base de datos (Server Component)
+  // Obtener enlaces sociales y artículos desde la base de datos (Server Component)
   const socialLinks = await getSocialLinksFromDB();
+  const articles = await getArticlesFromDB();
+  const featuredArticles = await getFeaturedArticlesFromDB();
 
   return (
     <main>
-      <HeroSection socialLinks={socialLinks} />
+      {/* <HeroSection socialLinks={socialLinks} featuredArticles={featuredArticles} /> */}
       <AboutSection socialLinks={socialLinks} />
       <WorkSection />
       <ProjectsSection />
-      <ArticlesSection />
-      <ContactSection socialLinks={socialLinks} />
+      {/* <ArticlesSection articles={articles} /> */}
+      {/* <ContactSection socialLinks={socialLinks} /> */}
     </main>
   );
 }

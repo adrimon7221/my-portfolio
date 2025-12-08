@@ -23,6 +23,7 @@ import '@/lib/env'
 import { PrismaClient } from '@prisma/client'
 import { seedAuth } from './seeders/auth.seed'
 import { seedSocialLinks } from './seeders/socialLinks.seed'
+import { seedArticles } from './seeders/articles.seed'
 import { logger } from '@/lib/logger'
 
 /**
@@ -52,10 +53,10 @@ async function main(): Promise<void> {
     // Ejecutar seeders en orden (pasar prisma como parámetro)
     await seedAuth(prisma)
     await seedSocialLinks(prisma)
+    await seedArticles(prisma)
     
     // Aquí puedes agregar más seeders en el futuro:
     // await seedProjects(prisma)
-    // await seedArticles(prisma)
     // etc.
 
     const duration = ((Date.now() - startTime) / 1000).toFixed(2)

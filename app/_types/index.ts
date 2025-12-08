@@ -29,10 +29,7 @@ export interface Article {
   id: number;
   title: string;
   description: string;
-  date: string;
-  readTime: string;
   url: string;
-  tags: string[];
 }
 
 export interface Skill {

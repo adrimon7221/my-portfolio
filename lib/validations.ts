@@ -162,3 +162,55 @@ export function validateCreateSocialLink(data: unknown) {
 export function validateUpdateSocialLink(data: unknown) {
   return updateSocialLinkSchema.parse(data)
 }
+
+/**
+ * Schema de validación para Article
+ */
+export const articleSchema = z.object({
+  title: z.string().min(1, 'El título es requerido').max(200, 'El título es demasiado largo').trim(),
+  description: z.string().min(1, 'La descripción es requerida').max(500, 'La descripción es demasiado larga').trim(),
+  url: urlSchema,
+  image: z.string()
+    .max(500, 'La URL de la imagen es demasiado larga')
+    .trim()
+    .refine((val) => {
+      // Permitir string vacío
+      if (!val || val === '') return true
+      // Permitir URLs completas (http://, https://)
+      if (z.string().url().safeParse(val).success) return true
+      // Permitir rutas relativas que empiecen con /
+      if (val.startsWith('/')) return true
+      return false
+    }, {
+      message: 'La imagen debe ser una URL válida o una ruta relativa que empiece con /'
+    })
+    .optional()
+    .default(''),
+  order: z.number().int().min(0, 'El orden debe ser mayor o igual a 0').default(0),
+  active: z.boolean().default(true),
+  featured: z.boolean().default(false), // Si aparece en el carrusel
+})
+
+/**
+ * Schema de validación para crear Article (sin id, createdAt, updatedAt)
+ */
+export const createArticleSchema = articleSchema
+
+/**
+ * Schema de validación para actualizar Article (todos los campos opcionales excepto id)
+ */
+export const updateArticleSchema = articleSchema.partial()
+
+/**
+ * Valida y parsea datos de Article para crear
+ */
+export function validateCreateArticle(data: unknown) {
+  return createArticleSchema.parse(data)
+}
+
+/**
+ * Valida y parsea datos de Article para actualizar
+ */
+export function validateUpdateArticle(data: unknown) {
+  return updateArticleSchema.parse(data)
+}

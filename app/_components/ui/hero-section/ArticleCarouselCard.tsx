@@ -10,8 +10,6 @@ interface ArticleCarouselCardProps {
   image?: string;
 }
 
-const DEFAULT_IMAGE = '/images/img1.jpg';
-
 /**
  * ArticleCarouselCard Component
  * 
@@ -20,13 +18,13 @@ const DEFAULT_IMAGE = '/images/img1.jpg';
  * @param title - Article title
  * @param description - Article description
  * @param url - Article URL
- * @param image - Optional article image (default: '/images/img1.jpg')
+ * @param image - Optional article image (si no hay imagen, usa fondo transparente)
  */
 const ArticleCarouselCard: React.FC<ArticleCarouselCardProps> = React.memo(({
   title,
   description,
   url,
-  image = DEFAULT_IMAGE,
+  image,
 }) => {
   // Validation
   if (!title) {
@@ -45,7 +43,7 @@ const ArticleCarouselCard: React.FC<ArticleCarouselCardProps> = React.memo(({
   return (
     <article className="group relative overflow-hidden rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300 h-[300px] md:h-[350px]">
       <div className="absolute inset-0 overflow-hidden">
-        {image ? (
+        {image && image.trim() !== '' ? (
           <Image
             src={image}
             alt={`${title} - Article background`}
@@ -54,7 +52,8 @@ const ArticleCarouselCard: React.FC<ArticleCarouselCardProps> = React.memo(({
             priority
           />
         ) : (
-          <div className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900" />
+          // Sin imagen: usar fondo transparente para que se vea el fondo predeterminado del portfolio
+          <div className="w-full h-full bg-transparent" />
         )}
       </div>
 
