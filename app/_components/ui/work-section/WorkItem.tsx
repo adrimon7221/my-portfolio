@@ -1,12 +1,12 @@
 'use client';
 import React from 'react';
-import { WorkExperience } from '@/app/_data/workExperience';
+import type { WorkExperienceData } from '@/app/_lib/work-experience';
 import { ANIMATION_CLASSES } from '@/app/_constants/styles';
 import { ANIMATION_DELAYS } from '@/app/_constants/animations';
 import { WORK_ANIMATION_DELAYS, WORK_STYLES } from '@/app/_constants/work';
 
 interface WorkItemProps {
-  work: WorkExperience;
+  work: WorkExperienceData;
   index: number;
   isLast: boolean;
   isInView: boolean;

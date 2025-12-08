@@ -3,10 +3,11 @@ import React from 'react';
 import { ANIMATION_CLASSES } from '@/app/_constants/styles';
 import { ANIMATION_DELAYS } from '@/app/_constants/animations';
 import { WORK_CONTENT, WORK_ANIMATION_DELAYS } from '@/app/_constants/work';
-import { WORK_EXPERIENCE_SUMMARY } from '@/app/_data/workExperience';
 
 interface WorkExperienceSummaryProps {
   isInView: boolean;
+  totalYears: number;
+  totalMonths: number;
 }
 
 /**
@@ -15,8 +16,10 @@ interface WorkExperienceSummaryProps {
  * Displays the total work experience summary with animation.
  * 
  * @param isInView - Whether the component is in viewport
+ * @param totalYears - Total years of work experience
+ * @param totalMonths - Total months of work experience
  */
-export const WorkExperienceSummary: React.FC<WorkExperienceSummaryProps> = React.memo(({ isInView }) => {
+export const WorkExperienceSummary: React.FC<WorkExperienceSummaryProps> = React.memo(({ isInView, totalYears, totalMonths }) => {
   // Validation
   if (typeof isInView !== 'boolean') {
     console.warn('WorkExperienceSummary: isInView debe ser un booleano');
@@ -35,7 +38,7 @@ export const WorkExperienceSummary: React.FC<WorkExperienceSummaryProps> = React
         {WORK_CONTENT.SUMMARY.LABEL}
       </p>
       <p className="text-lg sm:text-xl font-light italic mt-1">
-        {WORK_EXPERIENCE_SUMMARY.TOTAL_YEARS} years {WORK_EXPERIENCE_SUMMARY.TOTAL_MONTHS} months
+        {totalYears} years {totalMonths} months
       </p>
     </div>
   );

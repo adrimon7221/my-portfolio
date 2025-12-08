@@ -1,8 +1,14 @@
 'use client';
 import React from 'react';
 import { useInView } from "@/app/_hooks/useInView";
-import { WORK_EXPERIENCE } from '@/app/_data/workExperience';
 import { WorkHeader, WorkItem, WorkExperienceSummary } from '@/app/_components/ui/work-section';
+import type { WorkExperienceData } from '@/app/_lib/work-experience';
+
+interface WorkSectionProps {
+  workExperiences: WorkExperienceData[];
+  totalYears: number;
+  totalMonths: number;
+}
 
 /**
  * WorkSection Component
@@ -10,11 +16,11 @@ import { WorkHeader, WorkItem, WorkExperienceSummary } from '@/app/_components/u
  * Displays work experience information with animations and hover effects.
  * Follows the same architectural patterns as HeroSection and AboutSection.
  */
-const WorkSection: React.FC = () => {
+const WorkSection: React.FC<WorkSectionProps> = ({ workExperiences, totalYears, totalMonths }) => {
   const { ref, isInView } = useInView({ threshold: 0.2, triggerOnce: true });
 
   // Validation
-  if (!WORK_EXPERIENCE || WORK_EXPERIENCE.length === 0) {
+  if (!workExperiences || workExperiences.length === 0) {
     console.warn('WorkSection: No work experience data available');
   }
 
@@ -28,18 +34,22 @@ const WorkSection: React.FC = () => {
 
         {/* Work Items */}
         <div className="space-y-0">
-          {WORK_EXPERIENCE.map((work, index) => (
+          {workExperiences.map((work, index) => (
             <WorkItem
               key={work.id}
               work={work}
               index={index}
-              isLast={index === WORK_EXPERIENCE.length - 1}
+              isLast={index === workExperiences.length - 1}
               isInView={isInView}
             />
           ))}
         </div>
 
-        <WorkExperienceSummary isInView={isInView} />
+        <WorkExperienceSummary 
+          isInView={isInView} 
+          totalYears={totalYears}
+          totalMonths={totalMonths}
+        />
       </div>
     </section>
   );

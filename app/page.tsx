@@ -9,6 +9,7 @@ import { getSocialLinksFromDB } from './_lib/social-links';
 import { getArticlesFromDB, getFeaturedArticlesFromDB } from './_lib/articles';
 import { getProfileImageUrl } from './_lib/about-me';
 import { getTechnologiesByCategoryFromDB } from './_lib/technologies';
+import { getWorkExperiencesFromDB, getWorkExperienceSummary } from './_lib/work-experience';
 
 /**
  * Home Page (Server Component)
@@ -22,24 +23,30 @@ import { getTechnologiesByCategoryFromDB } from './_lib/technologies';
  * - Esto evita problemas de hidratación y mejora el rendimiento
  */
 export default async function Home() {
-  // Obtener enlaces sociales, artículos, imagen de perfil y tecnologías desde la base de datos (Server Component)
+  // Obtener enlaces sociales, artículos, imagen de perfil, tecnologías y experiencia laboral desde la base de datos (Server Component)
   const socialLinks = await getSocialLinksFromDB();
   const articles = await getArticlesFromDB();
   const featuredArticles = await getFeaturedArticlesFromDB();
   const profileImageUrl = await getProfileImageUrl();
   const technologies = await getTechnologiesByCategoryFromDB();
+  const workExperiences = await getWorkExperiencesFromDB();
+  const workExperienceSummary = await getWorkExperienceSummary();
 
   return (
     <main>
       {/* <HeroSection socialLinks={socialLinks} featuredArticles={featuredArticles} /> */}
-      <AboutSection 
+      {/* <AboutSection 
         profileImageUrl={profileImageUrl}
         frontendTechnologies={technologies.frontend}
         stylesTechnologies={technologies.styles}
         backendTechnologies={technologies.backend}
         devopsTechnologies={technologies.devops}
+      /> */}
+      <WorkSection 
+        workExperiences={workExperiences}
+        totalYears={workExperienceSummary.totalYears}
+        totalMonths={workExperienceSummary.totalMonths}
       />
-      <WorkSection />
       <ProjectsSection />
       {/* <ArticlesSection articles={articles} /> */}
       {/* <ContactSection socialLinks={socialLinks} /> */}

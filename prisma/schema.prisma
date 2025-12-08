@@ -113,6 +113,29 @@ model Technology {
 }
 
 // ============================================
+// MODELO: WorkExperience (Experiencia Laboral)
+// ============================================
+// 
+// Almacena la experiencia laboral del portfolio.
+// Permite gestionar el historial de trabajo con periodos, duración, empresa y posición.
+//
+model WorkExperience {
+  id        String   @id @default(cuid()) // CUID: identificador único y seguro
+  period    String   // Período de trabajo (ej: "2022 -", "2021 - 2022")
+  duration  String   // Duración del trabajo (ej: "1 year 5 months", "8 months")
+  company   String   // Nombre de la empresa (ej: "ITHUB", "VK Development Lab")
+  position  String   // Posición o cargo (ej: "Frontend developer | React & Vue")
+  order     Int      @default(0) // Orden de visualización (menor = primero, más reciente arriba)
+  active    Boolean  @default(true) // Si la experiencia está activa/visible
+  createdAt DateTime @default(now()) // Timestamp de creación
+  updatedAt DateTime @updatedAt // Timestamp de última actualización
+
+  @@index([order]) // Índice para ordenar rápidamente
+  @@index([active]) // Índice para filtrar experiencias activas
+  @@map("work_experiences") // Nombre de la tabla en MySQL: "work_experiences"
+}
+
+// ============================================
 // MODELO: AboutMe (Información del About Me)
 // ============================================
 // 

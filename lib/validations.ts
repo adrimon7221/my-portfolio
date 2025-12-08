@@ -316,3 +316,72 @@ export function validateCreateTechnology(data: unknown) {
 export function validateUpdateTechnology(data: unknown) {
   return updateTechnologySchema.parse(data)
 }
+
+/**
+ * Schema de validación para Work Experience
+ */
+export const workExperienceSchema = z.object({
+  id: z.string().cuid().optional(),
+  period: z
+    .string()
+    .min(1, 'El período es requerido')
+    .max(50, 'El período no puede exceder 50 caracteres')
+    .trim(),
+  duration: z
+    .string()
+    .min(1, 'La duración es requerida')
+    .max(50, 'La duración no puede exceder 50 caracteres')
+    .trim(),
+  company: z
+    .string()
+    .min(1, 'La empresa es requerida')
+    .max(100, 'La empresa no puede exceder 100 caracteres')
+    .trim(),
+  position: z
+    .string()
+    .min(1, 'La posición es requerida')
+    .max(200, 'La posición no puede exceder 200 caracteres')
+    .trim(),
+  order: z
+    .number()
+    .int('El orden debe ser un número entero')
+    .min(0, 'El orden no puede ser negativo')
+    .max(1000, 'El orden no puede exceder 1000'),
+  active: z.boolean().default(true),
+  createdAt: z.date().optional(),
+  updatedAt: z.date().optional(),
+})
+
+/**
+ * Schema de validación para crear Work Experience
+ */
+export const createWorkExperienceSchema = workExperienceSchema.omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+}).extend({
+  active: z.boolean().optional().default(true),
+})
+
+/**
+ * Schema de validación para actualizar Work Experience (todos los campos opcionales excepto id)
+ */
+export const updateWorkExperienceSchema = workExperienceSchema.partial().omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+})
+
+/**
+ * Valida y parsea datos de Work Experience para crear
+ */
+export function validateCreateWorkExperience(data: unknown) {
+  return createWorkExperienceSchema.parse(data)
+}
+
+/**
+ * Valida y parsea datos de Work Experience para actualizar
+ */
+export function validateUpdateWorkExperience(data: unknown) {
+  return updateWorkExperienceSchema.parse(data)
+}
