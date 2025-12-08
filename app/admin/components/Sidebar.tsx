@@ -51,7 +51,7 @@ export function Sidebar() {
   return (
     <aside className="w-64 border-r border-white/10 h-screen fixed left-0 top-0 flex flex-col">
       {/* Header del Sidebar */}
-      <div className="p-6 border-b border-white/10 bg-blue-800">
+      <div className="p-6 border-b border-white/10">
         <h2 className="text-xl font-semibold text-white">Panel Admin</h2>
         <p className="text-sm text-white/60 mt-1">Gestión de contenido</p>
       </div>
@@ -82,7 +82,7 @@ export function Sidebar() {
       </nav>
 
       {/* Footer con logout */}
-      <div className="p-4 border-t border-white/10 bg-green-900">
+      <div className="p-4 border-t border-white/10">
         <button
           onClick={handleLogout}
           className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-white/70 hover:bg-white/5 hover:text-white transition-all duration-200"

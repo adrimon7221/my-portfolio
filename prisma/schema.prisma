@@ -40,3 +40,25 @@ model User {
   @@index([email]) // Índice para búsquedas rápidas por email
   @@map("users") // Nombre de la tabla en MySQL: "users"
 }
+
+// ============================================
+// MODELO: SocialLink (Enlaces Sociales)
+// ============================================
+// 
+// Almacena los enlaces a redes sociales del portfolio.
+// Permite gestionar múltiples enlaces sociales con orden personalizado.
+//
+model SocialLink {
+  id        String   @id @default(cuid()) // CUID: identificador único y seguro
+  label     String   // Nombre de la red social (ej: "GitHub", "LinkedIn")
+  url       String   // URL completa del enlace (debe ser válida)
+  icon      String   // Nombre del icono de react-icons (ej: "FaGithub", "FaLinkedin")
+  order     Int      @default(0) // Orden de visualización (menor = primero)
+  active    Boolean  @default(true) // Si el enlace está activo/visible
+  createdAt DateTime @default(now()) // Timestamp de creación
+  updatedAt DateTime @updatedAt // Timestamp de última actualización
+
+  @@index([order]) // Índice para ordenar rápidamente
+  @@index([active]) // Índice para filtrar enlaces activos
+  @@map("social_links") // Nombre de la tabla en MySQL: "social_links"
+}

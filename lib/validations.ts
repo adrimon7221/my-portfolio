@@ -117,3 +117,48 @@ export function sanitizeString(value: string): string {
 export function validateLoginCredentials(data: unknown) {
   return loginCredentialsSchema.parse(data)
 }
+
+/**
+ * Schema de validación para URL
+ */
+export const urlSchema = z
+  .string()
+  .min(1, 'La URL es requerida')
+  .url('La URL no tiene un formato válido')
+  .max(500, 'La URL es demasiado larga')
+  .trim()
+
+/**
+ * Schema de validación para SocialLink
+ */
+export const socialLinkSchema = z.object({
+  label: z.string().min(1, 'El label es requerido').max(100, 'El label es demasiado largo').trim(),
+  url: urlSchema,
+  icon: z.string().min(1, 'El icono es requerido').max(50, 'El icono es demasiado largo').trim(),
+  order: z.number().int().min(0, 'El orden debe ser mayor o igual a 0').default(0),
+  active: z.boolean().default(true),
+})
+
+/**
+ * Schema de validación para crear SocialLink (sin id, createdAt, updatedAt)
+ */
+export const createSocialLinkSchema = socialLinkSchema
+
+/**
+ * Schema de validación para actualizar SocialLink (todos los campos opcionales excepto id)
+ */
+export const updateSocialLinkSchema = socialLinkSchema.partial()
+
+/**
+ * Valida y parsea datos de SocialLink para crear
+ */
+export function validateCreateSocialLink(data: unknown) {
+  return createSocialLinkSchema.parse(data)
+}
+
+/**
+ * Valida y parsea datos de SocialLink para actualizar
+ */
+export function validateUpdateSocialLink(data: unknown) {
+  return updateSocialLinkSchema.parse(data)
+}
