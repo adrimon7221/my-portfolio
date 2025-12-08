@@ -5,8 +5,9 @@
 import { redirect } from "next/navigation"
 import { auth } from "@/lib/auth"
 import { AdminLayout } from "../components/AdminLayout"
+import { AboutMeManager } from "./components/AboutMeManager"
 
-export default async function AboutPage() {
+export default async function AboutMePage() {
   const session = await auth()
 
   if (!session?.user) {
@@ -16,19 +17,8 @@ export default async function AboutPage() {
   return (
     <AdminLayout>
       <div className="max-w-7xl mx-auto space-y-6">
-        <div className="bg-[#3D3D3D] rounded-2xl p-8 border border-white/10">
-          <h1 className="text-3xl font-semibold text-white">
-            Sobre Mí
-          </h1>
-        </div>
-        <div className="bg-[#3D3D3D] rounded-2xl p-6 border border-white/10">
-          <h2 className="text-xl font-semibold text-white">Información Personal</h2>
-        </div>
-        <div className="bg-[#3D3D3D] rounded-2xl p-6 border border-white/10">
-          <h2 className="text-xl font-semibold text-white">Editar Contenido</h2>
-        </div>
+        <AboutMeManager />
       </div>
     </AdminLayout>
   )
 }
-

@@ -214,3 +214,48 @@ export function validateCreateArticle(data: unknown) {
 export function validateUpdateArticle(data: unknown) {
   return updateArticleSchema.parse(data)
 }
+
+/**
+ * Schema de validación para About Me
+ * 
+ * Modelo singleton: solo hay un registro de About Me
+ */
+export const aboutMeSchema = z.object({
+  id: z.string().cuid().optional(),
+  profileImage: z
+    .string()
+    .max(500, 'La URL de la imagen es demasiado larga')
+    .trim()
+    .refine(
+      (val) => !val || val === '' || z.string().url().safeParse(val).success || val.startsWith('/'),
+      { message: 'La URL de la imagen no es válida' }
+    )
+    .nullable()
+    .optional(),
+  createdAt: z.date().optional(),
+  updatedAt: z.date().optional(),
+})
+
+/**
+ * Schema de validación para actualizar About Me
+ * Todos los campos son opcionales
+ */
+export const updateAboutMeSchema = z.object({
+  profileImage: z
+    .string()
+    .max(500, 'La URL de la imagen es demasiado larga')
+    .trim()
+    .refine(
+      (val) => !val || val === '' || z.string().url().safeParse(val).success || val.startsWith('/'),
+      { message: 'La URL de la imagen no es válida' }
+    )
+    .nullable()
+    .optional(),
+})
+
+/**
+ * Valida y parsea datos de About Me para actualizar
+ */
+export function validateUpdateAboutMe(data: unknown) {
+  return updateAboutMeSchema.parse(data)
+}

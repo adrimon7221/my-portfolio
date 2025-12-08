@@ -88,3 +88,43 @@ model Article {
   @@index([url]) // Índice para búsquedas por URL (evitar duplicados)
   @@map("articles") // Nombre de la tabla en MySQL: "articles"
 }
+
+// ============================================
+// MODELO: Technology (Tecnologías del About)
+// ============================================
+// 
+// Almacena las tecnologías del About Section organizadas por categorías.
+// Permite gestionar las tecnologías de Front-end, Styles, Back-end y DevOps.
+//
+model Technology {
+  id        String   @id @default(cuid()) // CUID: identificador único y seguro
+  name      String   // Nombre de la tecnología (ej: "React", "TypeScript", "Docker")
+  category  String   // Categoría: "frontend", "styles", "backend", "devops"
+  order     Int      @default(0) // Orden de visualización dentro de la categoría (menor = primero)
+  active    Boolean  @default(true) // Si la tecnología está activa/visible
+  createdAt DateTime @default(now()) // Timestamp de creación
+  updatedAt DateTime @updatedAt // Timestamp de última actualización
+
+  @@index([category]) // Índice para filtrar por categoría
+  @@index([order]) // Índice para ordenar rápidamente
+  @@index([active]) // Índice para filtrar tecnologías activas
+  @@index([category, order]) // Índice compuesto para ordenar por categoría y orden
+  @@map("technologies") // Nombre de la tabla en MySQL: "technologies"
+}
+
+// ============================================
+// MODELO: AboutMe (Información del About Me)
+// ============================================
+// 
+// Almacena la información del About Me section.
+// Modelo singleton: solo debe haber un registro activo.
+// Permite gestionar la imagen de perfil y otros datos del About Me.
+//
+model AboutMe {
+  id          String   @id @default(cuid()) // CUID: identificador único y seguro
+  profileImage String?  // Ruta de la imagen de perfil (ej: "/images/profile.jpg")
+  createdAt   DateTime @default(now()) // Timestamp de creación
+  updatedAt   DateTime @updatedAt // Timestamp de última actualización
+
+  @@map("about_me") // Nombre de la tabla en MySQL: "about_me"
+}

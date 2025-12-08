@@ -7,6 +7,7 @@ import Navbar from './_components/ui/Navbar';
 import AboutSection from './_components/sections/AboutSection';
 import { getSocialLinksFromDB } from './_lib/social-links';
 import { getArticlesFromDB, getFeaturedArticlesFromDB } from './_lib/articles';
+import { getProfileImageUrl } from './_lib/about-me';
 
 /**
  * Home Page (Server Component)
@@ -20,15 +21,16 @@ import { getArticlesFromDB, getFeaturedArticlesFromDB } from './_lib/articles';
  * - Esto evita problemas de hidratación y mejora el rendimiento
  */
 export default async function Home() {
-  // Obtener enlaces sociales y artículos desde la base de datos (Server Component)
+  // Obtener enlaces sociales, artículos e imagen de perfil desde la base de datos (Server Component)
   const socialLinks = await getSocialLinksFromDB();
   const articles = await getArticlesFromDB();
   const featuredArticles = await getFeaturedArticlesFromDB();
+  const profileImageUrl = await getProfileImageUrl();
 
   return (
     <main>
       {/* <HeroSection socialLinks={socialLinks} featuredArticles={featuredArticles} /> */}
-      <AboutSection socialLinks={socialLinks} />
+      <AboutSection profileImageUrl={profileImageUrl} />
       <WorkSection />
       <ProjectsSection />
       {/* <ArticlesSection articles={articles} /> */}

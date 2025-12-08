@@ -8,10 +8,11 @@ import { DecorativeCircle } from '@/app/_components/ui/hero-section/DecorativeCi
 interface AboutPhotoProps {
   isInView: boolean;
   isResponsive?: boolean;
+  profileImageUrl?: string;
 }
 
 const IMAGE_ALT = 'Nikita - Full-stack Developer';
-const IMAGE_SRC = '/images/profile.jpg';
+const DEFAULT_IMAGE_SRC = '/images/profile/profile.jpg';
 
 /**
  * AboutPhoto Component
@@ -23,7 +24,8 @@ const IMAGE_SRC = '/images/profile.jpg';
  */
 export const AboutPhoto: React.FC<AboutPhotoProps> = React.memo(({ 
   isInView, 
-  isResponsive = false 
+  isResponsive = false,
+  profileImageUrl = DEFAULT_IMAGE_SRC
 }) => {
   const { RESPONSIVE, DESKTOP } = ABOUT_PHOTO_CONFIG;
 
@@ -80,17 +82,23 @@ export const AboutPhoto: React.FC<AboutPhotoProps> = React.memo(({
           )}
         </div>
 
-        <div className="rounded-2xl sm:rounded-3xl overflow-hidden border border-white/10 shadow-2xl relative z-10">
+        <div className={`rounded-2xl sm:rounded-3xl overflow-hidden border border-white/10 shadow-2xl relative z-10 w-full ${isResponsive ? 'h-[280px] sm:h-[320px]' : 'h-[350px] sm:h-[400px] md:h-[450px] lg:h-[500px]'}`}>
           <img
-            src={IMAGE_SRC}
+            src={profileImageUrl}
             alt={IMAGE_ALT}
-            className={`w-full h-auto object-cover transition-all duration-700 ease-out ${
+            className={`w-full h-full object-cover transition-all duration-700 ease-out ${
               isInView ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
             }`}
             style={{ 
               transitionDelay: isInView 
                 ? `${transitionDelay + ABOUT_ANIMATION_DELAYS.IMAGE_DELAY_OFFSET}ms` 
                 : '0ms' 
+            }}
+            onError={(e) => {
+              // Si la imagen no se puede cargar, usar la imagen por defecto
+              if (e.currentTarget.src !== DEFAULT_IMAGE_SRC) {
+                e.currentTarget.src = DEFAULT_IMAGE_SRC
+              }
             }}
           />
         </div>

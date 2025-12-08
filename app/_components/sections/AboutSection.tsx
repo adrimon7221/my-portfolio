@@ -7,7 +7,6 @@ import {
   TechBox,
   AboutHeader,
   AboutPhoto,
-  SocialLinksContainerClient,
   DevOpsDescription,
 } from "../ui/about-section";
 import {
@@ -16,7 +15,6 @@ import {
   BACKEND_TECHNOLOGIES,
   DEVOPS_TECHNOLOGIES,
 } from "@/app/_data/aboutTechnologies";
-import type { SocialLinkItem } from "@/app/_types/social";
 
 /**
  * AboutSection Component (Client Component)
@@ -24,13 +22,13 @@ import type { SocialLinkItem } from "@/app/_types/social";
  * Main section displaying about information, technology stacks, and profile photo.
  * Uses scroll-triggered animations for all child components.
  * 
- * Recibe los enlaces sociales como props desde el Server Component padre.
+ * Recibe la URL de la imagen de perfil como prop desde el Server Component padre.
  */
 interface AboutSectionProps {
-  socialLinks: SocialLinkItem[];
+  profileImageUrl: string;
 }
 
-const AboutSection: React.FC<AboutSectionProps> = ({ socialLinks }) => {
+const AboutSection: React.FC<AboutSectionProps> = ({ profileImageUrl }) => {
   const { ref, isInView } = useInView({ threshold: 0.2, triggerOnce: true });
 
   return (
@@ -41,7 +39,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ socialLinks }) => {
       <div className="max-w-7xl mx-auto relative z-10">
         <AboutHeader isInView={isInView} />
 
-        <AboutPhoto isInView={isInView} isResponsive={true} />
+        <AboutPhoto isInView={isInView} isResponsive={true} profileImageUrl={profileImageUrl} />
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 md:gap-12 lg:gap-20 items-start">
           {/* Left Column - Tech Stack */}
@@ -54,20 +52,13 @@ const AboutSection: React.FC<AboutSectionProps> = ({ socialLinks }) => {
               className="mt-8 sm:mt-0"
             />
 
-            {/* Styles Box with external buttons */}
-            <div className="grid grid-cols-2 gap-4 items-center">
-              <TechBox
-                title="Styles"
-                technologies={STYLES_TECHNOLOGIES}
-                isInView={isInView}
-                transitionDelay={ANIMATION_DELAYS.TITLE_DELAY + ABOUT_ANIMATION_DELAYS.STYLES}
-              />
-              <SocialLinksContainerClient 
-                socialLinks={socialLinks}
-                isInView={isInView}
-                transitionDelay={ANIMATION_DELAYS.TITLE_DELAY + ABOUT_ANIMATION_DELAYS.SOCIAL_LINKS}
-              />
-            </div>
+            {/* Styles Box */}
+            <TechBox
+              title="Styles"
+              technologies={STYLES_TECHNOLOGIES}
+              isInView={isInView}
+              transitionDelay={ANIMATION_DELAYS.TITLE_DELAY + ABOUT_ANIMATION_DELAYS.STYLES}
+            />
 
             <TechBox
               title="Back-end"
@@ -89,7 +80,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ socialLinks }) => {
           </div>
 
           {/* Right Column - Photo (Desktop only) */}
-          <AboutPhoto isInView={isInView} isResponsive={false} />
+          <AboutPhoto isInView={isInView} isResponsive={false} profileImageUrl={profileImageUrl} />
         </div>
       </div>
     </section>
