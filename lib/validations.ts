@@ -259,3 +259,60 @@ export const updateAboutMeSchema = z.object({
 export function validateUpdateAboutMe(data: unknown) {
   return updateAboutMeSchema.parse(data)
 }
+
+/**
+ * Schema de validación para Technology
+ */
+export const technologySchema = z.object({
+  id: z.string().cuid().optional(),
+  name: z
+    .string()
+    .min(1, 'El nombre es requerido')
+    .max(100, 'El nombre no puede exceder 100 caracteres')
+    .trim(),
+  category: z.enum(['frontend', 'styles', 'backend', 'devops'], {
+    errorMap: () => ({ message: 'La categoría debe ser: frontend, styles, backend o devops' }),
+  }),
+  order: z
+    .number()
+    .int('El orden debe ser un número entero')
+    .min(0, 'El orden no puede ser negativo')
+    .max(1000, 'El orden no puede exceder 1000'),
+  active: z.boolean().default(true),
+  createdAt: z.date().optional(),
+  updatedAt: z.date().optional(),
+})
+
+/**
+ * Schema de validación para crear Technology
+ */
+export const createTechnologySchema = technologySchema.omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+}).extend({
+  active: z.boolean().optional().default(true),
+})
+
+/**
+ * Schema de validación para actualizar Technology (todos los campos opcionales excepto id)
+ */
+export const updateTechnologySchema = technologySchema.partial().omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+})
+
+/**
+ * Valida y parsea datos de Technology para crear
+ */
+export function validateCreateTechnology(data: unknown) {
+  return createTechnologySchema.parse(data)
+}
+
+/**
+ * Valida y parsea datos de Technology para actualizar
+ */
+export function validateUpdateTechnology(data: unknown) {
+  return updateTechnologySchema.parse(data)
+}

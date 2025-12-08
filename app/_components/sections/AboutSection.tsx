@@ -9,12 +9,6 @@ import {
   AboutPhoto,
   DevOpsDescription,
 } from "../ui/about-section";
-import {
-  FRONTEND_TECHNOLOGIES,
-  STYLES_TECHNOLOGIES,
-  BACKEND_TECHNOLOGIES,
-  DEVOPS_TECHNOLOGIES,
-} from "@/app/_data/aboutTechnologies";
 
 /**
  * AboutSection Component (Client Component)
@@ -22,13 +16,23 @@ import {
  * Main section displaying about information, technology stacks, and profile photo.
  * Uses scroll-triggered animations for all child components.
  * 
- * Recibe la URL de la imagen de perfil como prop desde el Server Component padre.
+ * Recibe la URL de la imagen de perfil y las tecnologías como props desde el Server Component padre.
  */
 interface AboutSectionProps {
   profileImageUrl: string;
+  frontendTechnologies: string[];
+  stylesTechnologies: string[];
+  backendTechnologies: string[];
+  devopsTechnologies: string[];
 }
 
-const AboutSection: React.FC<AboutSectionProps> = ({ profileImageUrl }) => {
+const AboutSection: React.FC<AboutSectionProps> = ({ 
+  profileImageUrl,
+  frontendTechnologies,
+  stylesTechnologies,
+  backendTechnologies,
+  devopsTechnologies,
+}) => {
   const { ref, isInView } = useInView({ threshold: 0.2, triggerOnce: true });
 
   return (
@@ -46,7 +50,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ profileImageUrl }) => {
           <div className="space-y-6 sm:space-y-8">
             <TechBox
               title="Front-end"
-              technologies={FRONTEND_TECHNOLOGIES}
+              technologies={frontendTechnologies}
               isInView={isInView}
               transitionDelay={ANIMATION_DELAYS.TITLE_DELAY + ABOUT_ANIMATION_DELAYS.FRONTEND}
               className="mt-8 sm:mt-0"
@@ -55,14 +59,14 @@ const AboutSection: React.FC<AboutSectionProps> = ({ profileImageUrl }) => {
             {/* Styles Box */}
             <TechBox
               title="Styles"
-              technologies={STYLES_TECHNOLOGIES}
+              technologies={stylesTechnologies}
               isInView={isInView}
               transitionDelay={ANIMATION_DELAYS.TITLE_DELAY + ABOUT_ANIMATION_DELAYS.STYLES}
             />
 
             <TechBox
               title="Back-end"
-              technologies={BACKEND_TECHNOLOGIES}
+              technologies={backendTechnologies}
               isInView={isInView}
               transitionDelay={ANIMATION_DELAYS.TITLE_DELAY + ABOUT_ANIMATION_DELAYS.BACKEND}
             />
@@ -72,7 +76,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ profileImageUrl }) => {
               <DevOpsDescription isInView={isInView} />
               <TechBox
                 title="DevOps"
-                technologies={DEVOPS_TECHNOLOGIES}
+                technologies={devopsTechnologies}
                 isInView={isInView}
                 transitionDelay={ANIMATION_DELAYS.TITLE_DELAY + ABOUT_ANIMATION_DELAYS.DEVOPS}
               />
