@@ -15,7 +15,7 @@
  */
 
 import { NextResponse } from 'next/server'
-import { AppError, normalizeError } from './errors'
+import { AppError, normalizeError, ErrorType } from './errors'
 import { logger } from './logger'
 
 /**
@@ -69,7 +69,7 @@ export async function withErrorHandling<T>(
 export function requireAuth(session: { user?: { id: string } } | null) {
   if (!session?.user?.id) {
     throw new AppError(
-      'AUTHENTICATION',
+      ErrorType.AUTHENTICATION,
       'No autenticado',
       401
     )

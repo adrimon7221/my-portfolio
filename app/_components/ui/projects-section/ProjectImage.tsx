@@ -68,20 +68,16 @@ const ProjectImage: React.FC<ProjectImageProps> = React.memo(({
   }
 
   // Desktop layout
-  const circleConfig = isReversed 
-    ? DESKTOP_CONFIG.CIRCLE.POSITION.REVERSED
-    : DESKTOP_CONFIG.CIRCLE.POSITION.NORMAL;
-
   const circleStyle = isReversed
     ? {
-        top: circleConfig.top,
-        right: circleConfig.right,
-        transform: `translate(${circleConfig.translateX}, -50%)`,
+        top: DESKTOP_CONFIG.CIRCLE.POSITION.REVERSED.top,
+        right: DESKTOP_CONFIG.CIRCLE.POSITION.REVERSED.right,
+        transform: `translate(${DESKTOP_CONFIG.CIRCLE.POSITION.REVERSED.translateX}, -50%)`,
       }
     : {
-        top: circleConfig.top,
-        left: circleConfig.left,
-        transform: `translate(${circleConfig.translateX}, -50%)`,
+        top: DESKTOP_CONFIG.CIRCLE.POSITION.NORMAL.top,
+        left: DESKTOP_CONFIG.CIRCLE.POSITION.NORMAL.left,
+        transform: `translate(${DESKTOP_CONFIG.CIRCLE.POSITION.NORMAL.translateX}, -50%)`,
       };
 
   return (

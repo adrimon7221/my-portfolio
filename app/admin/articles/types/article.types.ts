@@ -53,6 +53,7 @@ export type ArticleFieldErrors = Partial<Record<keyof ArticleFormData, string>>
  */
 export interface ApiErrorResponse {
   error: string
+  message?: string
   details?: Array<{
     field: string
     message: string

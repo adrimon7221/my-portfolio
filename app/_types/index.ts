@@ -31,6 +31,9 @@ export interface Article {
   title: string;
   description: string;
   url: string;
+  date?: string;
+  readTime?: string;
+  tags?: readonly string[];
 }
 
 export interface Skill {

@@ -271,7 +271,7 @@ export const technologySchema = z.object({
     .max(100, 'El nombre no puede exceder 100 caracteres')
     .trim(),
   category: z.enum(['frontend', 'styles', 'backend', 'devops'], {
-    errorMap: () => ({ message: 'La categoría debe ser: frontend, styles, backend o devops' }),
+    message: 'La categoría debe ser: frontend, styles, backend o devops',
   }),
   order: z
     .number()
@@ -438,6 +438,11 @@ export const projectSchema = z.object({
     .int('El orden debe ser un número entero')
     .min(0, 'El orden no puede ser negativo')
     .max(1000, 'El orden no puede exceder 1000'),
+  collageType: z
+    .enum(['first', 'second', 'third'], {
+      message: 'El tipo de collage debe ser "first", "second" o "third"',
+    })
+    .default('first'),
   active: z.boolean().default(true),
   createdAt: z.date().optional(),
   updatedAt: z.date().optional(),

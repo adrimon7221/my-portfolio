@@ -53,7 +53,7 @@ export async function POST(request: Request) {
     }
 
     // Validar tipo de archivo
-    if (!UPLOAD_CONFIG.ALLOWED_TYPES.includes(file.type)) {
+    if (!(UPLOAD_CONFIG.ALLOWED_TYPES as readonly string[]).includes(file.type)) {
       logger.warn('Tipo de archivo no permitido en upload de perfil', { 
         type: file.type,
         userId: session.user.id 

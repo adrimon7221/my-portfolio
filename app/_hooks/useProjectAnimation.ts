@@ -13,7 +13,7 @@ interface UseProjectAnimationOptions {
 }
 
 interface UseProjectAnimationReturn {
-  ref: React.RefObject<HTMLDivElement>;
+  ref: React.RefObject<HTMLDivElement | null>;
   isInView: boolean;
   textAnimationDelay: number;
   imageAnimationDelay: number;

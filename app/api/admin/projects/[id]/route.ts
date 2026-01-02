@@ -328,9 +328,9 @@ export async function PUT(
     
     // Usar las imágenes del formulario si se están actualizando, sino parsear las existentes
     let imagesCount = 0
-    if (validatedData.images !== undefined) {
+    if (validatedData.images !== undefined && validatedData.images !== null) {
       imagesCount = validatedData.images.length
-    } else {
+    } else if (validatedData.images === undefined) {
       // Parsear las imágenes existentes de la BD
       if (existing.images) {
         if (Array.isArray(existing.images)) {

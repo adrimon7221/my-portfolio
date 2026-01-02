@@ -42,7 +42,7 @@ function validateEnv(): Env {
     })
   } catch (error) {
     if (error instanceof z.ZodError) {
-      const missingVars = error.errors.map(err => `${err.path.join('.')}: ${err.message}`)
+      const missingVars = error.issues.map((issue) => `${issue.path.join('.')}: ${issue.message}`)
       throw new Error(
         `❌ Variables de entorno inválidas:\n${missingVars.join('\n')}\n\n` +
         `Por favor, verifica tu archivo .env`
