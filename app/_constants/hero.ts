@@ -14,7 +14,7 @@ export const HERO_CONTENT = {
   BUTTONS: {
     PROJECTS: {
       LABEL: 'Projects',
-      HREF: '/projects',
+      HREF: '/#projects',
       ARIA_LABEL: 'Ver proyectos',
     },
     ARROW: {

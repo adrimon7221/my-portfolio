@@ -58,11 +58,6 @@ export const ProjectImageRenderer: React.FC<ProjectImageRendererProps> = React.m
     );
   }
 
-  // Validation: Log warning if project has no images
-  if (process.env.NODE_ENV === 'development') {
-    console.warn(`Project "${project.title}" has no images (neither 'image' nor 'images' provided)`);
-  }
-
   return null;
 });
 

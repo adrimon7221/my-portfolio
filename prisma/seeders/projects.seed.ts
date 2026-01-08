@@ -17,34 +17,37 @@ const INITIAL_PROJECTS = [
     title: 'Gostat',
     description: '**GOStat**: a cutting-edge **microservice-based application** designed to handle **HTTP request authentication and statistics** with finesse.\n\nThis project comprises several **key microservices**, each contributing to its overall functionality and prowess. The architecture leverages **modern design patterns** and ensures **high availability and scalability** across distributed systems.',
     image: '/images/img2.jpg',
-    images: ['/images/rojo.jpg', '/images/verde.jpg', '/images/morado.jpg', '/images/azul.jpg'],
+    images: [], // Imágenes eliminadas - usar imágenes reales desde el admin
     tags: ['Golang', 'TypeScript', 'Gin', 'NextJs', 'PostgreSQL', 'Redis'],
     demoUrl: null,
     githubUrl: null,
     order: 0,
     active: true,
+    collageType: 'first',
   },
   {
     title: 'CloudSync',
     description: '**CloudSync** is a powerful **cloud synchronization platform** that enables **seamless data transfer** across multiple devices and cloud providers. Built with **modern architecture principles**, it ensures **data integrity, security, and real-time synchronization** capabilities for enterprise-level applications.',
     image: '/images/img2.jpg',
-    images: ['/images/amarillo.jpg', '/images/celeste.jpg', '/images/gris.jpg'],
+    images: [], // Imágenes eliminadas - usar imágenes reales desde el admin
     tags: ['Golang', 'TypeScript', 'Gin', 'NextJs', 'PostgreSQL', 'Redis'],
     demoUrl: null,
     githubUrl: null,
     order: 1,
     active: true,
+    collageType: 'second',
   },
   {
     title: 'DataFlow',
     description: '**DataFlow** provides **advanced data processing and analytics solutions**. It streamlines **complex data pipelines**, enabling organizations to transform **raw data into actionable insights** efficiently.',
     image: '/images/img2.jpg',
-    images: ['/images/blanco.jpg', '/images/lima.jpg', '/images/naranja.jpg', '/images/rosado.jpg'],
+    images: [], // Imágenes eliminadas - usar imágenes reales desde el admin
     tags: ['Golang', 'TypeScript', 'Gin', 'NextJs', 'PostgreSQL', 'Redis'],
     demoUrl: null,
     githubUrl: null,
     order: 2,
     active: true,
+    collageType: 'third',
   },
 ]
 
@@ -74,7 +77,16 @@ export async function seedProjects(prisma: PrismaClient) {
         })
 
         if (existing) {
-          logger.debug(`Proyecto ya existe: ${projectData.title}`)
+          // Actualizar proyecto existente - eliminar TODAS las imágenes
+          await (prisma as any).project.update({
+            where: { id: existing.id },
+            data: {
+              images: null, // Sin imágenes
+              collageType: projectData.collageType || existing.collageType || 'first',
+            },
+          })
+          
+          logger.debug(`Proyecto actualizado: ${projectData.title} - imágenes eliminadas`)
           skipped++
           continue
         }
@@ -86,6 +98,7 @@ export async function seedProjects(prisma: PrismaClient) {
             images: projectData.images.length > 0 ? projectData.images : null,
             demoUrl: projectData.demoUrl || null,
             githubUrl: projectData.githubUrl || null,
+            collageType: projectData.collageType || 'first',
           },
         })
 

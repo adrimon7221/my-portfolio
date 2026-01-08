@@ -42,7 +42,7 @@ export const MobileLayout: React.FC<MobileLayoutProps> = React.memo(({ mounted }
 
       <div className="flex items-center gap-4">
         <ProjectButton
-          href="/projects"
+          href="/#projects"
           mounted={mounted}
           transitionDelay={ANIMATION_DELAYS.BUTTON_DELAY + ANIMATION_DELAYS.MOBILE_BUTTON_OFFSET}
         >
@@ -50,7 +50,7 @@ export const MobileLayout: React.FC<MobileLayoutProps> = React.memo(({ mounted }
         </ProjectButton>
 
         <ArrowButton
-          href="/projects"
+          href="/#projects"
           mounted={mounted}
           transitionDelay={ANIMATION_DELAYS.ARROW_DELAY + ANIMATION_DELAYS.MOBILE_ARROW_OFFSET}
           size="md"

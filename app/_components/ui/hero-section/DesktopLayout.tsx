@@ -30,7 +30,7 @@ export const DesktopLayout: React.FC<DesktopLayoutProps> = React.memo(({ mounted
 
         <div className="flex items-center gap-4 self-center">
           <ProjectButton
-            href="/projects"
+            href="/#projects"
             mounted={mounted}
             transitionDelay={ANIMATION_DELAYS.BUTTON_DELAY}
           >
@@ -38,7 +38,7 @@ export const DesktopLayout: React.FC<DesktopLayoutProps> = React.memo(({ mounted
           </ProjectButton>
 
           <ArrowButton
-            href="/projects"
+            href="/#projects"
             mounted={mounted}
             transitionDelay={ANIMATION_DELAYS.ARROW_DELAY}
             size="lg"

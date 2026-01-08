@@ -27,7 +27,7 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = ({ projects }) => {
   }
 
   return (
-    <section className="relative min-h-screen text-white py-20 px-6 overflow-hidden">
+    <section id="projects" className="relative min-h-screen text-white py-20 px-6 overflow-hidden">
       <div className="max-w-7xl mx-auto relative z-20">
         <ProjectsHeader />
 

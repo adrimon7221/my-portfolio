@@ -95,14 +95,6 @@ export async function getProjectsFromDB(): Promise<ProjectData[]> {
           }
         }
       }
-      
-      // Log para debugging
-      logger.debug('Proyecto transformado', {
-        projectId: project.id,
-        title: project.title,
-        imagesCount: images?.length || 0,
-        images: images
-      })
 
       let tags: string[] = []
       if (project.tags) {

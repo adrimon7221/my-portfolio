@@ -85,7 +85,7 @@ export const SocialLinksContainerClient: React.FC<SocialLinksContainerClientProp
       )}
       <div className="absolute left-1/2 top-1/2 translate-x-1/4 -translate-y-1/2 z-20">
         <ArrowButton
-          href="/projects"
+          href="/#projects"
           mounted={true}
           size="lg"
           className={ARROW_BUTTON.SIZE}
