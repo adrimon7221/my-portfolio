@@ -1,41 +1,45 @@
+# =========================
 # Etapa 1: Builder
-FROM node:20-alpine AS builder
+# =========================
+FROM node:20-bullseye AS builder
 
-# Establecemos el directorio de trabajo
 WORKDIR /app
 
-# Copiamos package.json y package-lock.json
+# Dependencias
 COPY package*.json ./
-
-# Instalamos dependencias
 RUN npm install --legacy-peer-deps
 
-# Copiamos todo el proyecto
+# Código fuente
 COPY . .
 
-# Compilamos Next.js
+# Prisma
+RUN npx prisma generate
+
+# Build Next
 RUN npm run build
 
+
+# =========================
 # Etapa 2: Runner
-FROM node:20-alpine AS runner
+# =========================
+FROM node:20-bullseye AS runner
 
 WORKDIR /app
 
-# Copiamos package.json para producción
+# Dependencias y config
 COPY --from=builder /app/package*.json ./
-
-# Copiamos la carpeta .next y public
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/public ./public
-
-# Copiamos el next.config.ts (para Next.js 13+ TS)
+COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/next.config.ts ./
+COPY --from=builder /app/tsconfig.json ./
 
-# Instalamos solo dependencias de producción
-RUN npm install --production --legacy-peer-deps
+# App runtime
+COPY --from=builder /app/.next ./.next
+#COPY --from=builder /app/public ./public
 
-# Exponemos el puerto que Next.js usa
+# ⚠️ ESTO FALTABA (CRÍTICO)
+COPY --from=builder /app/lib ./lib
+COPY --from=builder /app/prisma ./prisma
+
 EXPOSE 3000
 
-# Comando por defecto
-CMD ["npm", "start"]
+CMD ["sh", "-c", "npx prisma migrate deploy && npm start"]

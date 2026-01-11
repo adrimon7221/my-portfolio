@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: portfolio_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Fu5gMxxwtPxNLD2UTx7i
+      MYSQL_DATABASE: my_portfolio
+      MYSQL_USER: portfolio_user
+      MYSQL_PASSWORD: Fu5gMxxwtPxNLD2UTx7i
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - portfolio_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: portfolio_app
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - ./public/images:/app/public/images
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - portfolio_network
+    command: sh -c "npx prisma migrate deploy && npm start"
+
+networks:
+  portfolio_network:
+    driver: bridge
+
+volumes:
+  mysql_data:
